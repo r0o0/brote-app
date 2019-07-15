@@ -1490,6 +1490,21 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/slate-html-serializer@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@types/slate-html-serializer/-/slate-html-serializer-0.6.3.tgz#f18da3c68ccc5b25b12eb4f709b2120b2d2d954e"
+  integrity sha512-edpVOozSya2XkGtJ0qKeP986hOutGS1jff+G1ysv6tPYl+ix0JNDtwjiBJ8iofl07SBghNB0kUr82CI8i+Za2g==
+  dependencies:
+    "@types/react" "*"
+    "@types/slate" "*"
+
+"@types/slate-plain-serializer@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@types/slate-plain-serializer/-/slate-plain-serializer-0.6.1.tgz#c392ce51621f7c55df0976f161dcfca18bd559ee"
+  integrity sha512-5meyKFvmWH1T02j2dbAaY8kn/FNofxP79jV3TsfuLsUIeHkON5CroBxAyrgkYF4vHp+MVWZddI36Yvwl7Y0Feg==
+  dependencies:
+    "@types/slate" "*"
+
 "@types/slate-react@^0.22.2":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@types/slate-react/-/slate-react-0.22.2.tgz#037d6462e2f20b463f609b5db9d1195fa51c6424"
@@ -9162,6 +9177,13 @@ slate-hotkeys@^0.2.9:
   dependencies:
     is-hotkey "0.1.4"
     slate-dev-environment "^0.2.2"
+
+slate-html-serializer@^0.8.6:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.8.6.tgz#a319b4b860222b4cf5de70292a7d791b0b4930ad"
+  integrity sha512-gEwHe/QnDKQtvsFBE89UiTlWeCy6zD+ciS5Dy0eH+aV5W+fGE1aL77oKMTQBSmc+l+dULdPFE8VsznDcbo7S1g==
+  dependencies:
+    type-of "^2.0.1"
 
 slate-plain-serializer@^0.7.6:
   version "0.7.6"

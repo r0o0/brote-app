@@ -11,13 +11,13 @@ const markData: { type: string, icon: string }[] = [
     type: 'underlined',
     icon: 'format_underlined',
   },
-  {
-    type: 'code',
-    icon: 'code',
-  }
 ];
 
 const blockData: { type: string, icon: string }[] = [
+  {
+    type: 'code',
+    icon: 'code',
+  },
   {
     type: 'heading-one',
     icon: 'looks_one',

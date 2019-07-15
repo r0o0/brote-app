@@ -41,7 +41,7 @@ const toolbar = css`
 function ToolBar(props: { value: any, onClick: (event: any, type: string) => void, onClickBlock: (event: any, type: string, hasBlock: any) => void, classes: any }) {
   // PROPS
   const { value, onClick, onClickBlock, classes } = props;
-  console.log('value', { document },value);
+  // console.log('value', { document },value);
   // 같은 마크가 적용이 되어 있는지 확인
   const hasMark = (type: string) => value.activeMarks.some((mark: any) => mark.type === type);
   const hasBlock = (type: string) => value.blocks.some((node: any) => node.type === type);

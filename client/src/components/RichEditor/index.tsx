@@ -2,10 +2,20 @@
 import React, { Component } from 'react';
 import { Value } from 'slate';
 import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
-import { isKeyHotkey } from 'is-hotkey';
+import Plain from 'slate-plain-serializer';
+// COMPONENTS
 import ToolBar from './ToolBar';
+// UTILS
+import html from './serializer';
+import {
+  isBoldHotkey,
+  isItalicHotkey,
+  isUnderlinedHotkey,
+  isCodeHotkey,
+} from './shortcuts';
+import './style.css';
 
-const initialValue = Value.fromJSON({
+const documentValue = Value.fromJSON({
   document: {
     nodes: [
       {
@@ -17,9 +27,9 @@ const initialValue = Value.fromJSON({
             leaves: [
               {
                 object: 'leaf',
-                text: "A line of text in a paragraph."
-              },
-            ],
+                text: 'Tell a story...',
+              }
+            ]
           },
         ],
       },
@@ -29,34 +39,41 @@ const initialValue = Value.fromJSON({
 
 interface RichTextState {
   value: Value;
-}
+};
 
 interface RichEditor {
   editor: any;
 };
 
-const isBoldHotkey = isKeyHotkey('mod+b');
-const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
-const isCodeHotkey = isKeyHotkey('mod+`');
-
 const DEFAULT_NODE = 'paragraph';
+
+const initialValue = localStorage.getItem('content') || Plain.serialize(documentValue);
 
 class RichEditor extends Component<{}, RichTextState, RichEditor> {
   constructor(props: {}) {
     super(props);
-    this.state = { value: initialValue };
+    this.state = { value: html.deserialize(initialValue) };
   }
 
   private ref = (editor: any) => {
     this.editor = editor;
   }
 
-  private handleChange = ({ value }: any) => this.setState({ value });
+  private handleChange = ({ value }: any) => {
+    // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
+    if (value.document != this.state.value.document) {
+      const string = html.serialize(value);
+      // console.log('docmuent change', string, value);
+      localStorage.setItem('content', string);
+      // console.log('value is changed', localStorage.content);
+    }
+
+    this.setState({ value });
+  };
 
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
   private handleKeyDown = (event: any, editor: any, next: any) => {
-    console.log('keydown', event.key);
+    // console.log('keydown', event.key);
     let mark;
     if (isBoldHotkey(event)) {
       mark = 'bold'
@@ -75,8 +92,7 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
 
   // 마크 클릭시 해당 마크 텍스트 적용
   handleClickMark = (event: any, type: string) => {
-    console.log('click', this.editor, type);
-
+    // console.log('click mark', type);
     event.preventDefault();
     this.editor.toggleMark(type);
   };
@@ -88,7 +104,7 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
     const { editor } = this;
     const { value } = editor;
     const { document } = value;
-
+    // console.log('click block', type);
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = hasBlock(type);
@@ -129,11 +145,10 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
   // 마크에따라 텍스트 적용
   protected renderMark = (props: RenderMarkProps, editor: any, next: any) => {
     const { children, mark, attributes } = props;
+    // console.log('renderMark', mark.type);
     switch (mark.type) {
       case 'bold':
         return <strong {...attributes}>{children}</strong>
-      case 'code':
-        return <code {...attributes}>{children}</code>
       case 'italic':
         return <em {...attributes}>{children}</em>
       case 'underlined':
@@ -146,9 +161,9 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
   // 블록에따라 텍스트 적용
   protected renderBlock = (props: RenderBlockProps, editor: any, next: any) => {
     const { attributes, children, node } = props;
+    // console.log('renderBlock', node.type);
     switch (node.type) {
       case 'block-quote':
-        console.log('blockquote', {...attributes}, children);
         return <blockquote {...attributes}>{children}</blockquote>
       case 'bulleted-list':
         return <ul {...attributes}>{children}</ul>
@@ -160,12 +175,19 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
         return <li {...attributes}>{children}</li>
       case 'numbered-list':
         return <ol {...attributes}>{children}</ol>
+      case 'code':
+          return (
+            <pre {...attributes}>
+              <code>{children}</code>
+            </pre>
+          );
       default:
         return next();
     }
   }
 
   componentDidMount() {
+    // on document load focus on editor
     this.editor.el.focus();
   }
 

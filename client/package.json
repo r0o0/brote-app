@@ -11,6 +11,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "slate": "^0.47.4",
+    "slate-plain-serializer": "^0.7.6",
     "slate-react": "^0.22.4"
   },
   "scripts": {
@@ -42,7 +43,10 @@
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^4.3.4",
     "@types/slate": "^0.44.12",
+    "@types/slate-html-serializer": "^0.6.3",
+    "@types/slate-plain-serializer": "^0.6.1",
     "@types/slate-react": "^0.22.2",
+    "slate-html-serializer": "^0.8.6",
     "typescript": "^3.5.3"
   }
 }
