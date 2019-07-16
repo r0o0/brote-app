@@ -3,6 +3,8 @@ import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 // CSS
 import '../../colors.css';
 
@@ -20,12 +22,17 @@ const button = css`
   label: btn--write;
 `;
 
-function Main() {
+function Main(props: any) {
+  const { setLocation } = props;
+  const handleClick = () => {
+    setLocation({ path: "/new-story", name: "write"})
+  };
+  console.log(props);
   return (
     <div css={container}>
-      <Link to="/new-story" css={button}>Write New Story</Link>
+      <Link to="/new-story" css={button} onClick={handleClick}>Write New Story</Link>
     </div>
   )
 }
 
-export default Main;
+export default connect(null, actions)(Main);

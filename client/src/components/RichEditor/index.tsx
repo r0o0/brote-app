@@ -13,7 +13,6 @@ import {
   isUnderlinedHotkey,
   isCodeHotkey,
 } from './shortcuts';
-import './style.css';
 
 const documentValue = Value.fromJSON({
   document: {

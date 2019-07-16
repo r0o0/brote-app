@@ -5,14 +5,21 @@
   "dependencies": {
     "@emotion/core": "^10.0.14",
     "@material-ui/core": "^4.2.0",
+    "@types/react-redux": "^7.1.1",
+    "@types/redux": "^3.6.0",
     "immutable": "^4.0.0-rc.12",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-observable": "^1.1.0",
+    "rxjs": "^6.5.2",
     "slate": "^0.47.4",
     "slate-plain-serializer": "^0.7.6",
-    "slate-react": "^0.22.4"
+    "slate-react": "^0.22.4",
+    "typesafe-actions": "^4.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
