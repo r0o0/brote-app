@@ -1,5 +1,5 @@
 // Header.js
-import React from 'react';
+import React, { useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
@@ -33,12 +33,17 @@ const button = css`
   label: btn--publish;
 `;
 
+
 function Header(props: any) {
   const { setLocation, location } = props;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     setLocation({ path: "/", name: "home"});
   };
+
+  useEffect(()=> {
+    // getLocation('location');
+  }, []);
 
   return (
     <header css={header}>

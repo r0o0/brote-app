@@ -10,10 +10,13 @@ import '../../colors.css';
 
 const container = css`
   padding: 16px;
+  min-height: 100vh;
   label: container;
 `;
 
 const button = css`
+  display: inline-block;
+  margin-top: 20px;
   padding: 10px 12px;
   border: 1px solid var(--primary);
   border-radius: 5px;
@@ -25,11 +28,11 @@ const button = css`
 function Main(props: any) {
   const { setLocation } = props;
   const handleClick = () => {
-    setLocation({ path: "/new-story", name: "write"})
+    setLocation({ path: "/new-story", name: "write"});
   };
-  console.log(props);
   return (
     <div css={container}>
+      <h1>Home</h1>
       <Link to="/new-story" css={button} onClick={handleClick}>Write New Story</Link>
     </div>
   )
