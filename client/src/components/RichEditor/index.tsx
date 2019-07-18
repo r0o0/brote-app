@@ -42,6 +42,7 @@ const documentValue = Value.fromJSON({
 
 interface RichTextState {
   value: Value;
+  editorEl: number | null;
 };
 
 interface RichEditor {
@@ -60,8 +61,10 @@ const initialValue = localStorage.getItem('content') || Plain.serialize(document
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
     super(props);
-    this.state = { value: html.deserialize(initialValue) };
-    console.log(this.props);
+    this.state = {
+      value: html.deserialize(initialValue),
+      editorEl: null,
+    };
   }
 
   private ref = (editor: any) => {
@@ -72,11 +75,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (value.document !== this.state.value.document) {
       const string = html.serialize(value);
-      // console.log('docmuent change', string, value);
-      localStorage.setItem('content', string);
-      console.log('value is changed', localStorage.content, typeof localStorage.content);
       if (localStorage.getItem('content') !== null) {
-        console.log('value', localStorage.getItem('content'));
+        localStorage.setItem('content', string);
         this.props.writingContent({ text: localStorage.content });
       }
     }
@@ -201,7 +201,9 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   componentDidMount() {
     // on document load focus on editor
     this.editor.el.focus();
-    // this.setState({  });
+    // editor's y coordinate value from top of window + padding
+    const y = this.editor.el.getBoundingClientRect().top;
+    this.setState({ editorEl: y });
   }
 
   render() {
@@ -214,6 +216,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
         />
         <Editor
           css={css`
+            min-height: calc(100vh - ${this.state.editorEl}px);
             padding: 0 16px;
             color: var(--text);
           `}

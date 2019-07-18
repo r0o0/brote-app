@@ -8,7 +8,7 @@ import * as actions from '../../redux/actions';
 import RichEditor from '../../components/RichEditor';
 
 const container = css`
-  padding: 16px;
+  padding: 16px 16px 0;
   label: container;
 `;
 const inputTitle = css`
