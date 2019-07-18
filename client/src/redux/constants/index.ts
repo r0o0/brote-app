@@ -2,14 +2,16 @@
 const LOCATION_GET = '@@location/GET';
 const LOCATION_SET = '@@location/SET';
 // TextEditor
-const CONTENT_SET = '@@content/SET';
-const CONTENT_WRITING = '@@content/WRITING';
+const EDITOR_SET = '@@editor/SET';
+const EDITOR_WRITING = '@@editor/WRITING';
+const EDITOR_RESET = '@@editor/RESET';
 
 export {
   // location
   LOCATION_GET,
   LOCATION_SET,
   // TextEditor
-  CONTENT_SET,
-  CONTENT_WRITING,
+  EDITOR_SET,
+  EDITOR_WRITING,
+  EDITOR_RESET,
 };

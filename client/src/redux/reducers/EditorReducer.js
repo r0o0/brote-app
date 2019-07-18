@@ -1,30 +1,30 @@
-import { CONTENT_SET, CONTENT_WRITING } from '../constants';
-
-// export interface ContentState {
-//   text: string;
-//   saved: boolean,
-// }
+import { EDITOR_SET, EDITOR_WRITING, EDITOR_RESET } from '../constants';
 
 const initialState = {
   text: "Tell a story...",
-  saved: false,
+  saved: null,
 };
 
 function setEditorContent(state = initialState, action) {
   console.log('Action', action.type);
   switch (action.type) {
-    case CONTENT_SET:
-      console.log('set content', action.payload);
+    case EDITOR_SET:
+      console.log('set EDITOR', action.payload);
       const { text } = action.payload;
       return {
         text,
         saved: true,
       };
-    case CONTENT_WRITING:
+    case EDITOR_WRITING:
       return {
         ...state,
         saved: false,
       };
+    case EDITOR_RESET:
+      return {
+        text: "Tell a story...",
+        saved: null,
+      }
     default:
       return state;
   }

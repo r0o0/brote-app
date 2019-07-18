@@ -44,17 +44,29 @@ const button = css`
 
 
 function Header(props: any) {
-  const { setLocation, location, editor } = props;
-
+  const {
+    resetEditor,
+    setLocation,
+    location,
+    editor
+  } = props;
+  console.log('Header PROPS', props);
   const handleClick = (e: React.MouseEvent) => {
     setLocation({ path: "/", name: "home"});
+  };
+
+  const handlePublish = () => {
+    localStorage.clear();
+    console.log('%c publish clear content', 'background: white;', localStorage.content);
+    setLocation({ path: "/", name: "home"});
+    resetEditor();
   };
 
   const renderEditorHeader = () => {
     return (
       <div>
-        <span css={span}>{!editor.saved ? 'Writing...' : 'Saved'}</span>
-        <button css={button}>Publish</button>
+        {editor.saved !== null ? <span css={span}>{!editor.saved ? 'Writing...' : 'Saved'}</span> : null}
+        <Link to="/" css={button} onClick={handlePublish}>Publish</Link>
       </div>
     );
   };

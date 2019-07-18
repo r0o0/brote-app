@@ -56,8 +56,6 @@ type Props = ReturnType<any> &
 const DEFAULT_NODE = 'paragraph';
 
 const initialValue = localStorage.getItem('content') || Plain.serialize(documentValue);
-// const initialValue = localStorage.getItem('content') || '';
-
 
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
@@ -77,9 +75,11 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       // console.log('docmuent change', string, value);
       localStorage.setItem('content', string);
       console.log('value is changed', localStorage.content, typeof localStorage.content);
-      this.props.writingContent({ text: localStorage.content });
+      if (localStorage.getItem('content') !== null) {
+        console.log('value', localStorage.getItem('content'));
+        this.props.writingContent({ text: localStorage.content });
+      }
     }
-
     this.setState({ value });
   };
 
@@ -201,6 +201,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   componentDidMount() {
     // on document load focus on editor
     this.editor.el.focus();
+    // this.setState({  });
   }
 
   render() {

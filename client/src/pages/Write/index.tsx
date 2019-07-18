@@ -2,6 +2,8 @@
 import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 // COMPONENT
 import RichEditor from '../../components/RichEditor';
 
@@ -27,9 +29,7 @@ const inputTitle = css`
   label: input--title;
 `;
 
-function Write(props: any) {
-  console.log('Write PROPS', props);
-  
+function Write() {
   return (
     <div
       css={container}
@@ -38,6 +38,7 @@ function Write(props: any) {
         css={inputTitle}
         type="text"
         placeholder="Title"
+        onChange={() => console.log('title change')}
         autoComplete="off"
       />
       <RichEditor />
@@ -45,4 +46,4 @@ function Write(props: any) {
   )
 }
 
-export default Write;
+export default connect(null, actions)(Write);
