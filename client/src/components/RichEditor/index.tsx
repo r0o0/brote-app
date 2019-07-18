@@ -1,5 +1,7 @@
 // RichEditor.js
 import React, { Component } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import { Value } from 'slate';
 import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
 import Plain from 'slate-plain-serializer';
@@ -28,7 +30,7 @@ const documentValue = Value.fromJSON({
             leaves: [
               {
                 object: 'leaf',
-                text: 'Tell a story...',
+                text: '',
               }
             ]
           },
@@ -54,6 +56,8 @@ type Props = ReturnType<any> &
 const DEFAULT_NODE = 'paragraph';
 
 const initialValue = localStorage.getItem('content') || Plain.serialize(documentValue);
+// const initialValue = localStorage.getItem('content') || '';
+
 
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
@@ -208,8 +212,14 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClickBlock={this.handleClickBlock}
         />
         <Editor
+          css={css`
+            padding: 0 16px;
+            color: var(--text);
+          `}
           ref={this.ref}
+          className="editor--textarea"
           value={this.state.value}
+          placeholder="Tell a story..."
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           renderMark={this.renderMark}
