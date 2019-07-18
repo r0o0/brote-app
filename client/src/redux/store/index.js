@@ -4,17 +4,8 @@ import { createEpicMiddleware } from 'redux-observable';
 import reducers, { RootState } from '../reducers';
 import * as actions from "../actions";
 import epics from '../epics';
-import { ActionType } from "typesafe-actions";
 
-type Action = ActionType<typeof actions>;
-
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function;
-  }
-}
-
-const epicMiddleware = createEpicMiddleware<Action, Action, RootState>();
+const epicMiddleware = createEpicMiddleware();
 
 const composeEnhancers = (
   window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -28,11 +19,10 @@ const enhancer = composeEnhancers(
   applyMiddleware(...middlewares),
 );
 
-epicMiddleware.run(epics);
-
 const store = createStore(
   reducers,
   enhancer,
 );
 
+epicMiddleware.run(epics);
 export default store;

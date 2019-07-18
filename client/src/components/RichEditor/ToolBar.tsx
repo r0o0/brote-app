@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
-import { makeStyles, withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { markData, blockData } from './data';

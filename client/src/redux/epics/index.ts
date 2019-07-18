@@ -3,7 +3,7 @@ import { combineEpics } from "redux-observable";
 import randomEpic from "./randomEpic";
 
 const epics = combineEpics(
-  ...randomEpic,
+  ...Object.values(randomEpic)
 );
 
 export default epics;

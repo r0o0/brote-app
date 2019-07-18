@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Value } from 'slate';
 import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
 import Plain from 'slate-plain-serializer';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 // COMPONENTS
 import ToolBar from './ToolBar';
 // UTILS
@@ -44,14 +46,20 @@ interface RichEditor {
   editor: any;
 };
 
+type Props = ReturnType<any> &
+  ReturnType<any> & {
+    setContent: (s: string) => any;
+  };
+
 const DEFAULT_NODE = 'paragraph';
 
 const initialValue = localStorage.getItem('content') || Plain.serialize(documentValue);
 
-class RichEditor extends Component<{}, RichTextState, RichEditor> {
-  constructor(props: {}) {
+class RichEditor extends Component<Props, RichTextState, RichEditor> {
+  constructor(props: Props) {
     super(props);
     this.state = { value: html.deserialize(initialValue) };
+    console.log(this.props);
   }
 
   private ref = (editor: any) => {
@@ -60,11 +68,12 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
 
   private handleChange = ({ value }: any) => {
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
-    if (value.document != this.state.value.document) {
+    if (value.document !== this.state.value.document) {
       const string = html.serialize(value);
       // console.log('docmuent change', string, value);
       localStorage.setItem('content', string);
-      // console.log('value is changed', localStorage.content);
+      console.log('value is changed', localStorage.content, typeof localStorage.content);
+      this.props.writingContent({ text: localStorage.content });
     }
 
     this.setState({ value });
@@ -211,4 +220,4 @@ class RichEditor extends Component<{}, RichTextState, RichEditor> {
   }
 }
 
-export default RichEditor;
+export default connect(null, actions)(RichEditor);

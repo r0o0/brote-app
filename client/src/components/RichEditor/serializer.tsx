@@ -14,19 +14,13 @@ const rules: Rule[] = [
           type: type,
           data: {
             className: el.getAttribute('class'),
-            // htmlAttributes: Array.prototype.slice.call(el.attributes).reduce((acc: any, curr: any) => {
-            //   return {
-            //     ...acc,
-            //     [curr.name]: curr.value
-            //   }
-            // }, {})
           },
           nodes: next(el.childNodes),
         }
       }
     },
     serialize(obj: any, children: any) {
-      if (obj.object == 'block') {
+      if (obj.object === 'block') {
         // console.log(obj);
         switch (obj.type) {
           case 'code':
@@ -51,7 +45,7 @@ const rules: Rule[] = [
           case 'numbered-list':
             return <ol>{children}</ol>;
           case 'bulleted-list':
-            return <ul>{children}</ul>
+            return <ul>{children}</ul>;
         }
       }
     },
@@ -79,7 +73,7 @@ const rules: Rule[] = [
       }
     },
     serialize(obj: any, children: any) {
-      if (obj.object == 'mark') {
+      if (obj.object === 'mark') {
         switch (obj.type) {
           case 'bold':
             return <strong>{children}</strong>;
