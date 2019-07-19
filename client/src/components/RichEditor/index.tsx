@@ -43,6 +43,7 @@ const documentValue = Value.fromJSON({
 interface RichTextState {
   value: Value;
   editorEl: number | null;
+  keyEvent: boolean;
 };
 
 interface RichEditor {
@@ -64,6 +65,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.state = {
       value: html.deserialize(initialValue),
       editorEl: null,
+      keyEvent: false,
     };
   }
 
@@ -73,20 +75,25 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   private handleChange = ({ value }: any) => {
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
-    if (value.document !== this.state.value.document) {
-      const string = html.serialize(value);
-      localStorage.setItem('content', string);
-      this.setState({ value });
+    if (this.state.keyEvent) {
+      // localStorage에 저장된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
+      if (value.document !== this.state.value.document) {
+        const string = html.serialize(value);
+        localStorage.setItem('content', string);
+      }
+      // redux dispatch
+      if (localStorage.getItem('content') !== null) {
+        this.props.writingContent({ text: localStorage.content });
+      }
     }
-    if (localStorage.getItem('content') !== null) {
-      this.props.writingContent({ text: localStorage.content });
-    }
+    // 에디터 value값 변화 적용
+    this.setState({ value });
   };
 
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
   private handleKeyDown = (event: any, editor: any, next: any) => {
-    // console.log('keydown', event.key);
     let mark;
+
     if (isBoldHotkey(event)) {
       mark = 'bold'
     } else if (isItalicHotkey(event)) {
@@ -104,7 +111,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   // 마크 클릭시 해당 마크 텍스트 적용
   handleClickMark = (event: any, type: string) => {
-    // console.log('click mark', type);
     event.preventDefault();
     this.editor.toggleMark(type);
   };
@@ -116,7 +122,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const { editor } = this;
     const { value } = editor;
     const { document } = value;
-    // console.log('click block', type);
+
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = hasBlock(type);
@@ -157,7 +163,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   // 마크에따라 텍스트 적용
   protected renderMark = (props: RenderMarkProps, editor: any, next: any) => {
     const { children, mark, attributes } = props;
-    // console.log('renderMark', mark.type);
+
     switch (mark.type) {
       case 'bold':
         return <strong {...attributes}>{children}</strong>
@@ -173,7 +179,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   // 블록에따라 텍스트 적용
   protected renderBlock = (props: RenderBlockProps, editor: any, next: any) => {
     const { attributes, children, node } = props;
-    // console.log('renderBlock', node.type);
+
     switch (node.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -200,10 +206,14 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   componentDidMount() {
     // on document load focus on editor
-    this.editor.el.focus();
+    if (this.editor.el) {
+      this.editor.el.focus();
+    }
     // editor's y coordinate value from top of window + padding
     const y = this.editor.el.getBoundingClientRect().top;
     this.setState({ editorEl: y });
+
+    document.addEventListener('keydown', () => this.setState({ keyEvent: true }));
   }
 
   render() {
