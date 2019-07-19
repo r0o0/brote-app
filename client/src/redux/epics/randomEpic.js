@@ -1,18 +1,23 @@
-import { map, delay } from 'rxjs/operators';
+import { map, delay, switchMap } from 'rxjs/operators';
 // CONSTANTS
-import { EDITOR_SET, EDITOR_WRITING } from "../constants";
+import { EDITOR_SET, EDITOR_WRITING, EDITOR_SAVED } from "../constants";
 
-export const editorEpic = action$ =>
+// set editor content
+const editorEpic = action$ =>
   action$.ofType(EDITOR_WRITING)
-    .pipe(
-     delay(2000),
-     map(action => (
-      {
-       type: EDITOR_SET,
-       payload: action.payload
-      })
-    ))
+  .pipe(
+    delay(1000),
+    map(action => ({ type: EDITOR_SET, payload: action.payload })),
+  );
+
+// save editor content
+const saveEditorEpic = action$ =>
+  action$.ofType(EDITOR_SET)
+  .pipe(
+    map(() => ({ type: EDITOR_SAVED }))
+  );
 
 export default [
   editorEpic,
+  saveEditorEpic,
 ];

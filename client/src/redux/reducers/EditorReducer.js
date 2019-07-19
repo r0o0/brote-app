@@ -1,6 +1,12 @@
-import { EDITOR_SET, EDITOR_WRITING, EDITOR_RESET } from '../constants';
+import {
+  EDITOR_SET,
+  EDITOR_WRITING,
+  EDITOR_RESET,
+  EDITOR_SAVED
+} from '../constants';
 
 const initialState = {
+  title: null,
   text: "Tell a story...",
   saved: null,
 };
@@ -13,7 +19,7 @@ function setEditorContent(state = initialState, action) {
       const { text } = action.payload;
       return {
         text,
-        saved: true,
+        saved: null,
       };
     case EDITOR_WRITING:
       return {
@@ -24,6 +30,12 @@ function setEditorContent(state = initialState, action) {
       return {
         text: "Tell a story...",
         saved: null,
+      }
+    case EDITOR_SAVED:
+      console.log('%c saved action', 'background: green;');
+      return {
+        ...state,
+        saved: true,
       }
     default:
       return state;

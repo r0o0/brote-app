@@ -5,6 +5,7 @@ const LOCATION_SET = '@@location/SET';
 const EDITOR_SET = '@@editor/SET';
 const EDITOR_WRITING = '@@editor/WRITING';
 const EDITOR_RESET = '@@editor/RESET';
+const EDITOR_SAVED = '@@editor/SAVED';
 
 export {
   // location
@@ -14,4 +15,5 @@ export {
   EDITOR_SET,
   EDITOR_WRITING,
   EDITOR_RESET,
+  EDITOR_SAVED,
 };

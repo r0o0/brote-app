@@ -56,10 +56,10 @@ function Header(props: any) {
   };
 
   const handlePublish = () => {
+    resetEditor();
     localStorage.clear();
     console.log('%c publish clear content', 'background: white;', localStorage.content);
     setLocation({ path: "/", name: "home"});
-    resetEditor();
   };
 
   const renderEditorHeader = () => {

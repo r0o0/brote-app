@@ -75,12 +75,12 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (value.document !== this.state.value.document) {
       const string = html.serialize(value);
-      if (localStorage.getItem('content') !== null) {
-        localStorage.setItem('content', string);
-        this.props.writingContent({ text: localStorage.content });
-      }
+      localStorage.setItem('content', string);
+      this.setState({ value });
     }
-    this.setState({ value });
+    if (localStorage.getItem('content') !== null) {
+      this.props.writingContent({ text: localStorage.content });
+    }
   };
 
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
@@ -234,4 +234,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 }
 
-export default connect(null, actions)(RichEditor);
+const mapStateToProps = (store: any) => ({
+  editor: store.editor,
+});
+
+export default connect(mapStateToProps, actions)(RichEditor);
