@@ -16,9 +16,10 @@ function setEditorContent(state = initialState, action) {
   switch (action.type) {
     case EDITOR_SET:
       console.log('set EDITOR', action.payload);
-      const { text } = action.payload;
+      const { text, title } = action.payload;
       return {
         text,
+        title,
         saved: null,
       };
     case EDITOR_WRITING:

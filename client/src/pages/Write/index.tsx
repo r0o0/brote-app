@@ -1,5 +1,5 @@
 // Write.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
@@ -29,17 +29,23 @@ const inputTitle = css`
   label: input--title;
 `;
 
-function Write() {
-  // console.log('%c refresh', 'background: green;',  performance.navigation, '\n', performance.getEntriesByType('navigation'), '\n', document.cookie);
-  //check for Navigation Timing API support
-  // if (window.performance) {
-  //   console.info("window.performance works fine on this browser");
-  // }
-  //   if (performance.navigation.type == 1) {
-  //     console.info( "This page is reloaded" );
-  //   } else {
-  //     console.info( "This page is not reloaded");
-  //   }
+function Write(props: { writingContent: ({ title: string }: any) => void }) {
+  const { writingContent } = props;
+  const [inputValue, setInputValue] = useState('');
+  
+  const handleTitleChange = (e: any) => {
+    localStorage.setItem('title', e.target.value);
+    setInputValue(e.target.value);
+    writingContent({ title: e.target.value })
+  };
+  
+  useEffect(() => {
+    const newValue = localStorage.getItem('title');
+    if (newValue !== null) {
+      setInputValue(newValue);
+    }
+  }, [inputValue]);
+
   return (
     <div
       css={container}
@@ -48,7 +54,8 @@ function Write() {
         css={inputTitle}
         type="text"
         placeholder="Title"
-        onChange={() => console.log('title change')}
+        onChange={(e) => handleTitleChange(e)}
+        value={inputValue}
         autoComplete="off"
       />
       <RichEditor />
