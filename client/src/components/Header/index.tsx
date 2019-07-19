@@ -1,10 +1,11 @@
 // Header.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
+import * as type from '../../types';
 // CSS
 import '../../colors.css';
 
@@ -42,15 +43,26 @@ const button = css`
   label: btn--publish;
 `;
 
+interface Props {
+  resetEditor: () => void;
+  setLocation: ({ key: string }: any) => void;
+  location: type.Location,
+  editor: type.Editor,
+}
 
-function Header(props: any) {
+
+function Header(props: Props) {
   const {
     resetEditor,
     setLocation,
-    location,
+    // location,
     editor
   } = props;
-  console.log('Header PROPS', props);
+
+  // location path state,
+  const path = window.location.pathname;
+  const [locationPath, setLocationPath] = useState(path);
+
   const handleClick = (e: React.MouseEvent) => {
     setLocation({ path: "/", name: "home"});
   };
@@ -58,15 +70,19 @@ function Header(props: any) {
   const handlePublish = () => {
     resetEditor();
     localStorage.clear();
-    console.log('%c publish clear content', 'background: white;', localStorage.content);
     setLocation({ path: "/", name: "home"});
   };
 
+  useEffect(() => {
+    setLocationPath(path);
+  }, [path]);
+
   const renderEditorHeader = () => {
+    const { title, text, saved } = editor;
     return (
       <div>
-        {editor.saved !== null ? <span css={span}>{!editor.saved ? 'Writing...' : 'Saved'}</span> : null}
-        <Link to="/" css={button} onClick={handlePublish}>Publish</Link>
+        {saved !== null ? <span css={span}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
+        {title !== undefined ? <Link to="/" css={button} onClick={handlePublish}>Publish</Link> : <button css={button}>Publish</button>}
       </div>
     );
   };
@@ -76,7 +92,7 @@ function Header(props: any) {
       <h1 css={h1}>
         <Link to="/" onClick={handleClick}>BROTE</Link>
       </h1>
-      {location.name === 'write' ? renderEditorHeader() : null}
+      {locationPath === '/new-story' ? renderEditorHeader() : null}
     </header>
   )
 }
