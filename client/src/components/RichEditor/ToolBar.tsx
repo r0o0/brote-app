@@ -24,10 +24,6 @@ const styles = {
     fontSize: '18px',
     color: 'var(--light-md)',
   },
-  iconU: {
-    // margin: '0 1px',
-    fontSize: '17px',
-  },
   iconBlock: {
     margin: '0 5px',
   }
@@ -38,10 +34,23 @@ const toolbar = css`
   label: toolbar;
 `;
 
-function ToolBar(props: { value: any, onClick: (event: any, type: string) => void, onClickBlock: (event: any, type: string, hasBlock: any) => void, classes: any }) {
+const iconU = css`
+  font-size: 17px !important;
+  label: i--underlined;
+`;
+
+interface Props {
+  value: any;
+  onClick: (event: any, type: string) => void;
+  onClickBlock: (event: any, type: string, hasBlock: any) => void;
+  classes: any
+
+}
+
+function ToolBar(props: Props) {
   // PROPS
   const { value, onClick, onClickBlock, classes } = props;
-  // console.log('value', { document },value);
+  const { buttons, icons } = classes;
   // 같은 마크가 적용이 되어 있는지 확인
   const hasMark = (type: string) => value.activeMarks.some((mark: any) => mark.type === type);
   const hasBlock = (type: string) => value.blocks.some((node: any) => node.type === type);
@@ -52,12 +61,17 @@ function ToolBar(props: { value: any, onClick: (event: any, type: string) => voi
       const isActive = hasMark(type);
       return (
         <button
-          className={`btn--${type} ${classes.buttons}`}
+          className={`btn--${type} ${buttons}`}
           data-active={isActive}
           onClick={(event) => onClick(event, type)}
           key={`btn--${type}`}
         >
-          <Icon className={type === 'underlined' ? [classes.iconU, classes.icons] : classes.icons}>{icon}</Icon>
+          <Icon
+            css={iconU}
+            className={icons}
+          >
+            {icon}
+          </Icon>
         </button>
       );
     });
@@ -80,7 +94,7 @@ function ToolBar(props: { value: any, onClick: (event: any, type: string) => voi
             onClick={(event) => onClickBlock(event, type, hasBlock)}
             key={`btn--${type}`}
           >
-            <Icon className={classes.icons}>{icon}</Icon>
+            <Icon className={icons}>{icon}</Icon>
           </button>
         );
       });
