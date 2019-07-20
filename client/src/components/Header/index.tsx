@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
 import * as type from '../../types';
+// UTILS
+import { editorValidator } from '../../utils/editor';
 // CSS
 import '../../colors.css';
 
@@ -78,11 +80,39 @@ function Header(props: Props) {
   }, [path]);
 
   const renderEditorHeader = () => {
-    const { title, text, saved } = editor;
+    const { saved, valid } = editor;
+    const localTitle = localStorage.title;
+    const localText = localStorage.content;
+    // console.log(
+    //   '%c valid props', '\n',
+    //   'background: green; color: white;',
+    //   'editor:', title, text, '\n',
+    //   'valid:', valid, '\n',
+    //   'local:', localTitle, localText,
+
+    // );
+
+    const goodToPublish = () => {
+      if (valid === null) {
+        const isValid = editorValidator(localTitle, localText);
+        console.log('publish?:', isValid);
+        if (isValid) {
+          console.log('GOOD TO PUBLISH!!!!');
+          return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
+        }
+      } else {
+        if (valid) {
+          console.log('GOOD TO PUBLISH!!!!');
+          return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
+        }
+      }
+      return <button css={button}>Save Draft</button>;
+    };
     return (
       <div>
         {saved !== null ? <span css={span}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
-        {title !== undefined ? <Link to="/" css={button} onClick={handlePublish}>Publish</Link> : <button css={button}>Publish</button>}
+        {goodToPublish()}
+        {/* {valid ? <Link to="/" css={button} onClick={handlePublish}>Publish</Link> : <button css={button}>Save Draft</button>} */}
       </div>
     );
   };

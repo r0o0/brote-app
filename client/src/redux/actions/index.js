@@ -7,6 +7,7 @@ import {
   EDITOR_WRITING,
   EDITOR_RESET,
   EDITOR_SAVED,
+  EDITOR_VALID,
 } from '../constants';
 
 // Location
@@ -17,6 +18,7 @@ const writingContent = (payload) => ({ type: EDITOR_WRITING, payload });
 const setContent = (payload) => ({ type: EDITOR_SET, payload });
 const resetEditor = () => ({ type: EDITOR_RESET });
 const savedEditor = () => ({ type: EDITOR_SAVED });
+const validEditor = (payload) => ({ type: EDITOR_VALID, payload });
 
 export {
   setLocation,
@@ -24,4 +26,5 @@ export {
   writingContent,
   resetEditor,
   savedEditor,
+  validEditor,
 };

@@ -1,27 +1,49 @@
+// CONSTANTS
 import {
   EDITOR_SET,
   EDITOR_WRITING,
   EDITOR_RESET,
-  EDITOR_SAVED
+  EDITOR_SAVED,
+  EDITOR_VALID,
 } from '../constants';
+// UTILS
+import { editorValidator } from '../../utils/editor';
 
 const initialState = {
   title: null,
   text: "Tell a story...",
   saved: null,
+  valid: null,
 };
 
 function setEditorContent(state = initialState, action) {
   console.log('Action', action.type);
   switch (action.type) {
     case EDITOR_SET:
-      console.log('set EDITOR', action.payload);
-      const { text, title } = action.payload;
-      return {
-        text,
-        title,
-        saved: null,
-      };
+      if (action.type === EDITOR_SET) {
+        const { text, title } = action.payload;
+        const keys = Object.keys(action.payload);
+        console.log('%c EDITOR_SET:', 'background: white; color: pink;', action.payload);
+        for (const key of keys) {
+          console.log(key);
+          if (key === 'text') {
+            return {
+              ...state,
+              text,
+              saved: null,
+            };
+          }
+          if (key === 'title') {
+            return {
+              ...state,
+              title,
+              saved: null,
+            };
+          }
+        }
+
+      }
+      break;
     case EDITOR_WRITING:
       return {
         ...state,
@@ -33,11 +55,26 @@ function setEditorContent(state = initialState, action) {
         saved: null,
       }
     case EDITOR_SAVED:
-      console.log('%c saved action', 'background: green;');
       return {
         ...state,
         saved: true,
       }
+    case EDITOR_VALID:
+      if (action.type === EDITOR_VALID) {
+        const { text, title } = state;
+        console.log(
+          '%c EDITOR_VALID ',
+          'background: black; color: yellow;', '\n',
+          'action', action.payload, '/n',
+          'state', state,
+        );
+        const isValid = editorValidator(text, title);
+        return {
+          ...state,
+          valid: isValid,
+        };
+      }
+      break;
     default:
       return state;
   }

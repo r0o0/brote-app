@@ -6,6 +6,7 @@ const EDITOR_SET = '@@editor/SET';
 const EDITOR_WRITING = '@@editor/WRITING';
 const EDITOR_RESET = '@@editor/RESET';
 const EDITOR_SAVED = '@@editor/SAVED';
+const EDITOR_VALID = '@@editor/VALID';
 
 export {
   // location
@@ -16,4 +17,5 @@ export {
   EDITOR_WRITING,
   EDITOR_RESET,
   EDITOR_SAVED,
+  EDITOR_VALID,
 };
