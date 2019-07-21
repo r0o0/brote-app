@@ -16,8 +16,27 @@ const header = css`
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 16px 16px;
+  transition: padding-top 0.34s cubic-bezier(0.13, 0.59, 0.8, 1.04);
+  @media(min-width: 720px) {
+    padding: 16px 40px;
+  }
+  @media(min-width: 1440px) {
+    padding: 16px 80px;
+  }
   label: global-header;
+`;
+
+const headerBig = css`
+  padding: 20px 16px;
+  transition: padding-top 0.34s cubic-bezier(0.57, 0.38, 0.37, 0.63);
+  @media(min-width: 720px) {
+    padding: 24px 40px;
+  }
+  @media(min-width: 1440px) {
+    padding: 24px 80px;
+  }
+  label: header-big;
 `;
 
 const h1 = css`
@@ -37,10 +56,11 @@ const span = css`
 
 const button = css`
   width: fit-content;
-  padding: 4px 16px;
+  padding: 8px 16px;
   border: 1px solid var(--primary);
   border-radius: 5px;
   font-size: 14px;
+  font-weight: 500;
   color: var(--primary);
   label: btn--publish;
 `;
@@ -51,7 +71,6 @@ interface Props {
   location: type.Location,
   editor: type.Editor,
 }
-
 
 function Header(props: Props) {
   const {
@@ -83,26 +102,17 @@ function Header(props: Props) {
     const { saved, valid } = editor;
     const localTitle = localStorage.title;
     const localText = localStorage.content;
-    // console.log(
-    //   '%c valid props', '\n',
-    //   'background: green; color: white;',
-    //   'editor:', title, text, '\n',
-    //   'valid:', valid, '\n',
-    //   'local:', localTitle, localText,
-
-    // );
 
     const goodToPublish = () => {
       if (valid === null) {
         const isValid = editorValidator(localTitle, localText);
-        console.log('publish?:', isValid);
         if (isValid) {
-          console.log('GOOD TO PUBLISH!!!!');
+          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
           return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
         }
       } else {
         if (valid) {
-          console.log('GOOD TO PUBLISH!!!!');
+          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
           return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
         }
       }
@@ -112,13 +122,14 @@ function Header(props: Props) {
       <div>
         {saved !== null ? <span css={span}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
         {goodToPublish()}
-        {/* {valid ? <Link to="/" css={button} onClick={handlePublish}>Publish</Link> : <button css={button}>Save Draft</button>} */}
       </div>
     );
   };
 
   return (
-    <header css={header}>
+    <header
+      css={locationPath === '/new-story' ? [header, headerBig] : header}
+    >
       <h1 css={h1}>
         <Link to="/" onClick={handleClick}>BROTE</Link>
       </h1>
