@@ -57,7 +57,16 @@ type Props = ReturnType<any> &
 
 const DEFAULT_NODE = 'paragraph';
 
-const initialValue = localStorage.getItem('content') || Plain.serialize(documentValue);
+// set initialValue
+let initialValue: any;
+if (localStorage.content) {
+  console.log('yes');
+  initialValue = localStorage.content;
+}
+if (!localStorage.content) {
+  console.log('no');
+  initialValue = Plain.serialize(documentValue);
+}
 
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
@@ -74,6 +83,11 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   private handleChange = ({ value }: any) => {
+    console.log('%c change', 'background: pink; color: blue;',
+      'state', this.state.value, html.serialize(this.state.value), '\n',
+      'local', localStorage.content, '\n',
+      value, html.serialize(value),
+    );
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (this.state.keyEvent) {
       // localStorage에 저장된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
@@ -205,10 +219,20 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   componentDidMount() {
+    // update initialValue
+    if (localStorage.content === undefined) {
+      initialValue = Plain.serialize(documentValue);
+      this.setState({ value: html.deserialize(initialValue) });
+    } else {
+      initialValue = localStorage.content;
+      this.setState({ value: html.deserialize(initialValue) });
+    }
+
     // on document load focus on editor
     if (this.editor.el) {
       this.editor.el.focus();
     }
+
     // editor's y coordinate value from top of window + padding
     const y = this.editor.el.getBoundingClientRect().top;
     this.setState({ editorEl: y });
