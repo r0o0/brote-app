@@ -11,13 +11,13 @@ const initialState = {
 };
 
 function getLocation(state = initialState, action) {
-  console.log('Action', action.type);
+  // console.log('Action', action.type);
   switch (action.type) {
     case LOCATION_GET:
-      console.log('get', action.payload);
+      // console.log('get', action.payload);
       return state;
     case LOCATION_SET:
-      console.log('set', action.payload);
+      // console.log('set', action.payload);
       return action.payload;
     default:
       return state;

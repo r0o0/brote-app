@@ -6,10 +6,10 @@ export const editorValidator = (title, text) => {
   if (text === '<p></p>') {
     isValid = false;
   }
-  if (title === null || text === null || title.length <= 0 || text.length <= 0) {
+  if ((title === undefined || text === undefined) || (title === null || text === null) || (title.length <= 0 || text.length <= 0)) {
     isValid = false;
   }
-  if (text !== null && title !== null) {
+  if (title !== undefined && text !== undefined && text !== null && title !== null) {
     if (title.length > 0 && text.length > 0) {
       isValid = true;
     }

@@ -11,19 +11,19 @@ import { editorValidator } from '../../utils/editor';
 
 const initialState = {
   title: null,
-  text: "Tell a story...",
+  text: null,
   saved: null,
   valid: null,
 };
 
 function setEditorContent(state = initialState, action) {
-  console.log('Action', action.type);
+  // console.log('Action', action.type);
   switch (action.type) {
     case EDITOR_SET:
       if (action.type === EDITOR_SET) {
         const { text, title } = action.payload;
         const keys = Object.keys(action.payload);
-        console.log('%c EDITOR_SET:', 'background: white; color: pink;', action.payload);
+        // console.log('%c EDITOR_SET:', 'background: white; color: pink;', action.payload);
         for (const key of keys) {
           console.log(key);
           if (key === 'text') {
@@ -62,12 +62,12 @@ function setEditorContent(state = initialState, action) {
     case EDITOR_VALID:
       if (action.type === EDITOR_VALID) {
         const { text, title } = state;
-        console.log(
-          '%c EDITOR_VALID ',
-          'background: black; color: yellow;', '\n',
-          'action', action.payload, '/n',
-          'state', state,
-        );
+        // console.log(
+        //   '%c EDITOR_VALID ',
+        //   'background: black; color: yellow;', '\n',
+        //   'action', action.payload, '/n',
+        //   'state', state,
+        // );
         const isValid = editorValidator(text, title);
         return {
           ...state,

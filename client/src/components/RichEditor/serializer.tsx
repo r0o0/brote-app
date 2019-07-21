@@ -7,7 +7,6 @@ const rules: Rule[] = [
   {
     deserialize(el: Element, next: any) {
       const type = BLOCK_TAGS[el.tagName.toLowerCase()];
-      // console.log('de 1', type, el);
       if (type) {
         return {
           object: 'block',
@@ -21,7 +20,6 @@ const rules: Rule[] = [
     },
     serialize(obj: any, children: any) {
       if (obj.object === 'block') {
-        // console.log(obj);
         switch (obj.type) {
           case 'code':
             return (
@@ -34,7 +32,6 @@ const rules: Rule[] = [
           case 'paragraph':
             return <p>{children}</p>;
           case 'block-quote':
-            console.log(obj.data.htmlAttributes);
             return <blockquote>{children}</blockquote>;
           case 'heading-one':
             return <h1>{children}</h1>;
@@ -78,7 +75,6 @@ const rules: Rule[] = [
           case 'bold':
             return <strong>{children}</strong>;
           case 'italic':
-            console.log('em');
             return <em>{children}</em>;
           case 'underlined':
             return <u>{children}</u>;

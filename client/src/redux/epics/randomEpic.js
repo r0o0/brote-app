@@ -6,7 +6,7 @@ import { EDITOR_SET, EDITOR_WRITING, EDITOR_SAVED, EDITOR_VALID } from "../const
 const editorEpic = action$ =>
   action$.ofType(EDITOR_WRITING)
   .pipe(
-    delay(1000),
+    delay(500),
     map(action => ({ type: EDITOR_SET, payload: action.payload }))
   );
 
@@ -20,7 +20,7 @@ const saveEditorEpic = action$ =>
 const validEditorEpic = action$ =>
   action$.ofType(EDITOR_SET)
   .pipe(
-    delay(500),
+    // delay(500),
     map(() => ({ type: EDITOR_VALID }))
   );
 

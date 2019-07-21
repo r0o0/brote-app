@@ -1,16 +1,14 @@
 // Write.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 // COMPONENT
 import RichEditor from '../../components/RichEditor';
+// CSS
+import '../../globalStyle';
 
-const container = css`
-  padding: 16px 16px 0;
-  label: container;
-`;
 const inputTitle = css`
   width: 100%;
   height: 48px;
@@ -29,27 +27,34 @@ const inputTitle = css`
   label: input--title;
 `;
 
-function Write(props: { writingContent: ({ title: string }: any) => void }) {
+interface Props {
+  writingContent: ({ title: string} : any) => void;
+}
+
+function Write(props: Props) {
+  // PROPS
   const { writingContent } = props;
+
+  // STATE
   const [inputValue, setInputValue] = useState('');
-  
+
+  // METHODS
   const handleTitleChange = (e: any) => {
     localStorage.setItem('title', e.target.value);
     setInputValue(e.target.value);
     writingContent({ title: e.target.value })
   };
-  
+
+  // HOOKS
   useEffect(() => {
     const newValue = localStorage.getItem('title');
     if (newValue !== null) {
       setInputValue(newValue);
     }
-  }, [inputValue]);
+  }, [inputValue, document.activeElement]);
 
   return (
-    <div
-      css={container}
-    >
+    <div className="container">
       <input
         css={inputTitle}
         type="text"

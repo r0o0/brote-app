@@ -6,8 +6,6 @@ import Main from '../Main';
 import Write from '../Write';
 
 function App() {
-  console.log('APP');
-  
   return (
     <BrowserRouter>
       <Header />
