@@ -8,8 +8,12 @@ import {
   EDITOR_VALID,
   EDITOR_PUBLISH,
   REQUEST_SUCCESS,
+  REQUEST_POSTS,
+  REQUEST_POST,
+  REQUEST_POST_SUCCESS,
+  REQUEST_POSTS_SUCCESS,
 } from "../constants";
-import { postData } from '../../utils/api';
+import { postData, getData } from '../../utils/api';
 
 
 // set editor content
@@ -42,9 +46,28 @@ const publishEditorEpic = action$ =>
     map(res => ({ type: REQUEST_SUCCESS, res }))
   )
 
+// get data
+const getPostEpic = action$ =>
+  action$.ofType(REQUEST_SUCCESS)
+  .pipe(
+    switchMap(action =>
+      getData(`posts/${action.res.data.name}`)),
+    map(res => ({ type: REQUEST_POST_SUCCESS, res}))
+  )
+
+const getPostsEpic = action$ =>
+  action$.ofType(REQUEST_POSTS)
+  .pipe(
+    switchMap(action =>
+      getData(action.payload)),
+    map(res => ({ type: REQUEST_POSTS_SUCCESS, res }))
+  )
+
 export default [
   editorEpic,
   saveEditorEpic,
   validEditorEpic,
   publishEditorEpic,
+  getPostsEpic,
+  getPostEpic,
 ];

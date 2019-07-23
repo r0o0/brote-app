@@ -10,6 +10,16 @@ const EDITOR_VALID = '@@editor/VALID';
 const EDITOR_PUBLISH = '@@editor/PUBLISH';
 // ajax request
 const REQUEST_SUCCESS = '@@ajax/SUCCESS';
+const REQUEST_POSTS = '@@ajax/POSTS';
+const REQUEST_POST = '@@ajax/POST';
+const REQUEST_POST_SUCCESS = '@@ajax/POST_SUCCESS';
+const REQUEST_POSTS_SUCCESS = '@@ajax/POSTS_SUCCESS';
+// get post
+// get post success
+// get posts
+// get posts success
+
+
 
 export {
   // location
@@ -24,4 +34,8 @@ export {
   EDITOR_PUBLISH,
   // API
   REQUEST_SUCCESS,
+  REQUEST_POSTS,
+  REQUEST_POST,
+  REQUEST_POST_SUCCESS,
+  REQUEST_POSTS_SUCCESS,
 };
