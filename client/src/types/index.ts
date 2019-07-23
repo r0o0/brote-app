@@ -1,6 +1,8 @@
 export interface Editor {
-  title: string;
-  text: string;
+  data: {
+    title: string;
+    text: string;
+  }
   saved: boolean | null;
   valid: boolean | null;
 };

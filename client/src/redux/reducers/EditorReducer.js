@@ -5,13 +5,16 @@ import {
   EDITOR_RESET,
   EDITOR_SAVED,
   EDITOR_VALID,
+  EDITOR_PUBLISH,
 } from '../constants';
 // UTILS
 import { editorValidator } from '../../utils/editor';
 
 const initialState = {
-  title: null,
-  text: null,
+  data: {
+    title: null,
+    text: null,
+  },
   saved: null,
   valid: null,
 };
@@ -25,23 +28,21 @@ function setEditorContent(state = initialState, action) {
         const keys = Object.keys(action.payload);
         // console.log('%c EDITOR_SET:', 'background: white; color: pink;', action.payload);
         for (const key of keys) {
-          console.log(key);
+          let updateData;
           if (key === 'text') {
-            return {
-              ...state,
-              text,
-              saved: null,
-            };
+            updateData = text;
           }
           if (key === 'title') {
-            return {
-              ...state,
-              title,
-              saved: null,
-            };
+            updateData = title;
+          }
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              [key]: updateData,
+            }
           }
         }
-
       }
       break;
     case EDITOR_WRITING:
@@ -51,7 +52,8 @@ function setEditorContent(state = initialState, action) {
       };
     case EDITOR_RESET:
       return {
-        text: "Tell a story...",
+        // text: "Tell a story...",
+        ...state,
         saved: null,
       }
     case EDITOR_SAVED:
@@ -61,13 +63,7 @@ function setEditorContent(state = initialState, action) {
       }
     case EDITOR_VALID:
       if (action.type === EDITOR_VALID) {
-        const { text, title } = state;
-        // console.log(
-        //   '%c EDITOR_VALID ',
-        //   'background: black; color: yellow;', '\n',
-        //   'action', action.payload, '/n',
-        //   'state', state,
-        // );
+        const { text, title } = state.data;
         const isValid = editorValidator(text, title);
         return {
           ...state,
@@ -75,6 +71,11 @@ function setEditorContent(state = initialState, action) {
         };
       }
       break;
+      case EDITOR_PUBLISH:
+        console.log('EDITOR_PUBLISH', action.payload);
+        return {
+          ...state,
+        }
     default:
       return state;
   }

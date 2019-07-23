@@ -67,6 +67,7 @@ const button = css`
 
 interface Props {
   resetEditor: () => void;
+  publishEditor: ({ key: string }: any) => void;
   setLocation: ({ key: string }: any) => void;
   location: type.Location,
   editor: type.Editor,
@@ -77,6 +78,7 @@ function Header(props: Props) {
     resetEditor,
     setLocation,
     // location,
+    publishEditor,
     editor
   } = props;
 
@@ -89,6 +91,11 @@ function Header(props: Props) {
   };
 
   const handlePublish = () => {
+    const { title, text } = editor.data;
+    console.log('%c handlePublish', 'background: white; color: green;',
+    editor.data
+    );
+    publishEditor({ title, text });
     resetEditor();
     localStorage.clear();
     setLocation({ path: "/", name: "home"});
@@ -105,6 +112,7 @@ function Header(props: Props) {
 
     const goodToPublish = () => {
       if (valid === null) {
+        console.log('not Valid');
         const isValid = editorValidator(localTitle, localText);
         if (isValid) {
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');

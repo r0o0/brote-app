@@ -8,6 +8,9 @@ import {
   EDITOR_RESET,
   EDITOR_SAVED,
   EDITOR_VALID,
+  EDITOR_PUBLISH,
+  // ajax
+  REQUEST_SUCCESS,
 } from '../constants';
 
 // Location
@@ -19,6 +22,9 @@ const setContent = (payload) => ({ type: EDITOR_SET, payload });
 const resetEditor = () => ({ type: EDITOR_RESET });
 const savedEditor = () => ({ type: EDITOR_SAVED });
 const validEditor = (payload) => ({ type: EDITOR_VALID, payload });
+const publishEditor = (payload) => ({ type: EDITOR_PUBLISH, data: payload});
+
+const isRequestSuccess = (payload) => ({ type: REQUEST_SUCCESS, payload });
 
 export {
   setLocation,
@@ -27,4 +33,6 @@ export {
   resetEditor,
   savedEditor,
   validEditor,
+  publishEditor,
+  isRequestSuccess,
 };

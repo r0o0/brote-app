@@ -252,6 +252,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           css={css`
             min-height: calc(100vh - ${this.state.editorEl}px);
             padding: 0 16px;
+            font-size: 17px;
             color: var(--text);
           `}
           ref={this.ref}

@@ -7,6 +7,9 @@ const EDITOR_WRITING = '@@editor/WRITING';
 const EDITOR_RESET = '@@editor/RESET';
 const EDITOR_SAVED = '@@editor/SAVED';
 const EDITOR_VALID = '@@editor/VALID';
+const EDITOR_PUBLISH = '@@editor/PUBLISH';
+// ajax request
+const REQUEST_SUCCESS = '@@ajax/SUCCESS';
 
 export {
   // location
@@ -18,4 +21,7 @@ export {
   EDITOR_RESET,
   EDITOR_SAVED,
   EDITOR_VALID,
+  EDITOR_PUBLISH,
+  // API
+  REQUEST_SUCCESS,
 };

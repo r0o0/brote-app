@@ -1,16 +1,13 @@
 import { combineReducers } from 'redux';
 // REDUCERS
-import { getLocation, LocationState } from './LocationReducer';
-import { setEditorContent, ContentState } from './EditorReducer';
-
-// export type RootState = {
-//   location: LocationState,
-//   editor: ContentState,
-// };
+import { getLocation } from './LocationReducer';
+import { setEditorContent } from './EditorReducer';
+import { postsRequest } from './RequestReducer';
 
 const reducers = combineReducers({
   location: getLocation,
   editor: setEditorContent,
+  requests: postsRequest,
 });
 
 export default reducers;
