@@ -46,7 +46,7 @@ const publishEditorEpic = action$ =>
     map(res => ({ type: REQUEST_SUCCESS, res }))
   )
 
-// get data
+// right after post fetch the posted data
 const getPostEpic = action$ =>
   action$.ofType(REQUEST_SUCCESS)
   .pipe(
@@ -55,6 +55,7 @@ const getPostEpic = action$ =>
     map(res => ({ type: REQUEST_POST_SUCCESS, res}))
   )
 
+// fetch posts data
 const getPostsEpic = action$ =>
   action$.ofType(REQUEST_POSTS)
   .pipe(
