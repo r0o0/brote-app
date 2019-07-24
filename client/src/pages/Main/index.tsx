@@ -87,9 +87,8 @@ function Main(props: any) {
       <div css={wrapper}>
         <p css={paragraph}>
           Are you a <span css={span}>writer</span>,<br></br>
-          A <span css={span}>story</span> enthusiast,<br></br>
+          A <Link to="/posts"><span css={span}>story</span></Link> enthusiast,<br></br>
           A passionate <span css={span}>storyteller</span>?<br></br>
-          {/* <span css={span}>Welcome to Brote publishing platform.</span> */}
         </p>
         <Link to="/new-story" css={button} onClick={handleClick}>Write New Story</Link>
       </div>

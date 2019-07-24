@@ -85,7 +85,7 @@ function Header(props: Props) {
   // location path state,
   const path = window.location.pathname;
   const [locationPath, setLocationPath] = useState(path);
-
+  console.log('data editor', editor.data);
   const handleClick = (e: React.MouseEvent) => {
     setLocation({ path: "/", name: "home"});
   };
@@ -116,12 +116,12 @@ function Header(props: Props) {
         const isValid = editorValidator(localTitle, localText);
         if (isValid) {
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
+          return <Link to="/posts" css={button} onClick={handlePublish}>Publish</Link>;
         }
       } else {
         if (valid) {
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          return <Link to="/" css={button} onClick={handlePublish}>Publish</Link>;
+          return <Link to="/posts" css={button} onClick={handlePublish}>Publish</Link>;
         }
       }
       return <button css={button}>Save Draft</button>;

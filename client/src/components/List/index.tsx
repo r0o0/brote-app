@@ -2,19 +2,27 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-// import * as api from '../../utils/api';
+// COMPONENTS
+import Item from './Item';
 
-function List(props: any) {
+interface Props {
+  requestPosts: (param: string) => void;
+}
+
+function List(props: Props) {
   const { requestPosts } = props;
+
   useEffect(() => {
+    // request posts on page load
     requestPosts('posts');
 
-  }, [])
+  }, []);
+
   return (
     <React.Fragment>
       <h1>Posts</h1>
       <ul>
-        <li></li>
+        <Item />
       </ul>
     </React.Fragment>
   );

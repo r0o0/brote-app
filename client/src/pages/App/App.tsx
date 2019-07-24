@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, } from 'react-router-dom';
 import Header from '../../components/Header';
 import Main from '../Main';
 import Write from '../Write';
+import Posts from '../Posts';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Main} />
           <Route path="/new-story" component={Write} />
+          <Route path="/posts" component={Posts} />
         </Switch>
     </BrowserRouter>
   );
