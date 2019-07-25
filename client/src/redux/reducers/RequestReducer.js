@@ -1,4 +1,10 @@
-import { REQUEST_SUCCESS, REQUEST_POSTS, REQUEST_POSTS_SUCCESS, REQUEST_POST_SUCCESS } from '../constants';
+// CONSTANTS
+import {
+  REQUEST_SUCCESS,
+  REQUEST_POSTS,
+  REQUEST_POSTS_SUCCESS,
+  REQUEST_POST_SUCCESS
+} from '../constants';
 
 const intialState = {
   status: null,
@@ -17,13 +23,6 @@ function postsRequest (state = intialState, action) {
             key: data,
           };
         }
-        // if (config.method === 'get') {
-        //   return {
-        //     ...state,
-        //     status: 'success',
-        //     data,
-        //   }
-        // }
       }
       break;
     case REQUEST_POSTS:

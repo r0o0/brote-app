@@ -15,7 +15,6 @@ import {
 } from "../constants";
 import { postData, getData } from '../../utils/api';
 
-
 // set editor content
 const editorEpic = action$ =>
   action$.ofType(EDITOR_WRITING)

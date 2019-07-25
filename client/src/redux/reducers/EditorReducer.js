@@ -20,13 +20,11 @@ const initialState = {
 };
 
 function setEditorContent(state = initialState, action) {
-  // console.log('Action', action.type);
   switch (action.type) {
     case EDITOR_SET:
       if (action.type === EDITOR_SET) {
         const { text, title } = action.payload;
         const keys = Object.keys(action.payload);
-        // console.log('%c EDITOR_SET:', 'background: white; color: pink;', action.payload);
         for (const key of keys) {
           let updateData;
           if (key === 'text') {
@@ -52,7 +50,6 @@ function setEditorContent(state = initialState, action) {
       };
     case EDITOR_RESET:
       return {
-        // text: "Tell a story...",
         ...state,
         saved: null,
       }
@@ -72,10 +69,7 @@ function setEditorContent(state = initialState, action) {
       }
       break;
       case EDITOR_PUBLISH:
-        console.log('EDITOR_PUBLISH', action.payload);
-        return {
-          ...state,
-        }
+        return state;
     default:
       return state;
   }

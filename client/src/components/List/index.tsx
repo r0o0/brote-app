@@ -21,9 +21,9 @@ function List(props: Props) {
   return (
     <React.Fragment>
       <h1>Posts</h1>
-      <ul>
+      <div>
         <Item />
-      </ul>
+      </div>
     </React.Fragment>
   );
 }
