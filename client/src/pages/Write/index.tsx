@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 // COMPONENT
 import RichEditor from '../../components/RichEditor';
+import Preview from '../../components/Preview';
 // CSS
 import '../../globalStyle';
 
@@ -64,6 +65,7 @@ function Write(props: Props) {
         autoComplete="off"
       />
       <RichEditor />
+      <Preview />
     </div>
   )
 }

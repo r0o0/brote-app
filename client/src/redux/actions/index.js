@@ -14,6 +14,9 @@ import {
   REQUEST_POSTS,
   REQUEST_POSTS_SUCCESS,
   REQUEST_POST_SUCCESS,
+  // modal
+  OPEN_MODAL,
+  CLOSE_MODAL,
 } from '../constants';
 
 // Location
@@ -27,10 +30,15 @@ const savedEditor = () => ({ type: EDITOR_SAVED });
 const validEditor = (payload) => ({ type: EDITOR_VALID, payload });
 const publishEditor = (payload) => ({ type: EDITOR_PUBLISH, data: payload});
 
+// axios requests
 const isRequestSuccess = (payload) => ({ type: REQUEST_SUCCESS, payload });
 const requestPosts = (payload) => ({ type: REQUEST_POSTS, payload });
 const isRequestPostsSuccess = (payload) => ({ type: REQUEST_POSTS_SUCCESS, payload });
 const isRequestPostSuccess = (payload) => ({ type: REQUEST_POST_SUCCESS, payload });
+
+// modal
+const openModal = payload => ({ type: OPEN_MODAL });
+const closeModal = payload => ({ type: CLOSE_MODAL });
 
 export {
   setLocation,
@@ -44,4 +52,6 @@ export {
   requestPosts,
   isRequestPostsSuccess,
   isRequestPostSuccess,
+  openModal,
+  closeModal,
 };

@@ -67,6 +67,7 @@ const button = css`
 
 interface Props {
   resetEditor: () => void;
+  openModal: () => void;
   publishEditor: ({ key: string }: any) => void;
   setLocation: ({ key: string }: any) => void;
   location: type.Location,
@@ -78,6 +79,7 @@ function Header(props: Props) {
     resetEditor,
     setLocation,
     // location,
+    openModal,
     publishEditor,
     editor
   } = props;
@@ -98,6 +100,7 @@ function Header(props: Props) {
     publishEditor({ title, text });
     resetEditor();
     localStorage.clear();
+    openModal();
     setLocation({ path: "/", name: "home"});
   };
 
@@ -116,12 +119,14 @@ function Header(props: Props) {
         const isValid = editorValidator(localTitle, localText);
         if (isValid) {
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          return <Link to="/posts" css={button} onClick={handlePublish}>Publish</Link>;
+          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
+          return <button css={button} onClick={handlePublish}>Publish</button>
         }
       } else {
         if (valid) {
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          return <Link to="/posts" css={button} onClick={handlePublish}>Publish</Link>;
+          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
+          return <button css={button} onClick={handlePublish}>Publish</button>
         }
       }
       return <button css={button}>Save Draft</button>;
