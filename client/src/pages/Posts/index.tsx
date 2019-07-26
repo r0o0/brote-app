@@ -7,7 +7,7 @@ import '../../globalStyle';
 function Posts() {
   return (
     <div className="container">
-      <List />
+      <List preview={true} />
     </div>
   );
 };
