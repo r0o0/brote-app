@@ -1,7 +1,11 @@
 import React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { previewArticle, previewTitle, previewP } from './ArticleStyles';
 // UTILS
 import { getCleaned } from '../../utils/sanitizeHTML';
 import { transformToText } from '../../utils/HTMLparser';
+
 interface Props {
   title: string;
   content: string;
@@ -19,10 +23,10 @@ function Article(props: Props) {
   }
 
   return (
-    <div>
-      <h1>{title}</h1>
+    <div css={previewArticle}>
+      <h1 css={previewTitle}>{title}</h1>
       {preview ?
-        <p dangerouslySetInnerHTML={{__html: cleanContent}}></p> :
+        <p css={previewP} dangerouslySetInnerHTML={{__html: cleanContent}}></p> :
         <div dangerouslySetInnerHTML={{__html: cleanContent}}></div>
       }
     </div>

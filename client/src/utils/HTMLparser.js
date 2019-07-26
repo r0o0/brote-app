@@ -1,6 +1,5 @@
 
 const HTMLparser = (content) => {
-  // console.log('html parser', content);
   const parser = new DOMParser();
   const toHTML = parser.parseFromString(content, 'text/html');
   const parent = toHTML.querySelector('body');
@@ -9,7 +8,6 @@ const HTMLparser = (content) => {
 
   for (let i = 0; i < children.length; i++) {
     const textOnly = children[i].textContent;
-    console.log('ee', textOnly);
     toAssemble.push(textOnly);
   }
 
@@ -26,7 +24,7 @@ const checkFullWord = (toCheck) => {
       newCheck = toCheck.slice(0, -i);
       const endsWithWord = new RegExp("\\b" + newCheck + "\\b").test(newCheck);
       if (endsWithWord) {
-        return newCheck;
+        return newCheck + '...';
       }
     }
   } else {
