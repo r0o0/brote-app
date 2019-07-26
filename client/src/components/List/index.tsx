@@ -40,7 +40,7 @@ function List(props: Props) {
             })
           }
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={4}>
           <h2>Popular Stories</h2>
         </Grid>
       </Grid>
