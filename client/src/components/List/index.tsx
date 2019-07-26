@@ -5,6 +5,7 @@ import * as actions from '../../redux/actions';
 import * as type from '../../types';
 // COMPONENTS
 import Article from '../Article';
+import Grid from '@material-ui/core/Grid';
 
 interface Props {
   requestPosts: (param: string) => void;
@@ -23,15 +24,26 @@ function List(props: Props) {
 
   return (
     <React.Fragment>
-      <h1>Posts</h1>
-      <div>
-        { posts && Object.keys(posts).map(key => {
-            const title = posts[key].data.title;
-            const content = posts[key].data.text;
-            return <Article title={title} content={content} preview={preview} />
-          })
-        }
-      </div>
+      <Grid
+        container
+        spacing={2}
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-start"
+      >
+        <Grid item xs={12} sm={8}>
+          <h2>Posts</h2>
+          { posts && Object.keys(posts).map(key => {
+              const title = posts[key].data.title;
+              const content = posts[key].data.text;
+              return <Article key={key} title={title} content={content} preview={preview} />
+            })
+          }
+        </Grid>
+        <Grid item xs={12} sm={2}>
+          <h2>Popular Stories</h2>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }
