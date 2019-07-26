@@ -6,8 +6,8 @@ const BLOCK_TAGS: TAGS = {
   p: 'paragraph',
   blockquote: 'block-quote',
   pre: 'code',
-  h1: 'heading-one',
-  h2: 'heading-two',
+  h2: 'heading-one',
+  h3: 'heading-two',
   li: 'list-item',
   ol: 'numbered-list',
   ul: 'bulleted-list',
@@ -17,7 +17,6 @@ const MARK_TAGS: TAGS = {
   em: 'italic',
   strong: 'bold',
   u: 'underlined',
-  // code: 'code',
 };
 
 export {

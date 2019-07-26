@@ -26,6 +26,11 @@ interface Props {
     status: boolean;
   };
   closeModal: () => void;
+  classes: {
+    appbar: string;
+    toolbar: string;
+    toolbarHeader: string;
+  };
 }
 
 const styles = {
@@ -56,8 +61,9 @@ const button = css`
   label: btn--publish;
 `;
 
-function Preview(props: any) {
-  const { open, editor, modal, classes, closeModal } = props;
+function Preview(props: Props) {
+  const { editor, modal, classes, closeModal } = props;
+  console.log('classes', classes);
   const { title, text } = editor.data;
   const { appbar, toolbar, toolbarHeader } = classes;
   console.log('%c state in PREVIEW', 'background: pink; color: wine;', '\n',
