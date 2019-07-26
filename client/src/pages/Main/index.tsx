@@ -61,11 +61,13 @@ const button = css`
 `;
 
 const paragraph = css`
+  margin-bottom: 34px;
   font-size: 38px;
   font-weight: 500;
   line-height: 46px;
   color: var(--text);
   @media(min-width: 1024px) {
+    margin-bottom: 40px;
     font-size: calc(48px + 20 * ((100vw - 1024px) / 896));
     line-height: 1.15em;
     transition: line-height 0.12s, font-size 0.15s cubic-bezier(0.15, 0.5, 0.8, 1.04);
