@@ -92,11 +92,10 @@ function Header(props: Props) {
   };
 
   const handlePublish = () => {
-    const { title, content } = editor.data;
-    console.log('%c handlePublish', 'background: white; color: green;',
-    editor.data
-    );
-    publishEditor({ title, content });
+    // console.log('%c handlePublish', 'background: white; color: green;',
+    // editor.data
+    // );
+    publishEditor(editor.data);
     resetEditor();
     localStorage.clear();
     openModal();
