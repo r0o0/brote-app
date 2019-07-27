@@ -19,3 +19,13 @@ export interface Location {
   path: string;
   name: string;
 }
+
+export interface Router {
+  action: string,
+  location: {
+    pathname: string,
+    search: string,
+    hash: string,
+    key: string,
+  }
+}

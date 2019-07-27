@@ -8,7 +8,6 @@ import * as actions from '../../redux/actions';
 // CSS
 import '../../globalStyle';
 import '../../colors.css';
-import { getTodayDate } from '../../utils/date';
 
 const main = css`
   display: flex;
@@ -80,11 +79,7 @@ const span = css`
   color: var(--primary-text);
 `;
 
-function Main(props: any) {
-  const { setLocation } = props;
-  const handleClick = () => {
-    setLocation({ path: "/new-story", name: "write"});
-  };
+function Main() {
 
   return (
     <div className="container" css={main}>
@@ -94,7 +89,7 @@ function Main(props: any) {
           A <Link to="/posts"><span css={span}>story</span></Link> enthusiast,<br></br>
           A passionate <span css={span}>storyteller</span>?<br></br>
         </p>
-        <Link to="/new-story" css={button} onClick={handleClick}>Write New Story</Link>
+        <Link to="/new-story" css={button}>Write New Story</Link>
       </div>
     </div>
   )

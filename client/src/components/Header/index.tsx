@@ -69,27 +69,20 @@ interface Props {
   resetEditor: () => void;
   openModal: () => void;
   publishEditor: ({ key: string }: any) => void;
-  setLocation: ({ key: string }: any) => void;
-  location: type.Location,
+  router: type.Router,
   editor: type.Editor,
 }
 
 function Header(props: Props) {
   const {
     resetEditor,
-    setLocation,
     openModal,
     publishEditor,
-    editor
+    editor,
+    router,
   } = props;
 
-  // location path state,
-  const path = window.location.pathname;
-  const [locationPath, setLocationPath] = useState(path);
-  console.log('data editor', editor.data);
-  const handleClick = (e: React.MouseEvent) => {
-    setLocation({ path: "/", name: "home"});
-  };
+  const locationPath = router.location.pathname;
 
   const handlePublish = () => {
     // console.log('%c handlePublish', 'background: white; color: green;',
@@ -99,12 +92,8 @@ function Header(props: Props) {
     resetEditor();
     localStorage.clear();
     openModal();
-    setLocation({ path: "/", name: "home"});
+    // setLocation({ path: "/", name: "home"});
   };
-
-  useEffect(() => {
-    setLocationPath(path);
-  }, [path]);
 
   const renderEditorHeader = () => {
     const { saved, valid } = editor;
@@ -147,7 +136,7 @@ function Header(props: Props) {
       css={locationPath === '/new-story' ? [header, headerBig] : header}
     >
       <h1 css={h1}>
-        <Link to="/" onClick={handleClick}>BROTE</Link>
+        <Link to="/">BROTE</Link>
       </h1>
       {locationPath === '/new-story' ? renderEditorHeader() : null}
     </header>
@@ -156,7 +145,7 @@ function Header(props: Props) {
 
 const mapStateToProps = (store: any) => ({
   editor: store.editor,
-  location: store.location,
+  router: store.router,
 });
 
 export default connect(mapStateToProps, actions)(Header);

@@ -1,7 +1,4 @@
 import {
-  // location
-  LOCATION_SET,
-  // LOCATION_GET,
   // TextEditor
   EDITOR_SET,
   EDITOR_WRITING,
@@ -18,9 +15,6 @@ import {
   OPEN_MODAL,
   CLOSE_MODAL,
 } from '../constants';
-
-// Location
-const setLocation = (payload) => ({ type: LOCATION_SET, payload });
 
 // Editor
 const writingContent = (payload) => ({ type: EDITOR_WRITING, payload });
@@ -41,7 +35,6 @@ const openModal = payload => ({ type: OPEN_MODAL });
 const closeModal = payload => ({ type: CLOSE_MODAL });
 
 export {
-  setLocation,
   setContent,
   writingContent,
   resetEditor,

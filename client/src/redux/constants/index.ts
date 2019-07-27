@@ -1,6 +1,3 @@
-// location
-const LOCATION_GET = '@@location/GET';
-const LOCATION_SET = '@@location/SET';
 // TextEditor
 const EDITOR_SET = '@@editor/SET';
 const EDITOR_WRITING = '@@editor/WRITING';
@@ -21,9 +18,6 @@ const CLOSE_MODAL = '@@modal/CLOSE';
 
 
 export {
-  // location
-  LOCATION_GET,
-  LOCATION_SET,
   // TextEditor
   EDITOR_SET,
   EDITOR_WRITING,
