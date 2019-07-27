@@ -1,9 +1,12 @@
 // store index
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
-import reducers, { RootState } from '../reducers';
-import * as actions from "../actions";
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import reducers from '../reducers';
 import epics from '../epics';
+
+export const history = createBrowserHistory();
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -13,6 +16,7 @@ const composeEnhancers = (
 
 const middlewares = [
   epicMiddleware,
+  routerMiddleware(history),
 ];
 
 const enhancer = composeEnhancers(
@@ -20,7 +24,7 @@ const enhancer = composeEnhancers(
 );
 
 const store = createStore(
-  reducers,
+  reducers(history),
   enhancer,
 );
 

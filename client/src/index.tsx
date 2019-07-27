@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import { ConnectedRouter } from 'connected-react-router';
+import store, { history } from './redux/store';
 import './index.css';
 import App from './pages/App/App';
 import * as serviceWorker from './serviceWorker';
@@ -12,7 +13,9 @@ const render = () => {
   fancyLog();
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
   );
