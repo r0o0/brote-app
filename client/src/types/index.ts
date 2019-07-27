@@ -1,19 +1,16 @@
 export interface Post {
+  author: string,
   title: string,
-  text: string,
+  content: string,
+  publishedOn: string,
 }
 
 export interface Posts {
-  [id: string] : {
-    data: Post
-  }
+  [id: string] : Post
 }
 
 export interface Editor {
-  data: {
-    title: string,
-    text: string,
-  };
+  data: Post;
   saved: boolean | null;
   valid: boolean | null;
 };

@@ -78,7 +78,6 @@ function Header(props: Props) {
   const {
     resetEditor,
     setLocation,
-    // location,
     openModal,
     publishEditor,
     editor
@@ -93,11 +92,11 @@ function Header(props: Props) {
   };
 
   const handlePublish = () => {
-    const { title, text } = editor.data;
+    const { title, content } = editor.data;
     console.log('%c handlePublish', 'background: white; color: green;',
     editor.data
     );
-    publishEditor({ title, text });
+    publishEditor({ title, content });
     resetEditor();
     localStorage.clear();
     openModal();
@@ -124,6 +123,11 @@ function Header(props: Props) {
         }
       } else {
         if (valid) {
+          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
+          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
+          return <button css={button} onClick={handlePublish}>Publish</button>
+        } else {
+          const isValid = editorValidator(localTitle, localText);
           console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
           // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
           return <button css={button} onClick={handlePublish}>Publish</button>

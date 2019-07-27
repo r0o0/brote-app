@@ -8,6 +8,7 @@ import * as actions from '../../redux/actions';
 // CSS
 import '../../globalStyle';
 import '../../colors.css';
+import { getTodayDate } from '../../utils/date';
 
 const main = css`
   display: flex;
@@ -84,6 +85,7 @@ function Main(props: any) {
   const handleClick = () => {
     setLocation({ path: "/new-story", name: "write"});
   };
+
   return (
     <div className="container" css={main}>
       <div css={wrapper}>

@@ -14,6 +14,7 @@ import {
   REQUEST_POSTS_SUCCESS,
 } from "../constants";
 import { postData, getData } from '../../utils/api';
+import { getTodayDate } from '../../utils/date';
 
 // set editor content
 const editorEpic = action$ =>
@@ -27,7 +28,11 @@ const editorEpic = action$ =>
 const saveEditorEpic = action$ =>
   action$.ofType(EDITOR_SET)
   .pipe(
-    map(() => ({ type: EDITOR_SAVED }))
+    map(() => getTodayDate()),
+    map((date) => {
+      console.log('date in epic', date);
+      return { type: EDITOR_SAVED, payload: date };
+    })
   );
 
 const validEditorEpic = action$ =>
@@ -41,7 +46,7 @@ const publishEditorEpic = action$ =>
   action$.ofType(EDITOR_PUBLISH)
   .pipe(
     switchMap(action =>
-      postData('posts', { data: action.data })),
+      postData('posts', action.data)),
     map(res => ({ type: REQUEST_SUCCESS, res }))
   )
 

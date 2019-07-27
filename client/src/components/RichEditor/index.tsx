@@ -17,6 +17,7 @@ import {
   isUnderlinedHotkey,
   isCodeHotkey,
 } from './shortcuts';
+import { getTodayDate } from '../../utils/date';
 
 const documentValue = Value.fromJSON({
   document: {
@@ -44,6 +45,7 @@ interface RichTextState {
   value: Value;
   editorEl: number | null;
   keyEvent: boolean;
+  date: string;
 };
 
 interface RichEditor {
@@ -60,11 +62,9 @@ const DEFAULT_NODE = 'paragraph';
 // set initialValue
 let initialValue: any;
 if (localStorage.content) {
-  console.log('yes');
   initialValue = localStorage.content;
 }
 if (!localStorage.content) {
-  console.log('no');
   initialValue = Plain.serialize(documentValue);
 }
 
@@ -75,6 +75,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       value: html.deserialize(initialValue),
       editorEl: null,
       keyEvent: false,
+      date: getTodayDate(),
     };
   }
 
@@ -97,10 +98,10 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       }
       // redux dispatch
       if (localStorage.getItem('content') !== null) {
-        this.props.writingContent({ text: localStorage.content });
+        this.props.writingContent({ content: localStorage.content });
       }
     }
-    // 에디터 value값 변화 적용
+    // 에디터 value값 변화 및 시간 업뎃 적용
     this.setState({ value });
   };
 

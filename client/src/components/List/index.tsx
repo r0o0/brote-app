@@ -34,8 +34,8 @@ function List(props: Props) {
         <Grid item xs={12} sm={8}>
           <h2>Posts</h2>
           { posts && Object.keys(posts).map(key => {
-              const title = posts[key].data.title;
-              const content = posts[key].data.text;
+              const title = posts[key].title;
+              const content = posts[key].content;
               return <Article key={key} title={title} content={content} preview={preview} />
             })
           }

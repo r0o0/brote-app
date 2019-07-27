@@ -64,14 +64,14 @@ const button = css`
 function Preview(props: Props) {
   const { editor, modal, classes, closeModal } = props;
   console.log('classes', classes);
-  const { title, text } = editor.data;
+  const { title, content } = editor.data;
   const { appbar, toolbar, toolbarHeader } = classes;
   console.log('%c state in PREVIEW', 'background: pink; color: wine;', '\n',
     'editor state', editor,
   );
-  const handleClose = () => {
+  // const handleClose = () => {
 
-  };
+  // };
 
   return (
     <Dialog
@@ -90,7 +90,7 @@ function Preview(props: Props) {
           </Toolbar>
         </AppBar>
         <div className="container">
-          <Article title={title} content={text} />
+          <Article title={title} content={content} />
         </div>
         <button></button>
       </Dialog>

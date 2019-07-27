@@ -26,7 +26,7 @@ const setLocation = (payload) => ({ type: LOCATION_SET, payload });
 const writingContent = (payload) => ({ type: EDITOR_WRITING, payload });
 const setContent = (payload) => ({ type: EDITOR_SET, payload });
 const resetEditor = () => ({ type: EDITOR_RESET });
-const savedEditor = () => ({ type: EDITOR_SAVED });
+const savedEditor = (payload) => ({ type: EDITOR_SAVED, payload });
 const validEditor = (payload) => ({ type: EDITOR_VALID, payload });
 const publishEditor = (payload) => ({ type: EDITOR_PUBLISH, data: payload});
 

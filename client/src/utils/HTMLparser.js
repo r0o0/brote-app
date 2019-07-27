@@ -24,7 +24,7 @@ const checkFullWord = (toCheck) => {
       newCheck = toCheck.slice(0, -i);
       const endsWithWord = new RegExp("\\b" + newCheck + "\\b").test(newCheck);
       if (endsWithWord) {
-        return newCheck + '...';
+        return newCheck;
       }
     }
   } else {
