@@ -3,9 +3,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
+import { Link } from 'react-router-dom';
 // COMPONENTS
 import Article from '../Article';
 import Grid from '@material-ui/core/Grid';
+// UTILS
+import convertToPath from '../../utils/convertToPath';
 
 interface Props {
   requestPosts: (param: string) => void;
@@ -36,7 +39,12 @@ function List(props: Props) {
           { posts && Object.keys(posts).map(key => {
               const title = posts[key].title;
               const content = posts[key].content;
-              return <Article key={key} title={title} content={content} preview={preview} />
+              const path = convertToPath(title);
+              return (
+                <Link to={`/p/${path}-b${key}`} key={key}>
+                  <Article title={title} content={content} preview={preview} />
+                </Link>
+              )
             })
           }
         </Grid>
