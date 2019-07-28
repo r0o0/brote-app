@@ -3,6 +3,7 @@ export interface Post {
   title: string,
   content: string,
   publishedOn: string,
+  savedOn?: string,
 }
 
 export interface Posts {

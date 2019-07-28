@@ -2,6 +2,11 @@
   --primary: #DF4201;
   --primary-text: #d63b09;
   --text: #2e2e2e;
+  --text-body: #353434;
   --light-md: #656060;
   --light-bg: #736c6c;
+  --light-60: #8c8484;
+  --light-70: #a99e9e;
+  --light-90: #efecec;
+  /* light-100: #fff */
 }

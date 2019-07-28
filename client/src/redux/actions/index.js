@@ -9,6 +9,7 @@ import {
   // ajax
   REQUEST_SUCCESS,
   REQUEST_POSTS,
+  REQUEST_POST,
   REQUEST_POSTS_SUCCESS,
   REQUEST_POST_SUCCESS,
   // modal
@@ -27,6 +28,7 @@ const publishEditor = (payload) => ({ type: EDITOR_PUBLISH, data: payload});
 // axios requests
 const isRequestSuccess = (payload) => ({ type: REQUEST_SUCCESS, payload });
 const requestPosts = (payload) => ({ type: REQUEST_POSTS, payload });
+const requestPost = payload => ({ type: REQUEST_POST, payload });
 const isRequestPostsSuccess = (payload) => ({ type: REQUEST_POSTS_SUCCESS, payload });
 const isRequestPostSuccess = (payload) => ({ type: REQUEST_POST_SUCCESS, payload });
 
@@ -43,6 +45,7 @@ export {
   publishEditor,
   isRequestSuccess,
   requestPosts,
+  requestPost,
   isRequestPostsSuccess,
   isRequestPostSuccess,
   openModal,

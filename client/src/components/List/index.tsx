@@ -1,5 +1,7 @@
 // List.js
 import React, { useEffect } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
@@ -9,6 +11,13 @@ import Article from '../Article';
 import Grid from '@material-ui/core/Grid';
 // UTILS
 import convertToPath from '../../utils/convertToPath';
+
+const h2 = css`
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--light-90);
+`;
 
 interface Props {
   requestPosts: (param: string) => void;
@@ -29,27 +38,39 @@ function List(props: Props) {
     <React.Fragment>
       <Grid
         container
-        spacing={2}
+        spacing={7}
         direction="row"
         justify="flex-start"
         alignItems="flex-start"
       >
         <Grid item xs={12} sm={8}>
-          <h2>Posts</h2>
+          <h2 css={h2}>Posts</h2>
           { posts && Object.keys(posts).map(key => {
-              const title = posts[key].title;
-              const content = posts[key].content;
+              const { title, content, author, publishedOn, savedOn } = posts[key];
               const path = convertToPath(title);
+
               return (
-                <Link to={`/p/${path}-b${key}`} key={key}>
-                  <Article title={title} content={content} preview={preview} />
+                <Link
+                  to={{
+                    pathname: `/p/${path}-b${key}`,
+                    state: {
+                      id: key,
+                      title,
+                      content,
+                      author,
+                      publishedOn,
+                    }
+                  }}
+                  key={key}
+                >
+                  <Article title={title} content={content} author={author} savedOn={savedOn} preview={preview} />
                 </Link>
               )
             })
           }
         </Grid>
         <Grid item xs={12} sm={4}>
-          <h2>Popular Stories</h2>
+          <h2 css={h2}>Popular Stories</h2>
         </Grid>
       </Grid>
     </React.Fragment>

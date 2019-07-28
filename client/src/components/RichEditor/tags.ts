@@ -17,6 +17,7 @@ const MARK_TAGS: TAGS = {
   em: 'italic',
   strong: 'bold',
   u: 'underlined',
+  code: 'code',
 };
 
 export {

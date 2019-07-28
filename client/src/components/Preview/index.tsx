@@ -1,7 +1,7 @@
 // Preview.js
 import React from 'react';
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
@@ -18,6 +18,7 @@ import Article from '../Article';
 // CSS
 import '../../globalStyle';
 import '../../colors.css';
+import { button } from './PreviewStyles';
 import { withStyles } from '@material-ui/core';
 
 interface Props {
@@ -50,28 +51,10 @@ const styles = {
   }
 };
 
-const button = css`
-  width: fit-content;
-  padding: 8px 16px;
-  border: 1px solid var(--primary);
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--primary);
-  label: btn--publish;
-`;
-
 function Preview(props: Props) {
   const { editor, modal, classes, closeModal } = props;
-  console.log('classes', classes);
-  const { title, content } = editor.data;
+  const { title, content, author, publishedOn } = editor.data;
   const { appbar, toolbar, toolbarHeader } = classes;
-  console.log('%c state in PREVIEW', 'background: pink; color: wine;', '\n',
-    'editor state', editor,
-  );
-  // const handleClose = () => {
-
-  // };
 
   return (
     <Dialog
@@ -90,9 +73,8 @@ function Preview(props: Props) {
           </Toolbar>
         </AppBar>
         <div className="container">
-          <Article title={title} content={content} />
+          <Article title={title} content={content} author={author} publishedOn={publishedOn} />
         </div>
-        <button></button>
       </Dialog>
   );
 }

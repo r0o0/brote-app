@@ -1,16 +1,22 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+// COMPONENTS
+import Article from '../../components/Article';
+// CSS
+import '../../globalStyle';
 
-function Post() {
+interface Props {
+  location: any;
+}
+
+function Post(props: Props) {
+  const state = props.location.state;
+  const { title, content, author, publishedOn } = state;
+
   return (
-    <div>
-      Post
+    <div className="container">
+      <Article title={title} content={content} author={author} publishedOn={publishedOn} />
     </div>
   )
 }
 
-const mapStateToProps = (store: any) => ({
-  posts: store.requests.posts,
-});
-
-export default connect(mapStateToProps)(Post);
+export default Post;

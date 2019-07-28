@@ -34,9 +34,9 @@ const rules: Rule[] = [
           case 'block-quote':
             return <blockquote>{children}</blockquote>;
           case 'heading-one':
-            return <h1>{children}</h1>;
-          case 'heading-two':
             return <h2>{children}</h2>;
+          case 'heading-two':
+            return <h3>{children}</h3>;
           case 'list-item':
             return <li>{children}</li>;
           case 'numbered-list':
@@ -70,6 +70,8 @@ const rules: Rule[] = [
             return <em>{children}</em>;
           case 'underlined':
             return <u>{children}</u>;
+          case 'code':
+            return <code>{children}</code>;
         }
       }
     },

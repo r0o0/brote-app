@@ -29,7 +29,7 @@ code {
 
 /* reset */
 
-h1, p {
+h1, h2, h3, p, blockquote, pre {
   margin: 0;
   line-height: 1;
 }

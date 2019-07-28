@@ -9,10 +9,10 @@ const baseURL = process.env.REACT_APP_FIREBASE_API;
 
 // post
 const postData = (dataType: string, data: any) => {
-  console.log('%c in postData api', 'background: white; color: purple;',
-  'dataType:', dataType, '\n',
-  'data: ', data,
-  );
+  // console.log('%c in postData api', 'background: white; color: purple;',
+  // 'dataType:', dataType, '\n',
+  // 'data: ', data,
+  // );
   return axios.post<AxiosResponse>(`${baseURL}/${dataType}.json`, data);
 };
 

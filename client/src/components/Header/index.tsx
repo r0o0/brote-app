@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import * as type from '../../types';
 // UTILS
 import { editorValidator } from '../../utils/editor';
+import { getTodayDate } from '../../utils/date';
 // CSS
 import '../../colors.css';
 
@@ -85,14 +86,22 @@ function Header(props: Props) {
   const locationPath = router.location.pathname;
 
   const handlePublish = () => {
-    // console.log('%c handlePublish', 'background: white; color: green;',
-    // editor.data
-    // );
-    publishEditor(editor.data);
+    const { title, content, author, savedOn } = editor.data;
+    const publishedOn = getTodayDate();
+    const toPublish = {
+      title,
+      content,
+      author,
+      savedOn,
+      publishedOn,
+    }
+    publishEditor(toPublish);
+
+    // reset
     resetEditor();
     localStorage.clear();
+
     openModal();
-    // setLocation({ path: "/", name: "home"});
   };
 
   const renderEditorHeader = () => {
@@ -102,23 +111,21 @@ function Header(props: Props) {
 
     const goodToPublish = () => {
       if (valid === null) {
-        console.log('not Valid');
         const isValid = editorValidator(localTitle, localText);
         if (isValid) {
-          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
           return <button css={button} onClick={handlePublish}>Publish</button>
         }
       } else {
         if (valid) {
-          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
-          return <button css={button} onClick={handlePublish}>Publish</button>
+          const isValid = editorValidator(localTitle, localText);
+          if (isValid) {
+            return <button css={button} onClick={handlePublish}>Publish</button>
+          }
         } else {
           const isValid = editorValidator(localTitle, localText);
-          console.log('%c GOOD TO PUBLISH!!!! ', 'background: white; color: green;');
-          // return <Link to="" css={button} onClick={handlePublish}>Publish</Link>;
-          return <button css={button} onClick={handlePublish}>Publish</button>
+          if (isValid) {
+            return <button css={button} onClick={handlePublish}>Publish</button>
+          }
         }
       }
       return <button css={button}>Save Draft</button>;
