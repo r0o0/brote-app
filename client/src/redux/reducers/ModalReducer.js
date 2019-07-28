@@ -5,7 +5,7 @@ import {
 } from '../constants';
 
 const intialState = {
-  status: null,
+  status: false,
 };
 
 function triggerModal (state = intialState, action) {
