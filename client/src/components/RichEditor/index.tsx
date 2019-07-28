@@ -1,8 +1,8 @@
 // RichEditor.js
 import React, { Component } from 'react';
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core';
-import { Value } from 'slate';
+import { jsx } from '@emotion/core';
+import { Value, Inline } from 'slate';
 import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 import { connect } from 'react-redux';
@@ -15,9 +15,10 @@ import {
   isBoldHotkey,
   isItalicHotkey,
   isUnderlinedHotkey,
-  isCodeHotkey,
 } from './shortcuts';
 import { getTodayDate } from '../../utils/date';
+// CSS
+import * as css from './EditorStyles';
 
 const documentValue = Value.fromJSON({
   document: {
@@ -84,11 +85,11 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   private handleChange = ({ value }: any) => {
-    console.log('%c change', 'background: pink; color: blue;',
-      'state', this.state.value, html.serialize(this.state.value), '\n',
-      'local', localStorage.content, '\n',
-      value, html.serialize(value),
-    );
+    // console.log('%c change', 'background: pink; color: blue;',
+    //   'state', this.state.value, html.serialize(this.state.value), '\n',
+    //   'local', localStorage.content, '\n',
+    //   value, html.serialize(value),
+    // );
     // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (this.state.keyEvent) {
       // localStorage에 저장된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
@@ -105,9 +106,30 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.setState({ value });
   };
 
+  private handleClick = (event: any, editor: any) => {
+    const { startBlock, nextBlock, endBlock } = editor.value;
+    // console.log('click', event, editor,'\n', startBlock.type, '\n', editor.value, '\n', editor.value.nextBlock);
+
+    // when there is no text block insert one
+    if (nextBlock === null && startBlock.type === endBlock.type) {
+      editor.insertBlock('paragraph');
+    }
+  }
+
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
   private handleKeyDown = (event: any, editor: any, next: any) => {
     let mark;
+
+    // if user press on key 'enter' inside a code block keep the format
+    const { startBlock } = editor.value;
+
+    if (startBlock.type === 'code') {
+      console.log('code block start', event);
+      if (event.keyCode === 13) {
+        editor.insertText('\n');
+        return;
+      }
+    }
 
     if (isBoldHotkey(event)) {
       mark = 'bold'
@@ -115,8 +137,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       mark = 'italic'
     } else if (isUnderlinedHotkey(event)) {
       mark = 'underlined'
-    } else if (isCodeHotkey(event)) {
-      mark = 'code'
     } else {
       return next();
     }
@@ -128,6 +148,15 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   handleClickMark = (event: any, type: string) => {
     event.preventDefault();
     this.editor.toggleMark(type);
+    console.log('click mark:', event, type);
+    if (type === 'link') {
+      const href = window.prompt('Enter a url') as string;
+      console.log('where', href);
+      this.editor.wrapInline({
+        type: 'link',
+        node: { href },
+      });
+    }
   };
 
   // 블록 클릭시 해당 블록 텍스트 적용
@@ -137,7 +166,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const { editor } = this;
     const { value } = editor;
     const { document } = value;
-
+    console.log('click block:', event, type, hasBlock);
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = hasBlock(type);
@@ -177,15 +206,15 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   // 마크에따라 텍스트 적용
   protected renderMark = (props: RenderMarkProps, editor: any, next: any) => {
-    const { children, mark, attributes } = props;
-
+    const { children, mark, attributes, node } = props;
+    const type = node as Inline;
     switch (mark.type) {
       case 'bold':
-        return <strong {...attributes}>{children}</strong>
+        return <strong {...attributes}>{children}</strong>;
       case 'italic':
-        return <em {...attributes}>{children}</em>
+        return <em {...attributes}>{children}</em>;
       case 'underlined':
-        return <u {...attributes}>{children}</u>
+        return <u {...attributes}>{children}</u>;
       default:
         return next();
     }
@@ -194,23 +223,24 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   // 블록에따라 텍스트 적용
   protected renderBlock = (props: RenderBlockProps, editor: any, next: any) => {
     const { attributes, children, node } = props;
-
+    // console.log('editor', editor);
     switch (node.type) {
       case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>
+        return <blockquote css={css.blockquote} {...attributes}>{children}</blockquote>;
       case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>
+        return <ul {...attributes}>{children}</ul>;
       case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>
+        return <h1 {...attributes}>{children}</h1>;
       case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>
+        return <h2 {...attributes}>{children}</h2>;
       case 'list-item':
-        return <li {...attributes}>{children}</li>
+        return <li {...attributes}>{children}</li>;
       case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>
+        return <ol {...attributes}>{children}</ol>;
       case 'code':
+          console.log('case code in block', node.type, children);
           return (
-            <pre {...attributes}>
+            <pre css={css.codeblock} {...attributes}>
               <code>{children}</code>
             </pre>
           );
@@ -250,16 +280,12 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClickBlock={this.handleClickBlock}
         />
         <Editor
-          css={css`
-            min-height: calc(100vh - ${this.state.editorEl}px);
-            padding: 0 16px;
-            font-size: 17px;
-            color: var(--text);
-          `}
+          css={css.editor(this.state.editorEl)}
           ref={this.ref}
           className="editor--textarea"
           value={this.state.value}
           placeholder="Tell a story..."
+          onClick={this.handleClick}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           renderMark={this.renderMark}

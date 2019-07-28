@@ -1,10 +1,11 @@
 import React from 'react';
-import Icon from '@material-ui/core/Icon';
-import { withStyles } from '@material-ui/styles';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { markData, blockData } from './data';
-import '../../colors.css';
+// COMPONENTS
+import Icon from '@material-ui/core/Icon';
+import { withStyles } from '@material-ui/styles';
+// Others
+import { markData, blockData, EditorData } from './data';
 
 // MUI
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
     width: 'inherit',
     height: '0',
     fontSize: '18px',
-    color: 'var(--light-md)',
+    color: 'var(--light-70)',
   },
   iconBlock: {
     margin: '0 5px',
@@ -31,6 +32,13 @@ const styles = {
 
 const toolbar = css`
   box-sizing: content-box;
+  button[data-active="true"] span {
+    color: var(--primary);
+  }
+  @media(min-width: 1024px) {
+    padding-left: 120px !important;
+    padding-right: 120px !important;
+  }
   label: toolbar;
 `;
 
@@ -51,14 +59,16 @@ function ToolBar(props: Props) {
   // PROPS
   const { value, onClick, onClickBlock, classes } = props;
   const { buttons, icons } = classes;
+
   // 같은 마크가 적용이 되어 있는지 확인
   const hasMark = (type: string) => value.activeMarks.some((mark: any) => mark.type === type);
   const hasBlock = (type: string) => value.blocks.some((node: any) => node.type === type);
 
-  const renderMarkButton = (markData: { type: string, icon: string }[]) =>
-    markData.map((data: any) => {
+  const renderMarkButton = (markData: EditorData[]) =>
+    markData.map((data: EditorData) => {
       const { type, icon } = data;
       const isActive = hasMark(type);
+
       return (
         <button
           className={`btn--${type} ${buttons}`}
@@ -67,7 +77,7 @@ function ToolBar(props: Props) {
           key={`btn--${type}`}
         >
           <Icon
-            css={iconU}
+            css={type === 'underlined' ? iconU : null}
             className={icons}
           >
             {icon}
@@ -76,8 +86,8 @@ function ToolBar(props: Props) {
       );
     });
 
-    const renderBlockButton = (blockData: { type: string, icon: string }[]) =>
-      blockData.map((data: any) => {
+    const renderBlockButton = (blockData: EditorData[]) =>
+      blockData.map((data: EditorData) => {
         const { type, icon } = data;
         let isActive = hasBlock(type);
         if (['numbered-list', 'bulleted-list'].includes(type)) {

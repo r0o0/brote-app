@@ -1,7 +1,7 @@
 // Write.js
 import React, { useEffect, useState, useRef } from 'react';
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 // COMPONENT
@@ -9,24 +9,7 @@ import RichEditor from '../../components/RichEditor';
 import Preview from '../../components/Preview';
 // CSS
 import '../../globalStyle';
-
-const inputTitle = css`
-  width: 100%;
-  height: 48px;
-  margin-bottom: 24px;
-  padding: 0 16px;
-  border: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 28px;
-  color: var(--text);
-  &::placeholder {
-    opacity: 0.33;
-  }
-  &:focus {
-    outline: none;
-  }
-  label: input--title;
-`;
+import * as css from './WriteStyles';
 
 interface Props {
   writingContent: ({ title: string} : any) => void;
@@ -55,9 +38,12 @@ function Write(props: Props) {
   }, [inputValue, document.activeElement]);
 
   return (
-    <div className="container">
+    <div
+      className="container"
+      css={css.wrapper}
+    >
       <input
-        css={inputTitle}
+        css={css.inputTitle}
         type="text"
         placeholder="Title"
         onChange={(e) => handleTitleChange(e)}
