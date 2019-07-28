@@ -52,18 +52,10 @@ const rules: Rule[] = [
     deserialize(el: Element, next: any) {
       const type = MARK_TAGS[el.tagName.toLowerCase()];
       if (type) {
-        // console.log('mark tags', el.attributes);
         return {
           object: 'mark',
           type: type,
           data: {
-            // htmlAttributes: Array.prototype.slice.call(el.attributes).reduce((acc: any, curr: any) => {
-            //   console.log('anoetunohuntohn', acc, curr);
-            //   return {
-            //     ...acc,
-            //     [curr.name]: curr.value
-            //   }
-            // }, {})
           },
           nodes: next(el.childNodes),
         }

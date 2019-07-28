@@ -1,4 +1,9 @@
-const markData: { type: string, icon: string }[] = [
+export interface EditorData {
+  type: string,
+  icon: string,
+}
+
+const markData: EditorData[] = [
   {
     type: 'bold',
     icon: 'format_bold',
@@ -13,7 +18,7 @@ const markData: { type: string, icon: string }[] = [
   },
 ];
 
-const blockData: { type: string, icon: string }[] = [
+const blockData: EditorData[] = [
   {
     type: 'code',
     icon: 'code',
