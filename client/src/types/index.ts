@@ -30,3 +30,12 @@ export interface Router {
     key: string,
   }
 }
+
+export interface Auth {
+  login: boolean;
+  info: {
+    user: string | null,
+    password: string | null,
+  };
+  error_message: string | null;
+}
