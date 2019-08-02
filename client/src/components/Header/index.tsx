@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
 import * as type from '../../types';
+// COMPONENTS
+import Button from '@material-ui/core/Button';
 // UTILS
 import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
@@ -138,6 +140,8 @@ function Header(props: Props) {
     );
   };
 
+  const Login = () => <Link to="/login"><Button variant="outlined">Login</Button></Link>;
+
   return (
     <header
       css={locationPath === '/new-story' ? [header, headerBig] : header}
@@ -145,7 +149,7 @@ function Header(props: Props) {
       <h1 css={h1}>
         <Link to="/">BROTE</Link>
       </h1>
-      {locationPath === '/new-story' ? renderEditorHeader() : null}
+      {locationPath === '/new-story' ? renderEditorHeader() : <Login />}
     </header>
   )
 }
