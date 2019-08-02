@@ -85,7 +85,7 @@ const checkLogin = action$ =>
       const userInfo = res[0];
       const hashed = res[1];
       const toCompare = userInfo.data.password;
-      const encrypted = encryptHash(hashed[1]);
+      const encrypted = encryptHash(hashed);
       console.log('map hashed', hashed, toCompare, encrypted);
       if (toCompare === encrypted) {
         console.log('user logged in successfully')
