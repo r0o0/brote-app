@@ -37,5 +37,6 @@ export interface Auth {
     user: string | null,
     password: string | null,
   };
+  isError: boolean;
   error_message: string | null;
 }
