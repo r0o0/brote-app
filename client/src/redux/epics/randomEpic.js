@@ -12,9 +12,13 @@ import {
   REQUEST_POST,
   REQUEST_POST_SUCCESS,
   REQUEST_POSTS_SUCCESS,
+  AUTH_LOGIN,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_FAILURE,
 } from "../constants";
-import { postData, getData } from '../../utils/api';
+import { postData, getData, getUser } from '../../utils/api';
 import { getTodayDate } from '../../utils/date';
+import { hash, encryptHash } from '../../utils/hasher';
 
 // set editor content
 const editorEpic = action$ =>
@@ -68,6 +72,33 @@ const getPostsEpic = action$ =>
     map(res => ({ type: REQUEST_POSTS_SUCCESS, res }))
   )
 
+// auth
+const checkLogin = action$ =>
+  action$.ofType(AUTH_LOGIN)
+  .pipe(
+    switchMap(action => {
+      const userInfo = getUser(action.payload.id);
+      const hashed = hash(action.payload.pwd);
+      return Promise.all([userInfo, hashed]);
+    }),
+    map(res => {
+      const userInfo = res[0];
+      const hashed = res[1];
+      const toCompare = userInfo.data.password;
+      const encrypted = encryptHash(hashed[1]);
+      console.log('map hashed', hashed, toCompare, encrypted);
+      if (toCompare === encrypted) {
+        console.log('user logged in successfully')
+        document.cookie = 'user=guest';
+        document.cookie = 'logged_in=yes';
+        document.cookie = `user_session=${encrypted}`;
+        return { type: AUTH_LOGIN_SUCCESS, payload: encrypted };
+      } else {
+        return { type: AUTH_LOGIN_FAILURE };
+      }
+    })
+  )
+
 export default [
   editorEpic,
   saveEditorEpic,
@@ -75,4 +106,5 @@ export default [
   publishEditorEpic,
   getPostsEpic,
   getPostEpic,
+  checkLogin,
 ];
