@@ -11,6 +11,7 @@ const initialState = {
     user: null,
     password: null,
   },
+  isError: false,
   error_message: null,
 };
 
@@ -33,12 +34,14 @@ function auth(state = initialState, action) {
           ...state.info,
           password: action.payload,
         },
+        isError: false,
         error_message: null,
       }
     case AUTH_LOGIN_FAILURE:
       return {
         ...state,
         login: false,
+        isError: true,
         error_message: 'Invalid username or password',
       }
     default:
