@@ -8,6 +8,7 @@ import Main from '../Main';
 import Write from '../Write';
 import Posts from '../Posts';
 import Post from '../Post';
+import Login from '../Login';
 
 interface Props {
   history: History
@@ -24,6 +25,7 @@ function App({ history }: Props) {
           <Route path="/new-story" component={Write} />
           <Route path="/posts" component={Posts} />
           <Route path="/p/:id" component={Post} />
+          <Route path="/login" component={Login} />
         </Switch>
       </ConnectedRouter>
     </BrowserRouter>
