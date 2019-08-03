@@ -40,3 +40,7 @@ export interface Auth {
   isError: boolean;
   error_message: string | null;
 }
+
+export interface Modal {
+  status: boolean;
+}
