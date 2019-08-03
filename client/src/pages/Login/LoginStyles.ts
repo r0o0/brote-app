@@ -1,5 +1,4 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { blockData } from '../../components/RichEditor/data';
 
 export const LoginStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -39,7 +38,7 @@ export const LoginStyles = makeStyles((theme: Theme) => ({
     '&:hover': {
       backgroundColor: 'var(--light-60)',
       color: '#fff',
-    }
+    },
   },
   buttonGuest: {
     color: 'var(--primary)',

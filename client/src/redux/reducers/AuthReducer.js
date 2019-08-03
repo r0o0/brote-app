@@ -21,7 +21,7 @@ function auth(state = initialState, action) {
       console.log(action.type, action.payload);
       return {
         ...state,
-        login: true,
+        // login: true,
         info: {
           user: action.payload.id,
         }
@@ -30,6 +30,7 @@ function auth(state = initialState, action) {
       console.log(action.type, action.payload);
       return {
         ...state,
+        login: true,
         info: {
           ...state.info,
           password: action.payload,

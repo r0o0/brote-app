@@ -8,12 +8,14 @@ import { connect } from 'react-redux';
 import * as type from '../../types';
 // COMPONENTS
 import Button from '@material-ui/core/Button';
+import UserProfile from '../User/UserProfile';
+
 // UTILS
 import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
+import { getCookie } from '../../utils/cookie';
 // CSS
 import '../../colors.css';
-import { Modal } from '@material-ui/core';
 
 const header = css`
   display: flex;
@@ -75,6 +77,7 @@ interface Props {
   publishEditor: ({ key: string }: any) => void;
   router: type.Router,
   editor: type.Editor,
+  auth: type.Auth,
 }
 
 function Header(props: Props) {
@@ -84,6 +87,7 @@ function Header(props: Props) {
     publishEditor,
     editor,
     router,
+    auth,
   } = props;
 
   const locationPath = router.location.pathname;
@@ -141,7 +145,16 @@ function Header(props: Props) {
     );
   };
 
-  const Login = () => <Button variant="outlined" onClick={openModal}>Login</Button>;
+  const Login = () => {
+    const isUserLoggedIn = getCookie('logged_in');
+    return (
+      <React.Fragment>
+        {isUserLoggedIn === 'yes' ? <UserProfile /> :
+          <Button variant="outlined" onClick={openModal}>Login</Button>
+        }
+      </React.Fragment>
+    );
+  }
 
   return (
     <header
@@ -158,6 +171,7 @@ function Header(props: Props) {
 const mapStateToProps = (store: any) => ({
   editor: store.editor,
   router: store.router,
+  auth: store.auth,
 });
 
 export default connect(mapStateToProps, actions)(Header);
