@@ -58,12 +58,11 @@ function Login(props: Props) {
     } else {
       setErrorState(false);
     }
-    console.log('modal status', modal.status);
     // close Login modal
     if (loggedIn) {
       closeModal();
     }
-  }, [error_message, loggedIn, modal]);
+  }, [error_message, loggedIn]);
 
   return (
     <Dialog
@@ -81,9 +80,9 @@ function Login(props: Props) {
       <DialogContent
         className={classes.loginBox}
       >
+        {errorState ? <AlertBar open={errorState} message={error_message ? error_message : ''} variant="error"/> : null}
+        {loggedIn ? <AlertBar open={loggedIn} message="Logged In Successfully :)" variant="success"/> : null}
         <DialogContentText>
-          {errorState ? <AlertBar open={errorState} message={error_message ? error_message : ''} variant="error"/> : null}
-          {loggedIn ? <AlertBar open={loggedIn} message="Logged In Successfully :)" variant="success"/> : null}
           Login as guest user to try Brote App
         </DialogContentText>
         <TextField
