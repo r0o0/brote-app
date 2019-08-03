@@ -16,12 +16,6 @@ interface Props {
   variant: keyof typeof icons;
 }
 
-// const AlertBarStyles = makeStyles((theme: Theme) => ({
-//   icon: {
-//     fontSize: '20px',
-//   }
-// }));
-
 function AlertBar(props: Props) {
   const classes = AlertBarStyles();
   const { open, message, variant } = props;

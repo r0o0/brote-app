@@ -1,5 +1,4 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { loginSuccess } from '../../redux/actions';
 
 export const AlertBarStyles = makeStyles((theme: Theme) => ({
   root: {

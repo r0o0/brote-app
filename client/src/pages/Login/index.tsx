@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import { withStyles } from '@material-ui/styles';
 import * as type from '../../types';
 // COMPONENTS
 import Dialog from '@material-ui/core/Dialog';
@@ -16,14 +15,13 @@ import AlertBar from '../../components/AlertBar';
 import { LoginStyles } from './LoginStyles';
 
 interface Props {
-  classes: any;
   checkForLogin: ({ key: string }: any) => void;
   auth: type.Auth;
 }
 
 function Login(props: Props) {
-  const { classes, checkForLogin, auth } = props;
-  const { root, loginBox, textfield } = classes;
+  const classes = LoginStyles();
+  const { checkForLogin, auth } = props;
   const [triggerLogin, setTriggerLogin] = useState(false);
   const [errorState, setErrorState] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -65,11 +63,17 @@ function Login(props: Props) {
       // className={loginBox}
       open={true}
       aria-labelledby="form-login"
-      className={root}
+      className={classes.root}
     >
-      <DialogTitle id="form-login">Login</DialogTitle>
+      <DialogTitle
+        id="form-login"
+        className={classes.title}
+        disableTypography
+      >
+        Login
+      </DialogTitle>
       <DialogContent
-        className={loginBox}
+        className={classes.loginBox}
       >
         <DialogContentText>
           {errorState ? <AlertBar open={errorState} message={error_message ? error_message : ''} variant="error"/> : null}
@@ -79,7 +83,7 @@ function Login(props: Props) {
         <TextField
           id="input-username"
           label="Username"
-          className={textfield}
+          className={classes.textfield}
           type="text"
           autoComplete="off"
           margin="dense"
@@ -94,7 +98,7 @@ function Login(props: Props) {
         <TextField
           id="input-pwd"
           label="Password"
-          className={textfield}
+          className={classes.textfield}
           type="password"
           autoComplete="current-password"
           margin="dense"
@@ -108,8 +112,8 @@ function Login(props: Props) {
           error={errorState}
         />
       </DialogContent>
-      <DialogActions>
-      <Button variant="outlined" onClick={handleLogin}>Login</Button>
+      <DialogActions className={classes.buttonWrapper}>
+        <Button variant="outlined" onClick={handleLogin}>Login</Button>
         <Button variant="outlined" onClick={handleGuestLogin}>Login as Guest</Button>
       </DialogActions>
     </Dialog>
@@ -120,4 +124,4 @@ const mapStateToProps = (store: any) => ({
   auth: store.auth,
 });
 
-export default withStyles(LoginStyles)(connect(mapStateToProps, actions)(Login));
+export default connect(mapStateToProps, actions)(Login);

@@ -1,20 +1,36 @@
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import { blockData } from '../../components/RichEditor/data';
 
-export const LoginStyles = {
+export const LoginStyles = makeStyles((theme: Theme) => ({
   root: {
     '& input.MuiInputBase-input': {
-      height: '20px',
+      height: '32px',
+    },
+    '& div.MuiPaper-root': {
+      padding: '32px 40px',
     }
   },
   loginBox: {
-    // display: 'flex',
-    // flexFlow: 'column wrap',
-    padding: '40px',
     width: '100%',
+    padding: '24px 0 16px',
+  },
+  title: {
+    padding: '0',
+    fontSize: '24px',
+    fontWeight: 500,
   },
   textfield: {
-    height: '48px',
-    marginBottom: '10px',
-    // display: 'block',
-    // width: '400px',
-  }
-}
+    marginBottom: '16px',
+  },
+  buttonWrapper: {
+    padding: '0',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+      '& button.MuiButtonBase-root': {
+        width: '100%',
+        margin: '0',
+        marginBottom: '10px',
+      }
+    }
+  },
+}));
