@@ -6,7 +6,7 @@ export const LoginStyles = makeStyles((theme: Theme) => ({
     '& input.MuiInputBase-input': {
       height: '32px',
     },
-    '& div.MuiPaper-root': {
+    '& div.MuiDialog-paper': {
       padding: '32px 40px',
     }
   },
@@ -33,4 +33,20 @@ export const LoginStyles = makeStyles((theme: Theme) => ({
       }
     }
   },
+  buttonGen: {
+    color: 'var(--light-60)',
+    borderColor: 'var(--light-60)',
+    '&:hover': {
+      backgroundColor: 'var(--light-60)',
+      color: '#fff',
+    }
+  },
+  buttonGuest: {
+    color: 'var(--primary)',
+    borderColor: 'var(--primary)',
+    '&:hover': {
+      backgroundColor: 'var(--primary)',
+      color: '#fff',
+    },
+  }
 }));

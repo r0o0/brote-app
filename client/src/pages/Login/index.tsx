@@ -113,8 +113,8 @@ function Login(props: Props) {
         />
       </DialogContent>
       <DialogActions className={classes.buttonWrapper}>
-        <Button variant="outlined" onClick={handleLogin}>Login</Button>
-        <Button variant="outlined" onClick={handleGuestLogin}>Login as Guest</Button>
+        <Button variant="outlined" className={classes.buttonGen} onClick={handleLogin}>Login</Button>
+        <Button variant="outlined" className={classes.buttonGuest} onClick={handleGuestLogin}>Login as Guest</Button>
       </DialogActions>
     </Dialog>
   )
