@@ -25,8 +25,8 @@ function App({ history }: Props) {
           <Route path="/new-story" component={Write} />
           <Route path="/posts" component={Posts} />
           <Route path="/p/:id" component={Post} />
-          <Route path="/login" component={Login} />
         </Switch>
+        <Login />
       </ConnectedRouter>
     </BrowserRouter>
   );

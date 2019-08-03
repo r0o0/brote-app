@@ -17,11 +17,13 @@ import { LoginStyles } from './LoginStyles';
 interface Props {
   checkForLogin: ({ key: string }: any) => void;
   auth: type.Auth;
+  closeModal: () => void;
+  modal: type.Modal;
 }
 
 function Login(props: Props) {
   const classes = LoginStyles();
-  const { checkForLogin, auth } = props;
+  const { checkForLogin, auth, closeModal, modal } = props;
   const [triggerLogin, setTriggerLogin] = useState(false);
   const [errorState, setErrorState] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -56,12 +58,16 @@ function Login(props: Props) {
     } else {
       setErrorState(false);
     }
-  }, [error_message]);
+    console.log('modal status', modal.status);
+    // close Login modal
+    if (loggedIn) {
+      closeModal();
+    }
+  }, [error_message, loggedIn, modal]);
 
   return (
     <Dialog
-      // className={loginBox}
-      open={true}
+      open={modal.status}
       aria-labelledby="form-login"
       className={classes.root}
     >
@@ -122,6 +128,7 @@ function Login(props: Props) {
 
 const mapStateToProps = (store: any) => ({
   auth: store.auth,
+  modal: store.modal,
 });
 
 export default connect(mapStateToProps, actions)(Login);

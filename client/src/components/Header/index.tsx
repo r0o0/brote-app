@@ -13,6 +13,7 @@ import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
 // CSS
 import '../../colors.css';
+import { Modal } from '@material-ui/core';
 
 const header = css`
   display: flex;
@@ -109,7 +110,7 @@ function Header(props: Props) {
   const renderEditorHeader = () => {
     const { saved, valid } = editor;
     const localTitle = localStorage.title;
-    const localText = localStorage.content;
+  const localText = localStorage.content;
 
     const goodToPublish = () => {
       if (valid === null) {
@@ -140,7 +141,7 @@ function Header(props: Props) {
     );
   };
 
-  const Login = () => <Link to="/login"><Button variant="outlined">Login</Button></Link>;
+  const Login = () => <Button variant="outlined" onClick={openModal}>Login</Button>;
 
   return (
     <header
