@@ -6,7 +6,7 @@ interface Props {
   classname?: string,
   value: string,
   onClick?: () => void;
-  cssE?: InterpolationWithTheme<any>;
+  cssemotion?: InterpolationWithTheme<any>;
 }
 
 function Button(props: Props) {
@@ -14,13 +14,13 @@ function Button(props: Props) {
     classname,
     value,
     onClick,
-    cssE,
+    cssemotion,
   } = props;
-  console.log({...props});
+
   return (
     <button
       className={classname}
-      css={cssE}
+      css={cssemotion}
       type="button"
       onClick={onClick}
       {...props}

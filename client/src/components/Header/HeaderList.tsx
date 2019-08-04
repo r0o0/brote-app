@@ -15,7 +15,7 @@ interface Props {
 export const Default = (props: Props) => {
   const { onClick } = props;
   return (
-    <Button cssE={[cssB.buttonDefault, cssB.buttonActive]} value="Login" onClick={onClick} />
+    <Button cssemotion={[cssB.buttonDefault, cssB.buttonActive]} value="Login" onClick={onClick} />
   );
 };
 
