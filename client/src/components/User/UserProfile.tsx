@@ -5,6 +5,7 @@ import { jsx, css } from '@emotion/core';
 import { getCookie } from '../../utils/cookie';
 
 const UserButton = css`
+  margin-left: 16px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
