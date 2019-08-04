@@ -19,9 +19,10 @@ interface Props {
   resetEditor: () => void;
   openModal: () => void;
   publishEditor: ({ key: string }: any) => void;
-  router: type.Router,
-  editor: type.Editor,
-  auth: type.Auth,
+  router: type.Router;
+  editor: type.Editor;
+  auth: type.Auth;
+  isUserLoggedIn: boolean;
 }
 
 function Header(props: Props) {
@@ -31,6 +32,7 @@ function Header(props: Props) {
     publishEditor,
     editor,
     router,
+    isUserLoggedIn,
   } = props;
 
   const locationPath = router.location.pathname;
@@ -84,7 +86,6 @@ function Header(props: Props) {
     }
   }, [localTitle, localContent, readyToPublish]);
 
-  const isUserLoggedIn = getCookie('logged_in');
   return (
     <header
       css={locationPath === '/new-story' ? [css.header, css.headerBig] : css.header}
@@ -92,7 +93,7 @@ function Header(props: Props) {
       <h1 css={css.h1}>
         <Link to="/">BROTE</Link>
       </h1>
-      {isUserLoggedIn === 'yes' ? <LoggedIn locationPath={locationPath} saved={saved} readyToPublish={readyToPublish} onClick={handlePublish} /> : <Default onClick={openModal} />}
+      {isUserLoggedIn ? <LoggedIn locationPath={locationPath} saved={saved} readyToPublish={readyToPublish} onClick={handlePublish} /> : <Default onClick={openModal} />}
     </header>
   )
 }

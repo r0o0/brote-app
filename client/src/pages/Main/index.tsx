@@ -5,6 +5,9 @@ import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+// import { openModal } from '../../redux/actions';
+// COMPONENTS
+import Button from '../../components/Button';
 // CSS
 import '../../globalStyle';
 import '../../colors.css';
@@ -79,7 +82,13 @@ const span = css`
   color: var(--primary-text);
 `;
 
-function Main() {
+interface Props {
+  isUserLoggedIn: boolean;
+  openModal: () => void;
+}
+
+function Main(props: Props) {
+  const { isUserLoggedIn, openModal } = props;
 
   return (
     <div className="container" css={main}>
@@ -89,7 +98,7 @@ function Main() {
           A <Link to="/posts"><span css={span}>story</span></Link> enthusiast,<br></br>
           A passionate <span css={span}>storyteller</span>?<br></br>
         </p>
-        <Link to="/new-story" css={button}>Write New Story</Link>
+        {isUserLoggedIn ? <Link to="/new-story" css={button}>Write New Story</Link> : <Button css={button} value="Write New Story" onClick={openModal} />}
       </div>
     </div>
   )
