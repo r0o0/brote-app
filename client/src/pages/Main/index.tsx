@@ -5,7 +5,6 @@ import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-// import { openModal } from '../../redux/actions';
 // COMPONENTS
 import Button from '../../components/Button';
 // CSS
