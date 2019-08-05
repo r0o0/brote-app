@@ -34,6 +34,11 @@ h1, h2, h3, p, blockquote, pre {
   line-height: 1;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 a {
   text-decoration: none;
   color: inherit;

@@ -37,7 +37,13 @@ export const LoggedIn = (props: LoggedInProps) => {
         </div> :
         null
       }
-      <UserProfile />
+      <div css={{
+        width: '32px',
+        height: '32px',
+        marginLeft: '16px',
+      }}>
+        <UserProfile />
+      </div>
     </div>
   );
 };

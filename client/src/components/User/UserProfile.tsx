@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+// COMPONENTS
+import UserNav from './UserNav';
 // UTILS
 import { getCookie } from '../../utils/cookie';
 
 const UserButton = css`
-  margin-left: 16px;
-  width: 34px;
-  height: 34px;
+  width: inherit;
+  height: inherit;
   border-radius: 50%;
   background: #2777f9;
   font-size: 17px;
@@ -24,12 +25,25 @@ function UserProfile() {
     initial = user.charAt(0);
   }
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => setAnchorEl(null);
+
   return (
-    <button
-      css={UserButton}
-    >
-      {initial}
-    </button>
+    <React.Fragment>
+      <button
+        css={UserButton}
+        aria-controls="user-nav"
+        onClick={handleClick}
+      >
+        {initial}
+      </button>
+      <UserNav id="user-nav" anchorEl={anchorEl} onClose={handleClose} user={user} />
+    </React.Fragment>
   )
 }
 
