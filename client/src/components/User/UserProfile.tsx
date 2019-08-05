@@ -11,7 +11,7 @@ const UserButton = css`
   height: inherit;
   border-radius: 50%;
   background: #2777f9;
-  font-size: 17px;
+  font-size: 1em;
   font-weight: 500;
   color: #fff;
   text-transform: capitalize;
