@@ -11,6 +11,7 @@ import Write from '../Write';
 import Posts from '../Posts';
 import Post from '../Post';
 import Login from '../Login';
+import User from '../User';
 // UTILS
 import { getCookie } from '../../utils/cookie';
 
@@ -41,6 +42,7 @@ function App(props: Props) {
           <Route path="/new-story" component={Write} />
           <Route path="/posts" component={Posts} />
           <Route path="/p/:id" component={Post} />
+          <Route path="/@:user" component={User} />
         </Switch>
         <Login />
       </ConnectedRouter>

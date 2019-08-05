@@ -1,6 +1,7 @@
 import React from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { Link } from 'react-router-dom';
 // COMPONENTS
 import Popover from '@material-ui/core/Popover';
 import UserProfile from './UserProfile';
@@ -49,7 +50,13 @@ function UserNav(props: Props) {
         <ul css={css.menuList}>
           <li>New Story</li>
           <li>Stories</li>
-          <li>Profile</li>
+          <li><Link to={{
+            pathname: `/@${user}`,
+            state: {
+              user,
+            }
+          }}
+          >Profile</Link></li>
           <li>Settings</li>
           <li>Sign Out</li>
         </ul>
