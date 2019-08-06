@@ -1,6 +1,10 @@
 import React from 'react';
 import Html, { Rule } from 'slate-html-serializer';
 import { BLOCK_TAGS, MARK_TAGS } from './tags';
+import store from '../../redux/store';
+
+const image = () => store.subscribe(() => store.getState().editor.data.image);
+const src = image ? image: '';
 
 const rules: Rule[] = [
   // block element
@@ -13,6 +17,7 @@ const rules: Rule[] = [
           type: type,
           data: {
             className: el.getAttribute('class'),
+            src: el.getAttribute('src'),
           },
           nodes: next(el.childNodes),
         }
@@ -43,6 +48,11 @@ const rules: Rule[] = [
             return <ol>{children}</ol>;
           case 'bulleted-list':
             return <ul>{children}</ul>;
+          case 'image':
+            const src = obj.data.src;
+            const classname = obj.data.className;
+            console.log('serializer image', src, classname, obj.data);
+            return <img className={classname} src={src} />;
         }
       }
     },
