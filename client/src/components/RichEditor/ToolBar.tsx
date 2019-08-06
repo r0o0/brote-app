@@ -2,6 +2,7 @@ import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 // COMPONENTS
+import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
 // Others
@@ -51,8 +52,8 @@ interface Props {
   value: any;
   onClick: (event: any, type: string) => void;
   onClickBlock: (event: any, type: string, hasBlock: any) => void;
-  classes: any
-
+  classes: any;
+  // handleFile: (e: any) => void;
 }
 
 function ToolBar(props: Props) {
@@ -69,35 +70,38 @@ function ToolBar(props: Props) {
       const { type, icon } = data;
       const isActive = hasMark(type);
 
-      return (
-        <button
-          className={`btn--${type} ${buttons}`}
-          data-active={isActive}
-          onClick={(event) => onClick(event, type)}
-          key={`btn--${type}`}
+    return (
+      <button
+        className={`btn--${type} ${buttons}`}
+        data-active={isActive}
+        onClick={(event) => onClick(event, type)}
+        key={`btn--${type}`}
+      >
+        <Icon
+          css={type === 'underlined' ? iconU : null}
+          className={icons}
         >
-          <Icon
-            css={type === 'underlined' ? iconU : null}
-            className={icons}
-          >
-            {icon}
-          </Icon>
-        </button>
-      );
-    });
+          {icon}
+        </Icon>
+      </button>
+    );
+  });
 
-    const renderBlockButton = (blockData: EditorData[]) =>
-      blockData.map((data: EditorData) => {
-        const { type, icon } = data;
-        let isActive = hasBlock(type);
-        if (['numbered-list', 'bulleted-list'].includes(type)) {
-          const { document, blocks } = value;
-          if (blocks.size > 0) {
-            const parent = document.getParent(blocks.first().key)
-            isActive = hasBlock('list-item') && parent && parent.type === type
-          }
+  const renderBlockButton = (blockData: EditorData[]) =>
+    blockData.map((data: EditorData) => {
+      const { type, icon } = data;
+      let isActive = hasBlock(type);
+      // console.log('type', type, isActive);
+      if (['numbered-list', 'bulleted-list'].includes(type)) {
+        const { document, blocks } = value;
+        if (blocks.size > 0) {
+          const parent = document.getParent(blocks.first().key)
+          isActive = hasBlock('list-item') && parent && parent.type === type
         }
-        return (
+      }
+
+      return (
+        <React.Fragment>
           <button
             className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
             data-active={isActive}
@@ -106,8 +110,9 @@ function ToolBar(props: Props) {
           >
             <Icon className={icons}>{icon}</Icon>
           </button>
-        );
-      });
+        </React.Fragment>
+      );
+    });
 
   return (
     <div className={classes.root} css={toolbar}>

@@ -11,6 +11,7 @@ const BLOCK_TAGS: TAGS = {
   li: 'list-item',
   ol: 'numbered-list',
   ul: 'bulleted-list',
+  img: 'image',
 };
 
 const MARK_TAGS: TAGS = {

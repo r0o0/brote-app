@@ -49,3 +49,8 @@ button {
   background: transparent;
   border: 0;
 }
+
+.editor-image {
+  max-width: 400px;
+  height: auto;
+}
