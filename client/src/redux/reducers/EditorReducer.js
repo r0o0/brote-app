@@ -25,7 +25,7 @@ function setEditorContent(state = initialState, action) {
   switch (action.type) {
     case EDITOR_SET:
       if (action.type === EDITOR_SET) {
-        const { content, title } = action.payload;
+        const { content, title, image } = action.payload;
         const keys = Object.keys(action.payload);
         console.log('EDITOR SET', action.payload);
         for (const key of keys) {
@@ -35,6 +35,9 @@ function setEditorContent(state = initialState, action) {
           }
           if (key === 'title') {
             updateData = title;
+          }
+          if (key === 'image') {
+            updateData = image;
           }
           return {
             ...state,
