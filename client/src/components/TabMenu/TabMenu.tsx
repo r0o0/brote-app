@@ -11,27 +11,21 @@ interface Props {
 
 function TabMenu(props: Props) {
   const { labels, value, onChange } = props;
-  // const [value, setValue] = useState(0);
-
-  // const handleChange = (e: React.ChangeEvent<{}>, newValue: number) => {
-  //   setValue(newValue);
-  // };
 
   return (
-    // <div>
-      <Tabs
-        value={value}
-        onChange={onChange}
-      >
-        {labels.map((label, index) =>
-          <Tab
-            label={label}
-            id={`nav-tab-${index}`}
-            aria-controls={`nav-tabpanel-${index}`}
-          />
-        )}
-      </Tabs>
-    // </div>
+    <Tabs
+      value={value}
+      onChange={onChange}
+    >
+      {labels.map((label, index) =>
+        <Tab
+          label={label}
+          id={`nav-tab-${index}`}
+          aria-controls={`nav-tabpanel-${index}`}
+          key={`tab-${index}`}
+        />
+      )}
+    </Tabs>
   )
 }
 
