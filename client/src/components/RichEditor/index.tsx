@@ -280,7 +280,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           'src', (node as Block).data.get('src'),
           'class', (node as Block).data.get('className'),
         );
-        return <img className={classname} src={src} />;
+        return src ? <img className={classname} src={src} /> : null;
       default:
         return next();
     }
@@ -380,7 +380,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClickBlock={this.handleClickBlock}
         />
         <Editor
-          // schema={schema}
           css={css.editor(this.state.editorEl)}
           ref={this.ref}
           className="editor--textarea"
