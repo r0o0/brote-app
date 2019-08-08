@@ -222,7 +222,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     if (type === 'image') {
       const isActive = hasBlock(type);
       this.setState({ upload : true });
-      console.log('%c checking for block image', 'background: orange;', type, isActive);
+      console.log('%c click block image', 'background: orange;', type, isActive);
     }
 
     // Handle everything but list buttons.
@@ -404,7 +404,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   render() {
     return(
       <div className="editor">
-        <FileUpload upload={this.state.upload} />
         <ToolBar
           value={this.state.value}
           onClick={this.handleClickMark}
