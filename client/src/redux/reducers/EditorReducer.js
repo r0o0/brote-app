@@ -16,6 +16,11 @@ const initialState = {
     title: null,
     content: null,
     savedOn: null,
+    image: [{
+      id: null,
+      data: null,
+      type: null,
+    }],
   },
   saved: null,
   valid: null,
@@ -29,7 +34,7 @@ function setEditorContent(state = initialState, action) {
         const keys = Object.keys(action.payload);
         console.log('EDITOR SET', action.payload);
         for (const key of keys) {
-          let updateData;
+          let updateData = [];
           if (key === 'content') {
             updateData = content;
           }
@@ -37,7 +42,10 @@ function setEditorContent(state = initialState, action) {
             updateData = title;
           }
           if (key === 'image') {
-            updateData = image;
+            if (state.data.image[0].id !== null) {
+              updateData = [...state.data.image];
+            }
+            updateData.push(image);
           }
           return {
             ...state,
