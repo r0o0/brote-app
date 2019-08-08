@@ -3,15 +3,37 @@ import React, { useState, useEffect, useRef } from 'react';
 import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import Icon from '@material-ui/core/Icon';
 // UTILS
 import uniqueId from '../../utils/uniqueId';
 
-function FileUpload(props: any) {
-  const { upload, setContent } = props;
-  const display = () => upload ? 'block' : 'none';
+interface Props {
+  setContent: ({}) => void;
+  type: string;
+  classname: string;
+  isActive: boolean;
+  hasBlock: (type: string) => void;
+  icons: string;
+  icon: string;
+  onClickBlock: (event: React.MouseEvent, type: string, hasBlock: (type: string) => void) => void;
+}
+
+function FileUpload(props: Props) {
+  const {
+    setContent,
+    type,
+    classname,
+    isActive,
+    hasBlock,
+    icons,
+    icon,
+    onClickBlock,
+  } = props;
+
   const [uploadedFile, setUploadedFile] = useState<any>(null);
   const fileUploader = useRef<HTMLInputElement>(null);
 
+  // get uploaded file info
   const handleChange = () => {
     if (fileUploader && fileUploader.current) {
       const getFile: any = fileUploader.current.files;
@@ -20,6 +42,14 @@ function FileUpload(props: any) {
       }
     }
   };
+
+  // trigger input[type="file"] and image block
+  const handleClick = (event: React.MouseEvent) => {
+    if (fileUploader && fileUploader.current) {
+      fileUploader.current.click();
+    }
+    onClickBlock(event, type, hasBlock);
+  }
 
   useEffect(() => {
     if (uploadedFile) {
@@ -35,6 +65,7 @@ function FileUpload(props: any) {
         setContent({ image });
       };
 
+      // erase uploaded file data
       reader.onloadend = () => setUploadedFile(null);
 
       reader.readAsDataURL(uploadedFile);
@@ -56,18 +87,28 @@ function FileUpload(props: any) {
   }, [uploadedFile]);
 
   return (
-    <div css={css`
-      display: ${display()};
-    `}>
+    <React.Fragment>
       <input
         type="file"
+        id="file"
+        name="file"
         ref={fileUploader}
         accept='image/*'
         onChange={handleChange}
+        hidden
       />
-    </div>
+      <label
+        htmlFor="file"
+        data-active={isActive}
+        key={`btn--${type}`}
+        className={classname}
+        onClick={handleClick}
+        role="button"
+      >
+        <Icon className={icons}>{icon}</Icon>
+      </label>
+    </React.Fragment>
   );
-
 }
 
 export default connect(null, actions)(FileUpload);

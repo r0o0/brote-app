@@ -5,6 +5,7 @@ import { jsx, css } from '@emotion/core';
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
+import FileUpload from './FileUpload';
 // Others
 import { markData, blockData, EditorData } from './data';
 
@@ -33,7 +34,7 @@ const styles = {
 
 const toolbar = css`
   box-sizing: content-box;
-  button[data-active="true"] span {
+  [data-active="true"] span {
     color: var(--primary);
   }
   @media(min-width: 1024px) {
@@ -72,10 +73,10 @@ function ToolBar(props: Props) {
 
     return (
       <button
-        className={`btn--${type} ${buttons}`}
-        data-active={isActive}
-        onClick={(event) => onClick(event, type)}
         key={`btn--${type}`}
+        className={`btn--${type} ${buttons}`}
+        onClick={(event) => onClick(event, type)}
+        data-active={isActive}
       >
         <Icon
           css={type === 'underlined' ? iconU : null}
@@ -102,14 +103,25 @@ function ToolBar(props: Props) {
 
       return (
         <React.Fragment>
-          <button
-            className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
-            data-active={isActive}
-            onClick={(event) => onClickBlock(event, type, hasBlock)}
-            key={`btn--${type}`}
-          >
-            <Icon className={icons}>{icon}</Icon>
-          </button>
+          {type === 'image' ?
+            <FileUpload
+              type={type}
+              classname={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
+              isActive={isActive}
+              hasBlock={hasBlock}
+              icons={icons}
+              icon={icon}
+              onClickBlock={onClickBlock}
+            /> :
+            <button
+              className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
+              data-active={isActive}
+              onClick={(event) => onClickBlock(event, type, hasBlock)}
+              key={`kbtn--${type}`}
+            >
+              <Icon className={icons}>{icon}</Icon>
+            </button>
+          }
         </React.Fragment>
       );
     });
