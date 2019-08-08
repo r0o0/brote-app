@@ -35,7 +35,7 @@ const rules: Rule[] = [
               </pre>
             );
           case 'paragraph':
-            return <p>{children}</p>;
+            return <p>{children}</p>
           case 'block-quote':
             return <blockquote>{children}</blockquote>;
           case 'heading-one':
@@ -49,10 +49,12 @@ const rules: Rule[] = [
           case 'bulleted-list':
             return <ul>{children}</ul>;
           case 'image':
-            const src = obj.data.src;
-            const classname = obj.data.className;
-            console.log('serializer image', src, classname, obj.data);
-            return <img className={classname} src={src} />;
+            const src = obj.data.get('src');
+            const classname = obj.data.get('className');
+            const id = obj.data.get('data-image-id');
+            return src ?
+              <img className={classname} data-image-id={id} src={src} />
+            : null;
         }
       }
     },
