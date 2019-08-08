@@ -18,9 +18,17 @@ const safeTags = () => {
 export const getCleaned = (dirtyHTML: string) => {
   const tags = safeTags();
   console.log('check tags:', tags);
-  
+
   const cleaned = sanitizeHtml(dirtyHTML, {
     allowedTags: tags,
+    allowedAttributes: {
+      img: ['src', 'class'],
+    },
+    selfClosing: ['src'],
+    allowedSchemesByTag: {
+      img: ['data'],
+    },
+    allowedSchemesAppliedToAttributes: ['src']
   });
   return cleaned;
 };
