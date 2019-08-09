@@ -55,25 +55,35 @@ function FileUpload(props: Props) {
     if (uploadedFile) {
       const reader = new FileReader();
       reader.onload = function (e: any) {
+        const source: HTMLImageElement = new Image();
+        source.src = reader.result as string;
         const fileType = uploadedFile.type.split('/')[1];
         const id = uniqueId('i#', fileType);
-        const image = {
-          id,
-          data: reader.result,
-          type: fileType,
-        };
-        setContent({ image });
+
+        // get uploadedImage width and height information
+        source.onload = () => {
+          const width = source.width;
+          const height = source.height;
+          const orientation = width > height ? 'landscape' : 'portrait';
+          const image = {
+            id,
+            data: reader.result,
+            type: fileType,
+            orientation,
+          };
+          setContent({ image });
+        }
       };
 
       // erase uploaded file data
       reader.onloadend = () => setUploadedFile(null);
 
       reader.readAsDataURL(uploadedFile);
-      console.log('%c  component did mount    ', 'background: yellow;', '\n',
-        'uploadedFile:', uploadedFile, '\n',
-        'reader:', reader, '\n',
-        'reader.result:', reader.result,'\n',
-      );
+      // console.log('%c  component did mount    ', 'background: yellow;', '\n',
+      //   'uploadedFile:', uploadedFile, '\n',
+      //   'reader:', reader, '\n',
+      //   'reader.result:', reader.result,'\n',
+      // );
     }
 
     // reset input[type=file] value when componentWillUnmount

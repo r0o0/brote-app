@@ -18,6 +18,8 @@ const rules: Rule[] = [
           data: {
             className: el.getAttribute('class'),
             src: el.getAttribute('src'),
+            'data-image-id': el.getAttribute('data-image-id'),
+            'data-image-orientation': el.getAttribute('data-image-orientation'),
           },
           nodes: next(el.childNodes),
         }
@@ -52,8 +54,14 @@ const rules: Rule[] = [
             const src = obj.data.get('src');
             const classname = obj.data.get('className');
             const id = obj.data.get('data-image-id');
+            const orientation = obj.data.get('data-image-orientation');
             return src ?
-              <img className={classname} data-image-id={id} src={src} />
+              <img
+                className={classname}
+                data-image-id={id}
+                data-image-orientation={orientation}
+                src={src}
+              />
             : null;
         }
       }
