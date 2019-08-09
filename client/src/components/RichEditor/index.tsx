@@ -1,15 +1,16 @@
 // RichEditor.js
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Value, Inline, Block } from 'slate';
-import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
+import { Value, Block } from 'slate';
+import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import { renderMark } from './marks';
+import { renderBlock } from './blocks';
 // COMPONENTS
 import ToolBar from './ToolBar';
-import FileUpload from './FileUpload';
 // UTILS
 import html from './serializer';
 import {
@@ -18,10 +19,8 @@ import {
   isUnderlinedHotkey,
 } from './shortcuts';
 import { getTodayDate } from '../../utils/date';
-import uniqueId from '../../utils/uniqueId';
 // CSS
 import * as css from './EditorStyles';
-import { thisExpression } from '@babel/types';
 
 const documentValue = Value.fromJSON({
   document: {
@@ -57,7 +56,7 @@ const schema = {
       }
     },
   },
-}
+};
 
 interface RichTextState {
   value: Value;
@@ -127,37 +126,27 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.setState({ value });
   };
 
-  private handleClick = (event: any, editor: any) => {
+  private handleClick = (event: Event, editor: any) => {
     const { startBlock, nextBlock, endBlock } = editor.value;
-    // console.log('click', event, editor,'\n',
-      // editor.value.blocks,
-      // startBlock.type, '\n', 
-      // editor.value, '\n', 
-      // editor.value.nextBlock
-    // );
-    // if (editor.value.blocks === undefined) {
-    //   editor.insertBlock('paragraph');
-    // }
     // when there is no text block insert one
     if (endBlock.type !== 'paragraph') {
       if (startBlock.type === endBlock.type) {
-        console.log('same block');
+        // console.log('same block');
         editor.insertBlock('paragraph');
       }
     }
   }
 
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
-  private handleKeyDown = (event: any, editor: any, next: any) => {
+  private handleKeyDown = (event: any, editor: any, next: Function): any => {
     let mark;
 
     // if user press on key 'enter' inside a code block keep the format
     const { startBlock, endBlock } = editor.value;
-    console.log('key pressed', startBlock.type, endBlock.type);
+
     if (startBlock !== null) {
       // block type IMAGE
       if (startBlock.type === 'image' || endBlock.type === 'image') {
-        console.log('image block start');
         // delete image on key event: 'backspace'
         if (event.keyCode === 8) {
           console.log('esc', editor);
@@ -257,62 +246,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     }
   }
 
-  // 마크에따라 텍스트 적용
-  protected renderMark = (props: RenderMarkProps, editor: any, next: any) => {
-    const { children, mark, attributes } = props;
-
-    switch (mark.type) {
-      case 'bold':
-        return <strong {...attributes}>{children}</strong>;
-      case 'italic':
-        return <em {...attributes}>{children}</em>;
-      case 'underlined':
-        return <u {...attributes}>{children}</u>;
-      default:
-        return next();
-    }
-  }
-
-  // 블록에따라 텍스트 적용
-  protected renderBlock = (props?: RenderBlockProps, editor?: any, next?: any) => {
-    const {
-      attributes,
-      children,
-      node
-    } = props as RenderBlockProps;
-    console.log('%c renderBlock', 'color: pink;', node.type, attributes, children);
-
-    switch ((node as Block).type) {
-      case 'block-quote':
-        return <blockquote css={css.blockquote} {...attributes}>{children}</blockquote>;
-      case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>;
-      case 'heading-one':
-        return <h2 {...attributes}>{children}</h2>;
-      case 'heading-two':
-        return <h3 {...attributes}>{children}</h3>;
-      case 'list-item':
-        return <li {...attributes}>{children}</li>;
-      case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>;
-      case 'code':
-        console.log('case code in block', node.type, children);
-        return (
-          <pre css={css.codeblock} {...attributes}>
-            <code>{children}</code>
-          </pre>
-        );
-      case 'image':
-        const src = (node as Block).data.get('src');
-        const id = (node as Block).data.get('data-image-id');
-        return src ?
-          <img css={css.image} src={src} data-image-id={id} />
-        : null;
-      default:
-        return next();
-    }
-  }
-
   componentDidMount() {
     // update initialValue
     if (localStorage.content === undefined) {
@@ -337,8 +270,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   insertImage(imageInfo: any) {
     const { editor } = this;
-    const { data, id } = imageInfo;
-    console.log('insert', data);
+    const { data, id, orientation } = imageInfo;
+
     const change = editor
       .insertBlock({
         type: 'image',
@@ -346,41 +279,33 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
         data: {
           src: data,
           'data-image-id': id,
+          'data-image-orientation': orientation,
         }
       })
       .moveAnchorToEndOfDocument()
       .focus();
-    console.log('image editor', editor);
 
     this.handleChange(change);
   }
 
   // prevent component from rendering when upload is updated in state
   shouldComponentUpdate(nextProps: any, nextState: any) {
-    const prevState = this.state;
-    const prevProps = this.props;
-    const prevData = prevProps.editorState.data.image;
-    const prevImage = prevData[prevData.length - 1].id;
+    // props
+    const prevData = this.props.editorState.data.image;
+    const prevImage = prevData[prevData.length - 1];
     const nextData = nextProps.editorState.data.image;
-    const nextDataImage = nextData[nextData.length - 1];
-    const nextImage = nextDataImage.id;
+    const nextImage = nextData[nextData.length - 1];
 
-    if (nextImage !== prevImage) {
-      console.log('%c shouldComponentUpdate', 'background: blue; color: white;', '\n',
-        'prevState: ', prevState.image, '\n',
-        'nextState: ', nextState.image, '\n',
-        'prevProps: ', this.props.editorState.data, '\n',
-        'nextProps: ', nextProps.editorState.data, '\n',
-        'prevImage: ', this.props.editorState.data.image, '\n',
-        'nextImage: ', nextProps.editorState.data.image,
-      );
-      this.setState({ image: nextImage ,upload: false });
-      this.insertImage(nextDataImage);
+    if (nextImage.id !== prevImage.id) {
+      this.setState({ image: nextImage.id ,upload: false });
+      this.insertImage(nextImage);
     }
+
+    // state
+    const prevState = this.state;
 
     if (nextState !== prevState) {
       if (nextState.upload !== prevState.upload) {
-        console.log('nextState', nextState.upload, 'prevState', prevState.upload);
         if (nextState.upload === true) {
           return false;
         } else {
@@ -389,11 +314,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       }
       return true;
     } else {
-      console.log('else', nextState, prevState);
-      // return false;
       return false;
     }
-
   }
 
   render() {
@@ -414,8 +336,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClick={this.handleClick}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          renderMark={this.renderMark}
-          renderBlock={this.renderBlock}
+          renderMark={renderMark}
+          renderBlock={renderBlock}
         />
       </div>
     );
