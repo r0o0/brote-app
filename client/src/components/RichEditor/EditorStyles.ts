@@ -6,7 +6,7 @@ export const editor = (editorX: number | null) => css`
   font-size: 17px;
   color: var(--text);
   @media(min-width: 1024px) {
-    padding: 0 128px;
+    padding: 0 128px 128px;
   }
   label: Editor
 `;
@@ -29,4 +29,14 @@ export const blockquote = css`
     color: var(--light-md);
   }
   label: Editor-blockquote;
+`;
+
+export const image = css`
+  margin: 0 auto;
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  label: Editor-image;
 `;

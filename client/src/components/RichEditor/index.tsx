@@ -309,10 +309,9 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
         );
       case 'image':
         const src = (node as Block).data.get('src');
-        const classname = (node as Block).data.get('className');
         const id = (node as Block).data.get('data-image-id');
         return src ?
-          <img className={classname} src={src} data-image-id={id} />
+          <img css={css.image} src={src} data-image-id={id} />
         : null;
       default:
         return next();
@@ -349,13 +348,13 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       .insertBlock({
         type: 'image',
         data: {
-          className: 'editor-image',
           src: data,
           'data-image-id': id,
         }
       })
       .moveAnchorToEndOfDocument()
       .focus();
+    console.log('image editor', editor);
 
     this.handleChange(change);
   }
