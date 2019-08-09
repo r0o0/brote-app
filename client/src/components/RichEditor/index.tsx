@@ -57,11 +57,6 @@ const schema = {
       }
     },
   },
-  blocks: {
-    image: {
-      isVoid: true,
-    },
-  },
 }
 
 interface RichTextState {
@@ -347,6 +342,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const change = editor
       .insertBlock({
         type: 'image',
+        isVoid: true,
         data: {
           src: data,
           'data-image-id': id,
