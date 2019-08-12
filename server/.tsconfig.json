@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "target": "es6",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": ["es2016", "esnext.asynciterable"],
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": ["*.ts"],
+  "exclude": ["node_modules/"]
+ }

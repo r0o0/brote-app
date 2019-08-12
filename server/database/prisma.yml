@@ -1,0 +1,10 @@
+endpoint: 'http://localhost:4080'
+datamodel: datamodel.prisma
+databaseType: document
+generate:
+  - generator: typescript-client
+    output: ../generated/prisma-client/
+hooks: {
+  prisma generate,
+  graphql get-schema
+}

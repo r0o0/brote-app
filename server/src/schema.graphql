@@ -1,0 +1,10 @@
+# import * from './generated/prisma.graphql'
+
+type Query {
+  posts: [Post!]!
+}
+
+type Mutation {
+  createDraft(title: String!, author: String!, content: String!): Post
+}
+
