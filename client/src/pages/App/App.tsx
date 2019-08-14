@@ -13,7 +13,6 @@ import Post from '../Post';
 import Login from '../Login';
 // UTILS
 import { getCookie } from '../../utils/cookie';
-import { openModal } from '../../redux/actions';
 
 interface Props {
   history: History;
@@ -23,8 +22,7 @@ interface Props {
 function App(props: Props) {
   const { history, auth } = props;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  console.log('history in APP', history, '\n', auth);
-  
+
   useEffect(() => {
     const cookieState = getCookie('logged_in');
     if (cookieState === 'yes') {

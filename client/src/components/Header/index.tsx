@@ -11,7 +11,6 @@ import { Default, LoggedIn } from './HeaderList';
 // UTILS
 import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
-import { getCookie } from '../../utils/cookie';
 // CSS
 import * as css from './HeaderStyles';
 
