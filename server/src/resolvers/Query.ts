@@ -1,6 +1,6 @@
 const Query = {
-  posts(_, args, { prisma }) {
-    return prisma.posts();
+  posts(_, args, { db }) {
+    return db.query.posts();
   },
 };
 

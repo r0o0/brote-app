@@ -1,6 +1,6 @@
 const Mutation = {
-  createDraft (_, { title, author, content }, { prisma }, info) {
-    return prisma.createDraft(
+  createDraft (_, { title, author, content }, { db }, info) {
+    return db.mutation.createDraft(
       {
         data: {
           title,
