@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
 import * as type from '../../types';
+// GraphQL
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 // COMPONENTS
 import { Default, LoggedIn } from './HeaderList';
 // UTILS
@@ -13,6 +16,18 @@ import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
 // CSS
 import * as css from './HeaderStyles';
+
+const CREATE_DRAFT = gql`
+  mutation CreateDraft($title: String!, $author: String!, $content: String!) {
+    createDraft(title: $title, author: $author, content: $content) {
+      id,
+      title,
+      author,
+      content,
+      isPublished
+    }
+  }
+`;
 
 interface Props {
   resetEditor: () => void;
@@ -35,6 +50,17 @@ function Header(props: Props) {
   } = props;
 
   const locationPath = router.location.pathname;
+  const [createDraft, { data }] = useMutation(CREATE_DRAFT);
+  const handleSave = () => {
+    const { title, content, author, savedOn } = editor.data;
+    const toPublish = {
+      title,
+      content,
+      author
+    };
+
+    createDraft({ variables: toPublish });
+  };
 
   const handlePublish = () => {
     const { title, content, author, savedOn } = editor.data;
@@ -92,7 +118,7 @@ function Header(props: Props) {
       <h1 css={css.h1}>
         <Link to="/">BROTE</Link>
       </h1>
-      {isUserLoggedIn ? <LoggedIn locationPath={locationPath} saved={saved} readyToPublish={readyToPublish} onClick={handlePublish} /> : <Default onClick={openModal} />}
+      {isUserLoggedIn ? <LoggedIn locationPath={locationPath} saved={saved} readyToPublish={readyToPublish} onClick={!readyToPublish ? handleSave : handlePublish} /> : <Default onClick={openModal} />}
     </header>
   )
 }
