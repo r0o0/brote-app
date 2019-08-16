@@ -1,6 +1,8 @@
 import React from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { Link } from 'react-router-dom';
+// CSS
 import * as css from './ArticleStyles';
 // UTILS
 import { getCleaned } from '../../utils/sanitizeHTML';
@@ -42,7 +44,7 @@ function Article(props: Props) {
       <div css={css.previewArticle}>
         <h1 css={css.previewTitle}>{title}</h1>
         <div className="preview-info" css={css.info}>
-          <a className="info--author" href="">{author === undefined || author === null ? "Brote Bot" : author}</a>
+          <span className="info--author">{author === undefined || author === null ? "Brote Bot" : author}</span>
           <span>{date}</span>
         </div>
         <p css={css.previewP} dangerouslySetInnerHTML={{__html: cleanContent}}></p>

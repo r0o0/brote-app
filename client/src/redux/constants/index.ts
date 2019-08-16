@@ -16,6 +16,12 @@ const OPEN_MODAL = '@@modal/OPEN';
 const CLOSE_MODAL = '@@modal/CLOSE';
 
 
+// AUTH
+const AUTH_LOGIN = '@@auth/LOGIN';
+const AUTH_LOGIN_SUCCESS = '@@auth/LOGINS_SUCCESS';
+const AUTH_LOGIN_FAILURE = '@@auth/LOGIN_FAILURE';
+
+
 
 export {
   // TextEditor
@@ -34,4 +40,8 @@ export {
   // modal
   OPEN_MODAL,
   CLOSE_MODAL,
+  // AUTH
+  AUTH_LOGIN,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_FAILURE,
 };
