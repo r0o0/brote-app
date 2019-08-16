@@ -41,8 +41,8 @@ interface Props {
 function List(props: Props) {
   const { preview } = props;
 
-  const { loading, error, data } = useQuery(GET_POSTS);
-  console.log('useQuery', data.posts, loading, error);
+  const { loading, data } = useQuery(GET_POSTS);
+  console.log('useQuery', data.posts, loading);
 
   return (
     <React.Fragment>
@@ -57,7 +57,6 @@ function List(props: Props) {
           <h2 css={h2}>Posts</h2>
           { data.posts && data.posts.map((post: type.Post) => {
               if (loading) return <p>loading...</p>;
-              if (error) return <p>{error.message}</p>;
               const { id, title, content, author, publishedOn, savedOn } = post;
               const path = convertToPath(title);
 
