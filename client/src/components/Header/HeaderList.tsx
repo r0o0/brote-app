@@ -33,7 +33,8 @@ export const LoggedIn = (props: LoggedInProps) => {
       {locationPath === '/new-story' ?
         <div>
           {saved !== null ? <span css={css.editorStatus}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
-          <button css={!readyToPublish ? cssB.buttonDefault : [cssB.buttonDefault, cssB.buttonActive]} onClick={onClick}>{!readyToPublish ? 'Save Draft' : 'Publish'}</button>
+          <Button css={{ marginRight: '10px' }} cssemotion={readyToPublish ? cssB.buttonDefault : [cssB.buttonDefault, cssB.buttonActive]} onClick={onClick} value="Save Draft" />
+          <Button cssemotion={!readyToPublish ? cssB.buttonDefault : [cssB.buttonDefault, cssB.buttonActive]} onClick={onClick} value="Publish" />
         </div> :
         null
       }

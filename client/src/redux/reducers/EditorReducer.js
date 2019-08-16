@@ -12,7 +12,7 @@ import { editorValidator } from '../../utils/editor';
 
 const initialState = {
   data: {
-    author: null, // need login authentication
+    author: 'admin', // need login authentication
     title: null,
     content: null,
     savedOn: null,
