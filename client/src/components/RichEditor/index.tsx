@@ -21,6 +21,7 @@ import {
 import { getTodayDate } from '../../utils/date';
 // CSS
 import * as css from './EditorStyles';
+import { timingSafeEqual } from 'crypto';
 
 const documentValue = Value.fromJSON({
   document: {
@@ -69,6 +70,7 @@ interface RichTextState {
 
 interface RichEditor {
   editor: any;
+  _isKeyEvent: boolean;
 };
 
 type Props = ReturnType<any> &
@@ -90,6 +92,7 @@ if (!localStorage.content) {
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
     super(props);
+    this._isKeyEvent = false;
     this.state = {
       value: html.deserialize(initialValue),
       editorEl: null,
@@ -104,14 +107,14 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.editor = editor;
   }
 
-  private handleChange = ({ value }: any) => {
+  private handleChange = ({ value }: { value: Value }) => {
     // console.log('%c change', 'background: pink; color: blue;',
     //   'state', this.state.value, html.serialize(this.state.value), '\n',
     //   'local', localStorage.content, '\n',
     //   value, html.serialize(value), '\n',
     //   );
       // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
-    if (this.state.keyEvent || this.state.upload) {
+    if (this._isKeyEvent || this.state.upload) {
       // localStorage에 저장 된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
       if (value.document !== this.state.value.document) {
         const string = html.serialize(value);
@@ -119,6 +122,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       }
       // redux dispatch
       if (localStorage.getItem('content') !== null) {
+        console.log('writingContent', this._isKeyEvent);
         this.props.writingContent({ content: localStorage.content });
       }
     }
@@ -247,6 +251,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   componentDidMount() {
+    // this._isKeyEvent = true;
     // update initialValue
     if (localStorage.content === undefined) {
       initialValue = Plain.serialize(documentValue);
@@ -264,8 +269,12 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     // editor's y coordinate value from top of window + padding
     const y = this.editor.el.getBoundingClientRect().top;
     this.setState({ editorEl: y });
-
-    document.addEventListener('keydown', () => this.setState({ keyEvent: true }));
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', () => {
+        this._isKeyEvent = true;
+        return this.handleKeyDown;
+      });
+    }
   }
 
   insertImage(imageInfo: any) {
@@ -297,7 +306,10 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const nextImage = nextData[nextData.length - 1];
 
     if (nextImage.id !== prevImage.id) {
-      this.setState({ image: nextImage.id ,upload: false });
+      this.setState({ 
+        image: nextImage.id, 
+        upload: false
+      });
       this.insertImage(nextImage);
     }
 
@@ -315,6 +327,13 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       return true;
     } else {
       return false;
+    }
+  }
+
+  componentWillUnmount() {
+    this._isKeyEvent = false;
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', () => this.handleKeyDown);
     }
   }
 
