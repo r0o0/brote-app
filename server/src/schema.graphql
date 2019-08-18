@@ -5,6 +5,15 @@ type Query {
 }
 
 type Mutation {
-  createDraft(title: String!, author: String!, content: String!): Post
+  # post
+  createDraft(draft: PostContent): Post
+  publish(id: ID!): Post
+  delete(id: ID!): Post
 }
 
+input PostContent {
+  title: String!
+  author: String!
+  content: String!
+  savedOn: DateTime
+}

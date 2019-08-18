@@ -1,16 +1,7 @@
+import Post from './PostResolvers/Post';
+
 const Mutation = {
-  createDraft (_, { title, author, content }, { db }, info) {
-    return db.mutation.createDraft(
-      {
-        data: {
-          title,
-          author,
-          content,
-        },
-      },
-      info
-    )
-  },
+  ...Post,
 };
 
 export default Mutation;

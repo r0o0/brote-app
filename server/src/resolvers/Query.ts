@@ -1,7 +1,8 @@
+import Posts from './PostResolvers/Posts';
+import Users from "./UserResolvers/Users";
+
 const Query = {
-  posts(_, args, { db }) {
-    return db.query.posts();
-  },
+  ...Posts,
 };
 
 export default Query;

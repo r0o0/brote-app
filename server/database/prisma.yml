@@ -4,6 +4,6 @@ databaseType: document
 generate:
   - generator: typescript-client
     output: ../generated/prisma-client/
-hooks: 
+hooks:
   post-deploy:
     - graphql get-schema --project database
