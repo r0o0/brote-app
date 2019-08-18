@@ -18,13 +18,13 @@ import { getTodayDate } from '../../utils/date';
 import * as css from './HeaderStyles';
 
 const CREATE_DRAFT = gql`
-  mutation CreateDraft($title: String!, $author: String!, $content: String!) {
-    createDraft(title: $title, author: $author, content: $content) {
-      id,
-      title,
-      author,
-      content,
-      isPublished
+  mutation CreateDraft($draft: PostContent!) {
+    createDraft( draft: $draft ) {
+      id
+      title
+      author
+      content
+      savedOn
     }
   }
 `;
@@ -51,15 +51,18 @@ function Header(props: Props) {
 
   const locationPath = router.location.pathname;
   const [createDraft, { data }] = useMutation(CREATE_DRAFT);
+
   const handleSave = () => {
     const { title, content, author, savedOn } = editor.data;
+    console.log(savedOn);
     const toPublish = {
       title,
       content,
-      author
+      author,
+      savedOn
     };
 
-    createDraft({ variables: toPublish });
+    createDraft({ variables: { draft: toPublish } });
   };
 
   const handlePublish = () => {
@@ -69,7 +72,6 @@ function Header(props: Props) {
       title,
       content,
       author,
-      savedOn,
       publishedOn,
     }
     publishEditor(toPublish);
