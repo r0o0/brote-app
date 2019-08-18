@@ -67,16 +67,16 @@ function ToolBar(props: Props) {
   const hasBlock = (type: string) => value.blocks.some((node: any) => node.type === type);
 
   const renderMarkButton = (markData: EditorData[]) =>
-    markData.map((data: EditorData) => {
+    markData.map((data: EditorData, i) => {
       const { type, icon } = data;
       const isActive = hasMark(type);
 
     return (
       <button
-        key={`btn--${type}`}
         className={`btn--${type} ${buttons}`}
         onClick={(event) => onClick(event, type)}
         data-active={isActive}
+        key={`btn--${type}`}
       >
         <Icon
           css={type === 'underlined' ? iconU : null}
@@ -102,7 +102,7 @@ function ToolBar(props: Props) {
       }
 
       return (
-        <React.Fragment>
+        <React.Fragment key={`btn--${type}`}>
           {type === 'image' ?
             <FileUpload
               type={type}
@@ -117,9 +117,12 @@ function ToolBar(props: Props) {
               className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
               data-active={isActive}
               onClick={(event) => onClickBlock(event, type, hasBlock)}
-              key={`kbtn--${type}`}
             >
-              <Icon className={icons}>{icon}</Icon>
+              <Icon 
+                className={icons}
+              >
+                {icon}
+              </Icon>
             </button>
           }
         </React.Fragment>
