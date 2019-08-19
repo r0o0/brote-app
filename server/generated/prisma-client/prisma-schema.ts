@@ -2,7 +2,11 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregatePost {
+export const typeDefs = /* GraphQL */ `type AggregateGuest {
+  count: Int!
+}
+
+type AggregatePost {
   count: Int!
 }
 
@@ -16,9 +20,180 @@ type BatchPayload {
 
 scalar DateTime
 
+type Guest {
+  id: ID!
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+type GuestConnection {
+  pageInfo: PageInfo!
+  edges: [GuestEdge]!
+  aggregate: AggregateGuest!
+}
+
+input GuestCreateInput {
+  id: ID
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+type GuestEdge {
+  node: Guest!
+  cursor: String!
+}
+
+enum GuestOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  password_ASC
+  password_DESC
+  joinedOn_ASC
+  joinedOn_DESC
+  isExpired_ASC
+  isExpired_DESC
+  role_ASC
+  role_DESC
+}
+
+type GuestPreviousValues {
+  id: ID!
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+type GuestSubscriptionPayload {
+  mutation: MutationType!
+  node: Guest
+  updatedFields: [String!]
+  previousValues: GuestPreviousValues
+}
+
+input GuestSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GuestWhereInput
+  AND: [GuestSubscriptionWhereInput!]
+}
+
+input GuestUpdateInput {
+  name: String
+  password: String
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+input GuestUpdateManyMutationInput {
+  name: String
+  password: String
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+input GuestWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  joinedOn: String
+  joinedOn_not: String
+  joinedOn_in: [String!]
+  joinedOn_not_in: [String!]
+  joinedOn_lt: String
+  joinedOn_lte: String
+  joinedOn_gt: String
+  joinedOn_gte: String
+  joinedOn_contains: String
+  joinedOn_not_contains: String
+  joinedOn_starts_with: String
+  joinedOn_not_starts_with: String
+  joinedOn_ends_with: String
+  joinedOn_not_ends_with: String
+  isExpired: Boolean
+  isExpired_not: Boolean
+  role: String
+  role_not: String
+  role_in: [String!]
+  role_not_in: [String!]
+  role_lt: String
+  role_lte: String
+  role_gt: String
+  role_gte: String
+  role_contains: String
+  role_not_contains: String
+  role_starts_with: String
+  role_not_starts_with: String
+  role_ends_with: String
+  role_not_ends_with: String
+  AND: [GuestWhereInput!]
+}
+
+input GuestWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createGuest(data: GuestCreateInput!): Guest!
+  updateGuest(data: GuestUpdateInput!, where: GuestWhereUniqueInput!): Guest
+  updateManyGuests(data: GuestUpdateManyMutationInput!, where: GuestWhereInput): BatchPayload!
+  upsertGuest(where: GuestWhereUniqueInput!, create: GuestCreateInput!, update: GuestUpdateInput!): Guest!
+  deleteGuest(where: GuestWhereUniqueInput!): Guest
+  deleteManyGuests(where: GuestWhereInput): BatchPayload!
   createPost(data: PostCreateInput!): Post!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -225,6 +400,9 @@ input PostWhereUniqueInput {
 }
 
 type Query {
+  guest(where: GuestWhereUniqueInput!): Guest
+  guests(where: GuestWhereInput, orderBy: GuestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Guest]!
+  guestsConnection(where: GuestWhereInput, orderBy: GuestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GuestConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
@@ -235,13 +413,19 @@ type Query {
 }
 
 type Subscription {
+  guest(where: GuestSubscriptionWhereInput): GuestSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 type UserConnection {
@@ -252,7 +436,12 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 type UserEdge {
@@ -265,11 +454,26 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  joinedOn_ASC
+  joinedOn_DESC
+  lastLogin_ASC
+  lastLogin_DESC
+  role_ASC
+  role_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 type UserSubscriptionPayload {
@@ -290,10 +494,20 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  email: String
+  password: String
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  email: String
+  password: String
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 input UserWhereInput {
@@ -325,6 +539,64 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  joinedOn: DateTime
+  joinedOn_not: DateTime
+  joinedOn_in: [DateTime!]
+  joinedOn_not_in: [DateTime!]
+  joinedOn_lt: DateTime
+  joinedOn_lte: DateTime
+  joinedOn_gt: DateTime
+  joinedOn_gte: DateTime
+  lastLogin: DateTime
+  lastLogin_not: DateTime
+  lastLogin_in: [DateTime!]
+  lastLogin_not_in: [DateTime!]
+  lastLogin_lt: DateTime
+  lastLogin_lte: DateTime
+  lastLogin_gt: DateTime
+  lastLogin_gte: DateTime
+  role: String
+  role_not: String
+  role_in: [String!]
+  role_not_in: [String!]
+  role_lt: String
+  role_lte: String
+  role_gt: String
+  role_gte: String
+  role_contains: String
+  role_not_contains: String
+  role_starts_with: String
+  role_not_starts_with: String
+  role_ends_with: String
+  role_not_ends_with: String
   AND: [UserWhereInput!]
 }
 

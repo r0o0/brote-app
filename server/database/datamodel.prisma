@@ -1,6 +1,20 @@
 type User {
   id: ID! @id
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String @default(value: "user")
+}
+
+type Guest {
+  id: ID! @id
   name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean @default(value: false)
+  role: String @default(value: "guest")
 }
 
 type Post {

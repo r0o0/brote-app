@@ -1,5 +1,9 @@
 # source: http://localhost:4080
-# timestamp: Mon Aug 12 2019 19:45:43 GMT+0900 (Korean Standard Time)
+# timestamp: Mon Aug 19 2019 23:32:38 GMT+0900 (Korean Standard Time)
+
+type AggregateGuest {
+  count: Int!
+}
 
 type AggregatePost {
   count: Int!
@@ -16,6 +20,327 @@ type BatchPayload {
 
 scalar DateTime
 
+type Guest implements Node {
+  id: ID!
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+"""A connection to a list of items."""
+type GuestConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GuestEdge]!
+  aggregate: AggregateGuest!
+}
+
+input GuestCreateInput {
+  id: ID
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+"""An edge in a connection."""
+type GuestEdge {
+  """The item at the end of the edge."""
+  node: Guest!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GuestOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  password_ASC
+  password_DESC
+  joinedOn_ASC
+  joinedOn_DESC
+  isExpired_ASC
+  isExpired_DESC
+  role_ASC
+  role_DESC
+}
+
+type GuestPreviousValues {
+  id: ID!
+  name: String!
+  password: String!
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+type GuestSubscriptionPayload {
+  mutation: MutationType!
+  node: Guest
+  updatedFields: [String!]
+  previousValues: GuestPreviousValues
+}
+
+input GuestSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GuestSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GuestWhereInput
+}
+
+input GuestUpdateInput {
+  name: String
+  password: String
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+input GuestUpdateManyMutationInput {
+  name: String
+  password: String
+  joinedOn: String
+  isExpired: Boolean
+  role: String
+}
+
+input GuestWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GuestWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  joinedOn: String
+
+  """All values that are not equal to given value."""
+  joinedOn_not: String
+
+  """All values that are contained in given list."""
+  joinedOn_in: [String!]
+
+  """All values that are not contained in given list."""
+  joinedOn_not_in: [String!]
+
+  """All values less than the given value."""
+  joinedOn_lt: String
+
+  """All values less than or equal the given value."""
+  joinedOn_lte: String
+
+  """All values greater than the given value."""
+  joinedOn_gt: String
+
+  """All values greater than or equal the given value."""
+  joinedOn_gte: String
+
+  """All values containing the given string."""
+  joinedOn_contains: String
+
+  """All values not containing the given string."""
+  joinedOn_not_contains: String
+
+  """All values starting with the given string."""
+  joinedOn_starts_with: String
+
+  """All values not starting with the given string."""
+  joinedOn_not_starts_with: String
+
+  """All values ending with the given string."""
+  joinedOn_ends_with: String
+
+  """All values not ending with the given string."""
+  joinedOn_not_ends_with: String
+  isExpired: Boolean
+
+  """All values that are not equal to given value."""
+  isExpired_not: Boolean
+  role: String
+
+  """All values that are not equal to given value."""
+  role_not: String
+
+  """All values that are contained in given list."""
+  role_in: [String!]
+
+  """All values that are not contained in given list."""
+  role_not_in: [String!]
+
+  """All values less than the given value."""
+  role_lt: String
+
+  """All values less than or equal the given value."""
+  role_lte: String
+
+  """All values greater than the given value."""
+  role_gt: String
+
+  """All values greater than or equal the given value."""
+  role_gte: String
+
+  """All values containing the given string."""
+  role_contains: String
+
+  """All values not containing the given string."""
+  role_not_contains: String
+
+  """All values starting with the given string."""
+  role_starts_with: String
+
+  """All values not starting with the given string."""
+  role_not_starts_with: String
+
+  """All values ending with the given string."""
+  role_ends_with: String
+
+  """All values not ending with the given string."""
+  role_not_ends_with: String
+}
+
+input GuestWhereUniqueInput {
+  id: ID
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -24,16 +349,22 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createGuest(data: GuestCreateInput!): Guest!
   createPost(data: PostCreateInput!): Post!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateGuest(data: GuestUpdateInput!, where: GuestWhereUniqueInput!): Guest
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteGuest(where: GuestWhereUniqueInput!): Guest
   deletePost(where: PostWhereUniqueInput!): Post
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertGuest(where: GuestWhereUniqueInput!, create: GuestCreateInput!, update: GuestUpdateInput!): Guest!
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyGuests(data: GuestUpdateManyMutationInput!, where: GuestWhereInput): BatchPayload!
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyGuests(where: GuestWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
 }
 
@@ -398,10 +729,13 @@ input PostWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  guests(where: GuestWhereInput, orderBy: GuestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Guest]!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   user(where: UserWhereUniqueInput!): User
+  guest(where: GuestWhereUniqueInput!): Guest
   post(where: PostWhereUniqueInput!): Post
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  guestsConnection(where: GuestWhereInput, orderBy: GuestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GuestConnection!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
 
   """Fetches an object given its ID"""
@@ -413,12 +747,18 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  guest(where: GuestSubscriptionWhereInput): GuestSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 """A connection to a list of items."""
@@ -433,7 +773,12 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 """An edge in a connection."""
@@ -450,11 +795,26 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  joinedOn_ASC
+  joinedOn_DESC
+  lastLogin_ASC
+  lastLogin_DESC
+  role_ASC
+  role_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  name: String!
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 type UserSubscriptionPayload {
@@ -490,10 +850,20 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  email: String
+  password: String
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  email: String
+  password: String
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
 }
 
 input UserWhereInput {
@@ -579,6 +949,170 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  joinedOn: DateTime
+
+  """All values that are not equal to given value."""
+  joinedOn_not: DateTime
+
+  """All values that are contained in given list."""
+  joinedOn_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  joinedOn_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  joinedOn_lt: DateTime
+
+  """All values less than or equal the given value."""
+  joinedOn_lte: DateTime
+
+  """All values greater than the given value."""
+  joinedOn_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  joinedOn_gte: DateTime
+  lastLogin: DateTime
+
+  """All values that are not equal to given value."""
+  lastLogin_not: DateTime
+
+  """All values that are contained in given list."""
+  lastLogin_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  lastLogin_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  lastLogin_lt: DateTime
+
+  """All values less than or equal the given value."""
+  lastLogin_lte: DateTime
+
+  """All values greater than the given value."""
+  lastLogin_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  lastLogin_gte: DateTime
+  role: String
+
+  """All values that are not equal to given value."""
+  role_not: String
+
+  """All values that are contained in given list."""
+  role_in: [String!]
+
+  """All values that are not contained in given list."""
+  role_not_in: [String!]
+
+  """All values less than the given value."""
+  role_lt: String
+
+  """All values less than or equal the given value."""
+  role_lte: String
+
+  """All values greater than the given value."""
+  role_gt: String
+
+  """All values greater than or equal the given value."""
+  role_gte: String
+
+  """All values containing the given string."""
+  role_contains: String
+
+  """All values not containing the given string."""
+  role_not_contains: String
+
+  """All values starting with the given string."""
+  role_starts_with: String
+
+  """All values not starting with the given string."""
+  role_not_starts_with: String
+
+  """All values ending with the given string."""
+  role_ends_with: String
+
+  """All values not ending with the given string."""
+  role_not_ends_with: String
 }
 
 input UserWhereUniqueInput {
