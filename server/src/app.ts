@@ -5,6 +5,9 @@ import  { Prisma } from 'prisma-binding';
 const server = new GraphQLServer({
   typeDefs: './src/schema/schema.graphql',
   resolvers,
+  resolverValidationOptions: {
+    requireResolversForResolveType: false
+  },
   context: req => ({
     ...req,
     db: new Prisma({
