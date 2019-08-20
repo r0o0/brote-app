@@ -183,6 +183,7 @@ input GuestWhereInput {
 
 input GuestWhereUniqueInput {
   id: ID
+  name: String
 }
 
 scalar Long
@@ -602,5 +603,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
 `

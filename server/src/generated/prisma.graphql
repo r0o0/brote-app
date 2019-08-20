@@ -1,5 +1,5 @@
 # source: http://localhost:4080
-# timestamp: Mon Aug 19 2019 23:32:38 GMT+0900 (Korean Standard Time)
+# timestamp: Tue Aug 20 2019 13:33:33 GMT+0900 (Korean Standard Time)
 
 type AggregateGuest {
   count: Int!
@@ -339,6 +339,7 @@ input GuestWhereInput {
 
 input GuestWhereUniqueInput {
   id: ID
+  name: String
 }
 
 """
@@ -1117,4 +1118,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }

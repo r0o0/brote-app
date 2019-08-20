@@ -4,6 +4,7 @@ type Query {
   posts: [Post!]!
   users: [User!]!
   guests: [Guest!]!
+  currentUser(id: ID!): User!
 }
 
 type Mutation {
@@ -13,6 +14,8 @@ type Mutation {
   delete(id: ID!): Post
   signup(email: String!, password: String!): AuthPayload!
   signupAsGuest(name: String!, password: String!): GuestAuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  loginAsGuest(name: String!, password: String!): GuestAuthPayload!
 }
 
 type AuthPayload {

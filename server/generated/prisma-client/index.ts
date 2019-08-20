@@ -229,6 +229,7 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type GuestWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  name?: Maybe<String>;
 }>;
 
 export interface GuestWhereInput {
@@ -391,6 +392,7 @@ export interface PostWhereInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  email?: Maybe<String>;
 }>;
 
 export interface UserWhereInput {

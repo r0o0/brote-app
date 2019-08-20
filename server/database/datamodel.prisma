@@ -1,7 +1,7 @@
 type User {
   id: ID! @id
   name: String
-  email: String!
+  email: String! @unique
   password: String!
   joinedOn: DateTime
   lastLogin: DateTime
@@ -10,7 +10,7 @@ type User {
 
 type Guest {
   id: ID! @id
-  name: String!
+  name: String! @unique
   password: String!
   joinedOn: String
   isExpired: Boolean @default(value: false)
