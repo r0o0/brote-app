@@ -7,13 +7,14 @@
     "start": "ts-node-dev --respawn --transpileOnly -r dotenv/config src/app.ts",
     "test": "jest",
     "playground": "prisma playground",
-    "deploy": "prisma deploy && yarn playground"
+    "deploy": "prisma deploy --env-file .env && yarn playground"
   },
   "keywords": [],
   "author": "r0o0",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
     "graphql-yoga": "^1.18.1",
     "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.15",

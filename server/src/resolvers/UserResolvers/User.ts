@@ -1,24 +1,28 @@
 import { hash, compare } from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import { forwardTo } from 'prisma-binding';
 // utils
 import { checkForUser, authorization } from './userUtils';
 
 export const getUser = {
-  async currentUser(_, { id }, { db, request }, info) {
+  async currentUser(_, { id }, { db, request, response }, info) {
     const Authorization = request.get("Authorization");
-
     if (!Authorization) throw Error('Not Authorized.');
 
     const token = Authorization.replace('Bearer', '');
     const { userId } = jwt.verify(token, process.env.AUTH_SECRET!);
-
+    // console.log('request', request.headers, request.userId, request);
     if (id !== userId) throw Error('Invalid user.');
+    response.cookie('userId', userId, {
+      httpOnly: true,
+      maxAge: null,
+    })
 
     return await db.query.user({ where: { id } }, info);
   },
 }
 const User = {
-  async signup(_, { email, password }, { db }) {
+  async signup(_, { email, password }, { db, response }) {
     const userExists = await checkForUser(db, email);
 
     if (!userExists) {
@@ -30,8 +34,13 @@ const User = {
         }
       });
 
+      const token = jwt.sign({ userId: user.id }, process.env.AUTH_SECRET);
+      response.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
+      });
       return {
-        token: jwt.sign({ userId: user.id }, process.env.AUTH_SECRET),
+        token,
         user
       };
     } else {
@@ -45,25 +54,27 @@ const User = {
         password
       }
     });
+    const token = jwt.sign({ userId: guest.nawe }, process.env.AUTH_SECRET);
     return {
-      token: jwt.sign({
-        userId: guest.name,
-      },
-        process.env.AUTH_SECRET,
-        // { expiresIn: '10min' }
-      ),
+      token,
       guest
     }
   },
-  async login(_, { email, password }, { db }) {
+  async login(_, { email, password }, { db, response }) {
     const user = await db.query.user({ where: { email } });
-
     if (!user) throw new Error('User don\'t exist.');
 
     const valid = await compare(password, user.password);
     if (!valid) throw new Error('Incorrect password');
+
+    const token = jwt.sign({ userId: user.id }, process.env.AUTH_SECRET);
+    response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
+    });
+
     return {
-      token: jwt.sign({ userId: user.id }, process.env.AUTH_SECRET),
+      token,
       user
     }
   }
