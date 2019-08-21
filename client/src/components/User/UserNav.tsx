@@ -2,9 +2,13 @@ import React from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 =======
 >>>>>>> add user navigation component when user is in logged in state
+=======
+import { Link } from 'react-router-dom';
+>>>>>>> add user page
 // COMPONENTS
 import Popover from '@material-ui/core/Popover';
 import UserProfile from './UserProfile';
@@ -54,6 +58,9 @@ function UserNav(props: Props) {
           <li>New Story</li>
           <li>Stories</li>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> add user page
           <li><Link to={{
             pathname: `/@${user}`,
             state: {
@@ -61,9 +68,12 @@ function UserNav(props: Props) {
             }
           }}
           >Profile</Link></li>
+<<<<<<< HEAD
 =======
           <li>Profile</li>
 >>>>>>> add user navigation component when user is in logged in state
+=======
+>>>>>>> add user page
           <li>Settings</li>
           <li>Sign Out</li>
         </ul>
