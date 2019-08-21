@@ -1,4 +1,5 @@
 export interface Post {
+  id: string,
   author: string,
   title: string,
   content: string,
@@ -29,4 +30,18 @@ export interface Router {
     hash: string,
     key: string,
   }
+}
+
+export interface Auth {
+  login: boolean;
+  info: {
+    user: string | null,
+    password: string | null,
+  };
+  isError: boolean;
+  error_message: string | null;
+}
+
+export interface Modal {
+  status: boolean;
 }

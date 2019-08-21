@@ -2,8 +2,10 @@ import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 // COMPONENTS
+import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
+import FileUpload from './FileUpload';
 // Others
 import { markData, blockData, EditorData } from './data';
 
@@ -32,7 +34,7 @@ const styles = {
 
 const toolbar = css`
   box-sizing: content-box;
-  button[data-active="true"] span {
+  [data-active="true"] span {
     color: var(--primary);
   }
   @media(min-width: 1024px) {
@@ -51,8 +53,8 @@ interface Props {
   value: any;
   onClick: (event: any, type: string) => void;
   onClickBlock: (event: any, type: string, hasBlock: any) => void;
-  classes: any
-
+  classes: any;
+  // handleFile: (e: any) => void;
 }
 
 function ToolBar(props: Props) {
@@ -65,49 +67,67 @@ function ToolBar(props: Props) {
   const hasBlock = (type: string) => value.blocks.some((node: any) => node.type === type);
 
   const renderMarkButton = (markData: EditorData[]) =>
-    markData.map((data: EditorData) => {
+    markData.map((data: EditorData, i) => {
       const { type, icon } = data;
       const isActive = hasMark(type);
 
-      return (
-        <button
-          className={`btn--${type} ${buttons}`}
-          data-active={isActive}
-          onClick={(event) => onClick(event, type)}
-          key={`btn--${type}`}
+    return (
+      <button
+        className={`btn--${type} ${buttons}`}
+        onClick={(event) => onClick(event, type)}
+        data-active={isActive}
+        key={`btn--${type}`}
+      >
+        <Icon
+          css={type === 'underlined' ? iconU : null}
+          className={icons}
         >
-          <Icon
-            css={type === 'underlined' ? iconU : null}
-            className={icons}
-          >
-            {icon}
-          </Icon>
-        </button>
+          {icon}
+        </Icon>
+      </button>
+    );
+  });
+
+  const renderBlockButton = (blockData: EditorData[]) =>
+    blockData.map((data: EditorData) => {
+      const { type, icon } = data;
+      let isActive = hasBlock(type);
+      // console.log('type', type, isActive);
+      if (['numbered-list', 'bulleted-list'].includes(type)) {
+        const { document, blocks } = value;
+        if (blocks.size > 0) {
+          const parent = document.getParent(blocks.first().key)
+          isActive = hasBlock('list-item') && parent && parent.type === type
+        }
+      }
+
+      return (
+        <React.Fragment key={`btn--${type}`}>
+          {type === 'image' ?
+            <FileUpload
+              type={type}
+              classname={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
+              isActive={isActive}
+              hasBlock={hasBlock}
+              icons={icons}
+              icon={icon}
+              onClickBlock={onClickBlock}
+            /> :
+            <button
+              className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
+              data-active={isActive}
+              onClick={(event) => onClickBlock(event, type, hasBlock)}
+            >
+              <Icon 
+                className={icons}
+              >
+                {icon}
+              </Icon>
+            </button>
+          }
+        </React.Fragment>
       );
     });
-
-    const renderBlockButton = (blockData: EditorData[]) =>
-      blockData.map((data: EditorData) => {
-        const { type, icon } = data;
-        let isActive = hasBlock(type);
-        if (['numbered-list', 'bulleted-list'].includes(type)) {
-          const { document, blocks } = value;
-          if (blocks.size > 0) {
-            const parent = document.getParent(blocks.first().key)
-            isActive = hasBlock('list-item') && parent && parent.type === type
-          }
-        }
-        return (
-          <button
-            className={`btn--${type} ${classes.buttons} ${classes.iconBlock}`}
-            data-active={isActive}
-            onClick={(event) => onClickBlock(event, type, hasBlock)}
-            key={`btn--${type}`}
-          >
-            <Icon className={icons}>{icon}</Icon>
-          </button>
-        );
-      });
 
   return (
     <div className={classes.root} css={toolbar}>

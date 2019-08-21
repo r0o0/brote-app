@@ -6,11 +6,24 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
 import { Link } from 'react-router-dom';
+import { useQuery} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 // COMPONENTS
 import Article from '../Article';
 import Grid from '@material-ui/core/Grid';
 // UTILS
 import convertToPath from '../../utils/convertToPath';
+
+export const GET_POSTS = gql`
+  {
+    posts {
+      id,
+      title,
+      author,
+      content,
+    }
+  }
+`
 
 const h2 = css`
   margin-bottom: 20px;
@@ -26,13 +39,10 @@ interface Props {
 }
 
 function List(props: Props) {
-  const { requestPosts, posts, preview } = props;
+  const { preview } = props;
 
-  useEffect(() => {
-    // request posts on page load
-    requestPosts('posts');
-
-  }, []);
+  const { loading, data } = useQuery(GET_POSTS);
+  console.log('useQuery', data.posts, loading);
 
   return (
     <React.Fragment>
@@ -45,23 +55,24 @@ function List(props: Props) {
       >
         <Grid item xs={12} sm={8}>
           <h2 css={h2}>Posts</h2>
-          { posts && Object.keys(posts).map(key => {
-              const { title, content, author, publishedOn, savedOn } = posts[key];
+          { data.posts && data.posts.map((post: type.Post) => {
+              if (loading) return <p>loading...</p>;
+              const { id, title, content, author, publishedOn, savedOn } = post;
               const path = convertToPath(title);
 
               return (
                 <Link
                   to={{
-                    pathname: `/p/${path}-b${key}`,
+                    pathname: `/p/${path}-b${id}`,
                     state: {
-                      id: key,
+                      id,
                       title,
                       content,
                       author,
                       publishedOn,
                     }
                   }}
-                  key={key}
+                  key={id}
                 >
                   <Article title={title} content={content} author={author} savedOn={savedOn} preview={preview} />
                 </Link>

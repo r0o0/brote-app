@@ -17,12 +17,18 @@ const postData = (dataType: string, data: any) => {
 };
 
 const getData = (dataType: string) => {
-  return axios.get<AxiosResponse>(`${baseURL}/${dataType}.json`)
+  return axios.get<AxiosResponse>(`${baseURL}/${dataType}.json`);
+};
+
+// users
+const getUser = (id: string) => {
+  return axios.get<AxiosResponse>(`${baseURL}/users/${id}.json`);
 };
 
 export {
   postData,
   getData,
+  getUser,
 };
 
 

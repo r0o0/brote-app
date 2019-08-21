@@ -1,6 +1,10 @@
 import React from 'react';
 import Html, { Rule } from 'slate-html-serializer';
 import { BLOCK_TAGS, MARK_TAGS } from './tags';
+import store from '../../redux/store';
+
+const image = () => store.subscribe(() => store.getState().editor.data.image);
+const src = image ? image: '';
 
 const rules: Rule[] = [
   // block element
@@ -13,6 +17,9 @@ const rules: Rule[] = [
           type: type,
           data: {
             className: el.getAttribute('class'),
+            src: el.getAttribute('src'),
+            'data-image-id': el.getAttribute('data-image-id'),
+            'data-image-orientation': el.getAttribute('data-image-orientation'),
           },
           nodes: next(el.childNodes),
         }
@@ -30,7 +37,7 @@ const rules: Rule[] = [
               </pre>
             );
           case 'paragraph':
-            return <p>{children}</p>;
+            return <p>{children}</p>
           case 'block-quote':
             return <blockquote>{children}</blockquote>;
           case 'heading-one':
@@ -43,6 +50,19 @@ const rules: Rule[] = [
             return <ol>{children}</ol>;
           case 'bulleted-list':
             return <ul>{children}</ul>;
+          case 'image':
+            const src = obj.data.get('src');
+            const classname = obj.data.get('className');
+            const id = obj.data.get('data-image-id');
+            const orientation = obj.data.get('data-image-orientation');
+            return src ?
+              <img
+                className={classname}
+                data-image-id={id}
+                data-image-orientation={orientation}
+                src={src}
+              />
+            : null;
         }
       }
     },

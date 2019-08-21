@@ -15,6 +15,9 @@ import {
   // modal
   OPEN_MODAL,
   CLOSE_MODAL,
+  // AUTH
+  AUTH_LOGIN,
+  AUTH_LOGIN_SUCCESS,
 } from '../constants';
 
 // Editor
@@ -36,6 +39,10 @@ const isRequestPostSuccess = (payload) => ({ type: REQUEST_POST_SUCCESS, payload
 const openModal = payload => ({ type: OPEN_MODAL });
 const closeModal = payload => ({ type: CLOSE_MODAL });
 
+// AUTH
+const checkForLogin = payload => ({ type: AUTH_LOGIN, payload });
+const loginSuccess = payload => ({ type: AUTH_LOGIN_SUCCESS, payload });
+
 export {
   setContent,
   writingContent,
@@ -50,4 +57,6 @@ export {
   isRequestPostSuccess,
   openModal,
   closeModal,
+  checkForLogin,
+  loginSuccess,
 };

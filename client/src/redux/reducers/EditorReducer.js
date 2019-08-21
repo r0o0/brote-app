@@ -12,10 +12,15 @@ import { editorValidator } from '../../utils/editor';
 
 const initialState = {
   data: {
-    author: null, // need login authentication
+    author: 'admin', // need login authentication
     title: null,
     content: null,
     savedOn: null,
+    image: [{
+      id: null,
+      data: null,
+      type: null,
+    }],
   },
   saved: null,
   valid: null,
@@ -25,16 +30,22 @@ function setEditorContent(state = initialState, action) {
   switch (action.type) {
     case EDITOR_SET:
       if (action.type === EDITOR_SET) {
-        const { content, title } = action.payload;
+        const { content, title, image } = action.payload;
         const keys = Object.keys(action.payload);
         console.log('EDITOR SET', action.payload);
         for (const key of keys) {
-          let updateData;
+          let updateData = [];
           if (key === 'content') {
             updateData = content;
           }
           if (key === 'title') {
             updateData = title;
+          }
+          if (key === 'image') {
+            if (state.data.image[0].id !== null) {
+              updateData = [...state.data.image];
+            }
+            updateData.push(image);
           }
           return {
             ...state,

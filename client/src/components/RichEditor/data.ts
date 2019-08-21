@@ -43,6 +43,10 @@ const blockData: EditorData[] = [
     type: 'bulleted-list',
     icon: 'format_list_bulleted'
   },
+  {
+    type: 'image',
+    icon: 'image',
+  },
 ];
 
 export {

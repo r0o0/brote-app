@@ -1,12 +1,14 @@
 // RichEditor.js
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Value, Inline } from 'slate';
-import { Editor, RenderMarkProps, RenderBlockProps } from 'slate-react';
+import { Value, Block } from 'slate';
+import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import { renderMark } from './marks';
+import { renderBlock } from './blocks';
 // COMPONENTS
 import ToolBar from './ToolBar';
 // UTILS
@@ -19,6 +21,7 @@ import {
 import { getTodayDate } from '../../utils/date';
 // CSS
 import * as css from './EditorStyles';
+import { timingSafeEqual } from 'crypto';
 
 const documentValue = Value.fromJSON({
   document: {
@@ -42,15 +45,32 @@ const documentValue = Value.fromJSON({
   },
 });
 
+const schema = {
+  document: {
+    last: { type: 'paragraph' },
+    normalize: (editor: any, { code, node, child }: any) => {
+      switch (code) {
+        case 'last_child_type_invalid': {
+          const paragraph = Block.create('paragraph')
+          return editor.insertNodeByKey(node.key, node.nodes.size, paragraph)
+        }
+      }
+    },
+  },
+};
+
 interface RichTextState {
   value: Value;
   editorEl: number | null;
   keyEvent: boolean;
   date: string;
+  upload: boolean;
+  image: string | null;
 };
 
 interface RichEditor {
   editor: any;
+  _isKeyEvent: boolean;
 };
 
 type Props = ReturnType<any> &
@@ -72,11 +92,14 @@ if (!localStorage.content) {
 class RichEditor extends Component<Props, RichTextState, RichEditor> {
   constructor(props: Props) {
     super(props);
+    this._isKeyEvent = false;
     this.state = {
       value: html.deserialize(initialValue),
       editorEl: null,
       keyEvent: false,
       date: getTodayDate(),
+      upload: false,
+      image: null,
     };
   }
 
@@ -84,21 +107,22 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.editor = editor;
   }
 
-  private handleChange = ({ value }: any) => {
+  private handleChange = ({ value }: { value: Value }) => {
     // console.log('%c change', 'background: pink; color: blue;',
     //   'state', this.state.value, html.serialize(this.state.value), '\n',
     //   'local', localStorage.content, '\n',
-    //   value, html.serialize(value),
-    // );
-    // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
-    if (this.state.keyEvent) {
-      // localStorage에 저장된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
+    //   value, html.serialize(value), '\n',
+    //   );
+      // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
+    if (this._isKeyEvent || this.state.upload) {
+      // localStorage에 저장 된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
       if (value.document !== this.state.value.document) {
         const string = html.serialize(value);
         localStorage.setItem('content', string);
       }
       // redux dispatch
       if (localStorage.getItem('content') !== null) {
+        console.log('writingContent', this._isKeyEvent);
         this.props.writingContent({ content: localStorage.content });
       }
     }
@@ -106,28 +130,42 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     this.setState({ value });
   };
 
-  private handleClick = (event: any, editor: any) => {
+  private handleClick = (event: Event, editor: any) => {
     const { startBlock, nextBlock, endBlock } = editor.value;
-    // console.log('click', event, editor,'\n', startBlock.type, '\n', editor.value, '\n', editor.value.nextBlock);
-
     // when there is no text block insert one
-    if (nextBlock === null && startBlock.type === endBlock.type) {
-      editor.insertBlock('paragraph');
+    if (endBlock.type !== 'paragraph') {
+      if (startBlock.type === endBlock.type) {
+        // console.log('same block');
+        editor.insertBlock('paragraph');
+      }
     }
   }
 
   // 마크 쇼트키 누를시 해당 마크 텍스트 적용
-  private handleKeyDown = (event: any, editor: any, next: any) => {
+  private handleKeyDown = (event: any, editor: any, next: Function): any => {
     let mark;
 
     // if user press on key 'enter' inside a code block keep the format
-    const { startBlock } = editor.value;
+    const { startBlock, endBlock } = editor.value;
 
-    if (startBlock.type === 'code') {
-      console.log('code block start', event);
-      if (event.keyCode === 13) {
-        editor.insertText('\n');
-        return;
+    if (startBlock !== null) {
+      // block type IMAGE
+      if (startBlock.type === 'image' || endBlock.type === 'image') {
+        // delete image on key event: 'backspace'
+        if (event.keyCode === 8) {
+          console.log('esc', editor);
+          editor.delete();
+        }
+        editor.insertBlock('paragraph');
+      }
+
+      // block type CODE
+      if (startBlock.type === 'code') {
+        console.log('code block start', event);
+        if (event.keyCode === 13) {
+          editor.insertText('\n');
+          return;
+        }
       }
     }
 
@@ -149,14 +187,14 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     event.preventDefault();
     this.editor.toggleMark(type);
     console.log('click mark:', event, type);
-    if (type === 'link') {
-      const href = window.prompt('Enter a url') as string;
-      console.log('where', href);
-      this.editor.wrapInline({
-        type: 'link',
-        node: { href },
-      });
-    }
+    // if (type === 'link') {
+    //   const href = window.prompt('Enter a url') as string;
+    //   console.log('where', href);
+    //   this.editor.wrapInline({
+    //     type: 'link',
+    //     node: { href },
+    //   });
+    // }
   };
 
   // 블록 클릭시 해당 블록 텍스트 적용
@@ -167,6 +205,14 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const { value } = editor;
     const { document } = value;
     console.log('click block:', event, type, hasBlock);
+
+    // Handle image file upload
+    if (type === 'image') {
+      const isActive = hasBlock(type);
+      this.setState({ upload : true });
+      console.log('%c click block image', 'background: orange;', type, isActive);
+    }
+
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = hasBlock(type);
@@ -204,52 +250,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     }
   }
 
-  // 마크에따라 텍스트 적용
-  protected renderMark = (props: RenderMarkProps, editor: any, next: any) => {
-    const { children, mark, attributes, node } = props;
-    const type = node as Inline;
-    switch (mark.type) {
-      case 'bold':
-        return <strong {...attributes}>{children}</strong>;
-      case 'italic':
-        return <em {...attributes}>{children}</em>;
-      case 'underlined':
-        return <u {...attributes}>{children}</u>;
-      default:
-        return next();
-    }
-  }
-
-  // 블록에따라 텍스트 적용
-  protected renderBlock = (props: RenderBlockProps, editor: any, next: any) => {
-    const { attributes, children, node } = props;
-    // console.log('editor', editor);
-    switch (node.type) {
-      case 'block-quote':
-        return <blockquote css={css.blockquote} {...attributes}>{children}</blockquote>;
-      case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>;
-      case 'heading-one':
-        return <h2 {...attributes}>{children}</h2>;
-      case 'heading-two':
-        return <h3 {...attributes}>{children}</h3>;
-      case 'list-item':
-        return <li {...attributes}>{children}</li>;
-      case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>;
-      case 'code':
-          console.log('case code in block', node.type, children);
-          return (
-            <pre css={css.codeblock} {...attributes}>
-              <code>{children}</code>
-            </pre>
-          );
-      default:
-        return next();
-    }
-  }
-
   componentDidMount() {
+    // this._isKeyEvent = true;
     // update initialValue
     if (localStorage.content === undefined) {
       initialValue = Plain.serialize(documentValue);
@@ -267,8 +269,72 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     // editor's y coordinate value from top of window + padding
     const y = this.editor.el.getBoundingClientRect().top;
     this.setState({ editorEl: y });
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', () => {
+        this._isKeyEvent = true;
+        return this.handleKeyDown;
+      });
+    }
+  }
 
-    document.addEventListener('keydown', () => this.setState({ keyEvent: true }));
+  insertImage(imageInfo: any) {
+    const { editor } = this;
+    const { data, id, orientation } = imageInfo;
+
+    const change = editor
+      .insertBlock({
+        type: 'image',
+        isVoid: true,
+        data: {
+          src: data,
+          'data-image-id': id,
+          'data-image-orientation': orientation,
+        }
+      })
+      .moveAnchorToEndOfDocument()
+      .focus();
+
+    this.handleChange(change);
+  }
+
+  // prevent component from rendering when upload is updated in state
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    // props
+    const prevData = this.props.editorState.data.image;
+    const prevImage = prevData[prevData.length - 1];
+    const nextData = nextProps.editorState.data.image;
+    const nextImage = nextData[nextData.length - 1];
+
+    if (nextImage.id !== prevImage.id) {
+      this.setState({ 
+        image: nextImage.id, 
+        upload: false
+      });
+      this.insertImage(nextImage);
+    }
+
+    // state
+    const prevState = this.state;
+
+    if (nextState !== prevState) {
+      if (nextState.upload !== prevState.upload) {
+        if (nextState.upload === true) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  componentWillUnmount() {
+    this._isKeyEvent = false;
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', () => this.handleKeyDown);
+    }
   }
 
   render() {
@@ -280,6 +346,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClickBlock={this.handleClickBlock}
         />
         <Editor
+          schema={schema}
           css={css.editor(this.state.editorEl)}
           ref={this.ref}
           className="editor--textarea"
@@ -288,8 +355,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
           onClick={this.handleClick}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          renderMark={this.renderMark}
-          renderBlock={this.renderBlock}
+          renderMark={renderMark}
+          renderBlock={renderBlock}
         />
       </div>
     );
@@ -297,7 +364,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 }
 
 const mapStateToProps = (store: any) => ({
-  editor: store.editor,
+  editorState: store.editor,
 });
 
 export default connect(mapStateToProps, actions)(RichEditor);
