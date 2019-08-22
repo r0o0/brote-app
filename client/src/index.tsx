@@ -13,7 +13,8 @@ import * as serviceWorker from './serviceWorker';
 const fancyLog = () => console.log('%c store 🤯👇🏿👇🏿', 'background: white; color: black; font-weight: bold;', '\n', store.getState());
 
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_DB_ENDPOINT
+  uri: process.env.REACT_APP_DB_ENDPOINT,
+  credentials: 'include'
 })
 
 export const client = new ApolloClient({
