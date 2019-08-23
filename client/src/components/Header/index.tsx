@@ -120,7 +120,15 @@ function Header(props: Props) {
       <h1 css={css.h1}>
         <Link to="/">BROTE</Link>
       </h1>
-      {isUserLoggedIn ? <LoggedIn locationPath={locationPath} saved={saved} readyToPublish={readyToPublish} onClick={!readyToPublish ? handleSave : handlePublish} /> : <Default onClick={openModal} />}
+      { isUserLoggedIn ?
+        <LoggedIn
+          locationPath={locationPath}
+          saved={saved}
+          readyToPublish={readyToPublish}
+          onClick={!readyToPublish ? handleSave : handlePublish} /> :
+          <Default openModal={openModal}
+        />
+      }
     </header>
   )
 }

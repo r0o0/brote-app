@@ -9,13 +9,22 @@ import * as css from './HeaderStyles';
 import * as cssB from '../Button/ButtonStyles';
 
 interface Props {
-  onClick?: () => void;
+  openModal: ({ type: string }: any) => void;
 }
 
 export const Default = (props: Props) => {
-  const { onClick } = props;
+  const { openModal } = props;
+  const triggerSignInModal = () => {
+    openModal({ type: 'signIn' });
+  };
+  const triggerSignUpModal = () => {
+    openModal({ type: 'signUp' });
+  };
   return (
-    <Button cssemotion={[cssB.buttonDefault, cssB.buttonActive]} value="Login" onClick={onClick} />
+    <div>
+      <Button cssemotion={cssB.btnSignIn} value="Sign In" onClick={triggerSignInModal} />
+      <Button cssemotion={[cssB.btnDefault, cssB.btnActive]} value="Start Writing" onClick={triggerSignUpModal} />
+    </div>
   );
 };
 
@@ -33,8 +42,8 @@ export const LoggedIn = (props: LoggedInProps) => {
       {locationPath === '/new-story' ?
         <div>
           {saved !== null ? <span css={css.editorStatus}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
-          <Button css={{ marginRight: '10px' }} cssemotion={readyToPublish ? cssB.buttonDefault : [cssB.buttonDefault, cssB.buttonActive]} onClick={onClick} value="Save Draft" />
-          <Button cssemotion={!readyToPublish ? cssB.buttonDefault : [cssB.buttonDefault, cssB.buttonActive]} onClick={onClick} value="Publish" />
+          <Button css={{ marginRight: '10px' }} cssemotion={readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]} onClick={onClick} value="Save Draft" />
+          <Button cssemotion={!readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]} onClick={onClick} value="Publish" />
         </div> :
         null
       }
