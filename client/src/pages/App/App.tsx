@@ -10,7 +10,7 @@ import Main from '../Main';
 import Write from '../Write';
 import Posts from '../Posts';
 import Post from '../Post';
-import Login from '../Login';
+import Auth from '../Auth';
 import User from '../User';
 // UTILS
 import { getCookie } from '../../utils/cookie';
@@ -44,7 +44,7 @@ function App(props: Props) {
           <Route path="/p/:id" component={Post} />
           <Route path="/@:user" component={User} />
         </Switch>
-        <Login />
+        <Auth />
       </ConnectedRouter>
     </BrowserRouter>
   );

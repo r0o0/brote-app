@@ -6,15 +6,13 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 // COMPONENTS
 import AuthForm from './AuthForm';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AlertBar from '../../components/AlertBar';
 // CSS
 // import { LoginStyles } from './LoginStyles';
 
-const REQUEST_LOGIN = gql`
+// sign in mutation
+const REQUEST_SIGNIN = gql`
   mutation REQUEST_LOGIN($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+    signin(email: $email, password: $password) {
       token
       user {
         email
@@ -23,24 +21,38 @@ const REQUEST_LOGIN = gql`
     }
   }
 `
+
+// sign up mutation
+const REQUEST_SIGNUP = gql`
+  mutation REQUEST_SIGNUP($email: String!, $password: String!) {
+    signup(email: $email, password: $password) {
+      token
+      user {
+        email
+        password
+      }
+    }
+  }
+`
+
 interface Props {
   checkForLogin: ({ key: string }: any) => void;
   auth: type.Auth;
   closeModal: () => void;
   modal: type.Modal;
+  type: string | null;
 }
 
-function LoginForm(props: Props) {
-  // const classes = LoginStyles();
-  const { checkForLogin } = props;
+const Auth = (props: Props) => {
+  const { checkForLogin, type } = props;
   const [errorState, setErrorState] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const [requestLogin, { loading, data, error }] = useMutation(REQUEST_LOGIN);
+  const [request, { loading, error }] = useMutation(type === 'signin' ? REQUEST_SIGNIN : REQUEST_SIGNUP);
 
   const whichError = (msg: string | null) => {
-    if (loggedIn) return 'none';
+    if (signedIn) return 'none';
     if ( typeof msg == 'string') {
       const emailErr = msg.indexOf('email') !== -1;
       const passwordErr = msg.indexOf('password') !== -1;
@@ -57,39 +69,35 @@ function LoginForm(props: Props) {
 
   useEffect(() => {
     // if authentication fails in server
-    if (error) setErrorMsg("Incorrect email or password");
-    // if (!error) setErrorMsg(null);
+    if (error) {
+      if (type === 'signin') setErrorMsg("Incorrect email or password");
+      if (type === 'signup') setErrorMsg("Email is invalid or already taken");
+    }
+
     // update error state in state when errorMsg state changes
     if (errorMsg) {
       setErrorState(true);
     } else {
       setErrorState(false);
     }
-    // console.log('in login', loggedIn, error);
-    if (loggedIn) {
+
+    if (signedIn) {
       if (errorState) setErrorState(false);
     }
-  }, [errorMsg, error, loggedIn]);
-
-  // when login component unmounts reset loggedIn state
-  useEffect(() => {
-    return () => {
-      console.log('login unmount');
-      setLoggedIn(false);
-    }
-  }, [])
+  }, [errorMsg, error, signedIn]);
 
   return (
     <AuthForm
-      requestLogin={requestLogin}
+      type={type}
+      request={request}
       loading={loading}
       error={error}
       errorState={errorState}
       errorMsg={errorMsg}
       setErrorMsg={setErrorMsg}
       clearError={clearError}
-      loggedIn={loggedIn}
-      setLoggedIn={setLoggedIn}
+      signedIn={signedIn}
+      setSignedIn={setSignedIn}
       checkForLogin={checkForLogin}
       typeOfError={whichError(errorMsg)}
     />
@@ -101,4 +109,4 @@ const mapStateToProps = (store: any) => ({
   modal: store.modal,
 });
 
-export default connect(mapStateToProps, actions)(LoginForm);
+export default connect(mapStateToProps, actions)(Auth);

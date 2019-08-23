@@ -60,7 +60,7 @@ const User = {
       guest
     }
   },
-  async login(_, { email, password }, ctx) {
+  async signin(_, { email, password }, ctx) {
     const user = await ctx.db.query.user({ where: { email } });
     if (!user) throw new Error('User don\'t exist.');
 
@@ -72,7 +72,7 @@ const User = {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
     });
-    console.log(ctx.response)
+
     return {
       token,
       user

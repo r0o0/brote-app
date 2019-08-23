@@ -41,7 +41,7 @@ function User(props: Props) {
                 marginLeft: '20px',
                 marginBottom: '2px',
               }}
-              cssemotion={cssB.buttonDefault}
+              cssemotion={cssB.btnDefault}
             />
           </div>
           <p className="user-msg">Set profile message</p>

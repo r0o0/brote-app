@@ -5,35 +5,35 @@ import Button from '@material-ui/core/Button';
 import AlertBar from '../../components/AlertBar';
 
 interface Props {
-  requestLogin: any;
+  type: string | null;
+  request: any;
   loading: boolean;
   error: any;
   errorState: boolean;
   errorMsg: string | null;
   setErrorMsg: (arg: string) => void
   clearError: () => void;
-  loggedIn: boolean;
-  setLoggedIn: (arg: boolean) => void;
+  signedIn: boolean;
+  setSignedIn: (arg: boolean) => void;
   checkForLogin: ({ email: string }: any) => void;
   typeOfError: string | undefined;
 }
 
 const AuthForm = (props: Props) => {
   const {
-    requestLogin,
+    type,
+    request,
     loading,
     error,
     errorState,
     errorMsg,
     setErrorMsg,
     clearError,
-    loggedIn,
-    setLoggedIn,
+    signedIn,
+    setSignedIn,
     checkForLogin,
     typeOfError,
   } = props;
-
-  // console.log('authform', '\n', 'error', errorState, 'loggedin', loggedIn);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,13 +56,14 @@ const AuthForm = (props: Props) => {
     return true;
   }
 
+  // email input onChange
   const handleEValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     if (!error) clearError();
-    console.log(errorMsg, errorState);
     setEmail(email);
   }
 
+  // password input onChange
   const handlePwdValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
     if (!error) clearError();
@@ -70,20 +71,19 @@ const AuthForm = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log('inside sub', submit);
     // on each form submit event
     // note: form is validated on form submit
     if (submit) {
       // if there is no graphql server error
-      // user is loggedIn
+      // user is signedIn
       if (!error) {
-        setLoggedIn(true);
+        setSignedIn(true);
         checkForLogin({ email });
       }
     }
     return () => setSubmit(false);
   }, [submit]);
-  console.log('outside sub', submit);
+
   return (
     <form action="/" method="post" onSubmit={async e => {
       e.preventDefault();
@@ -93,13 +93,13 @@ const AuthForm = (props: Props) => {
       if (!isValid) return;
 
       // if all fields are filled request login to graphql server
-      await requestLogin({ variables: { email, password } });
+      await request({ variables: { email, password } });
 
       setSubmit(true);
     }}>
       <fieldset disabled={loading} aria-busy={loading}>
         { errorState ? <AlertBar open={errorState} message={errorMsg as string} variant="error" /> : null }
-        <AlertBar open={loggedIn} message="Login Success" variant="success" />
+        <AlertBar open={signedIn} message="Login Success" variant="success" />
         <TextField
           id="input-email"
           label="Email"
@@ -139,7 +139,7 @@ const AuthForm = (props: Props) => {
             // className={classes.buttonGen}
             // onClick={handleLogin}
           >
-            Login
+            { type === 'signin' ? 'Sign In' : 'Join Brote'}
           </Button>
           {/* <Button variant="outlined" className={classes.buttonGuest} onClick={handleGuestLogin}>Login as Guest</Button> */}
       </fieldset>
