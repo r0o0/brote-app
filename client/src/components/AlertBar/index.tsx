@@ -36,7 +36,7 @@ function AlertBar(props: Props) {
     <div>
       <Snackbar
         className={classes.root}
-        open={open}
+        open={alertOpen}
       >
         <SnackbarContent
           className={clsx(classes.contentRoot, classes[variant])}
