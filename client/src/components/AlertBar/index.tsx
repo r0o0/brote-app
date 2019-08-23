@@ -20,6 +20,7 @@ function AlertBar(props: Props) {
   const classes = AlertBarStyles();
   const { open, message, variant } = props;
   const [alertOpen, setAlertOpen] = useState(open);
+
   const handleClose = (e?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -35,7 +36,7 @@ function AlertBar(props: Props) {
     <div>
       <Snackbar
         className={classes.root}
-        open={alertOpen}
+        open={open}
       >
         <SnackbarContent
           className={clsx(classes.contentRoot, classes[variant])}
