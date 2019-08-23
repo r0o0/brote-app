@@ -44,4 +44,5 @@ export interface Auth {
 
 export interface Modal {
   status: boolean;
+  type: string | null;
 }

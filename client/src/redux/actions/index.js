@@ -36,8 +36,8 @@ const isRequestPostsSuccess = (payload) => ({ type: REQUEST_POSTS_SUCCESS, paylo
 const isRequestPostSuccess = (payload) => ({ type: REQUEST_POST_SUCCESS, payload });
 
 // modal
-const openModal = payload => ({ type: OPEN_MODAL });
-const closeModal = payload => ({ type: CLOSE_MODAL });
+const openModal = payload => ({ type: OPEN_MODAL, payload });
+const closeModal = () => ({ type: CLOSE_MODAL });
 
 // AUTH
 const checkForLogin = payload => ({ type: AUTH_LOGIN, payload });
