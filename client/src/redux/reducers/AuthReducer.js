@@ -9,7 +9,7 @@ const initialState = {
   login: false,
   info: {
     user: null,
-    password: null,
+    // password: null,
   },
   isError: false,
   error_message: null,
@@ -17,34 +17,34 @@ const initialState = {
 
 function auth(state = initialState, action) {
   switch (action.type) {
-    case AUTH_LOGIN:
-      console.log(action.type, action.payload);
-      return {
-        ...state,
-        // login: true,
-        info: {
-          user: action.payload.id,
-        }
-      }
+    // case AUTH_LOGIN:
+    //   console.log(action.type, action.payload);
+    //   return {
+    //     ...state,
+    //     isError: false,
+    //     info: {
+    //       user: action.payload.id,
+    //     }
+    //   }
     case AUTH_LOGIN_SUCCESS:
       console.log(action.type, action.payload);
       return {
         ...state,
         login: true,
         info: {
-          ...state.info,
-          password: action.payload,
+          user: action.payload.email
+          // password: action.payload,
         },
-        isError: false,
-        error_message: null,
+        // isError: false,
+        // error_message: null,
       }
-    case AUTH_LOGIN_FAILURE:
-      return {
-        ...state,
-        login: false,
-        isError: true,
-        error_message: 'Invalid username or password',
-      }
+    // case AUTH_LOGIN_FAILURE:
+    //   return {
+    //     ...state,
+    //     login: false,
+    //     isError: true,
+    //     error_message: 'Invalid username or password',
+    //   }
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 // COMPONENTS
 import Snackbar from '@material-ui/core/Snackbar';
@@ -20,13 +20,16 @@ function AlertBar(props: Props) {
   const classes = AlertBarStyles();
   const { open, message, variant } = props;
   const [alertOpen, setAlertOpen] = useState(open);
-
   const handleClose = (e?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setAlertOpen(false);
   };
+
+  useEffect(() => {
+    if (alertOpen !== open) setAlertOpen(open);
+  }, [open]);
 
   return (
     <div>

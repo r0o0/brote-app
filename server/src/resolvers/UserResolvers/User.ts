@@ -60,19 +60,19 @@ const User = {
       guest
     }
   },
-  async login(_, { email, password }, { db, response }) {
-    const user = await db.query.user({ where: { email } });
+  async login(_, { email, password }, ctx) {
+    const user = await ctx.db.query.user({ where: { email } });
     if (!user) throw new Error('User don\'t exist.');
 
     const valid = await compare(password, user.password);
     if (!valid) throw new Error('Incorrect password');
 
     const token = jwt.sign({ userId: user.id }, process.env.AUTH_SECRET);
-    response.cookie('token', token, {
+    ctx.response.cookie('token', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
     });
-
+    console.log(ctx.response)
     return {
       token,
       user

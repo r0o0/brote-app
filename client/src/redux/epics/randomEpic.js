@@ -73,29 +73,35 @@ const getPostsEpic = action$ =>
   )
 
 // auth
+// const login = action$ =>
+//   action$.ofType(AUTH_LOGIN)
+//   .pipe(
+//     map(() => ({ type: AUTH_LOGIN_SUCCESS }))
+//   )
+
 const checkLogin = action$ =>
   action$.ofType(AUTH_LOGIN)
   .pipe(
-    switchMap(action => {
-      const userInfo = getUser(action.payload.id);
-      const hashed = hash(action.payload.pwd);
-      return Promise.all([userInfo, hashed]);
-    }),
+    // switchMap(action => {
+    //   const userInfo = getUser(action.payload.id);
+    //   const hashed = hash(action.payload.pwd);
+    //   return Promise.all([userInfo, hashed]);
+    // }),
     map(res => {
-      const userInfo = res[0];
-      const hashed = res[1];
-      const toCompare = userInfo.data.password;
-      const encrypted = encryptHash(hashed);
-      console.log('map hashed', hashed, toCompare, encrypted);
-      if (toCompare === encrypted) {
-        console.log('user logged in successfully')
-        document.cookie = 'user=guest';
-        document.cookie = 'logged_in=yes';
-        document.cookie = `user_session=${encrypted}`;
-        return { type: AUTH_LOGIN_SUCCESS, payload: encrypted };
-      } else {
-        return { type: AUTH_LOGIN_FAILURE };
-      }
+      // const userInfo = res[0];
+      // const hashed = res[1];
+      // const toCompare = userInfo.data.password;
+      // const encrypted = encryptHash(hashed);
+      // console.log('map hashed', hashed, toCompare, encrypted);
+      // if (toCompare === encrypted) {
+      //   console.log('user logged in successfully')
+      //   document.cookie = 'user=guest';
+      //   document.cookie = 'logged_in=yes';
+      //   document.cookie = `user_session=${encrypted}`;
+        return { type: AUTH_LOGIN_SUCCESS, payload: res };
+      // } else {
+      //   return { type: AUTH_LOGIN_FAILURE };
+      // }
     })
   )
 
@@ -107,4 +113,5 @@ export default [
   getPostsEpic,
   getPostEpic,
   checkLogin,
+  // login
 ];
