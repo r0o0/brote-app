@@ -5,20 +5,11 @@ import { forwardTo } from 'prisma-binding';
 import { checkForUser, authorization } from './userUtils';
 
 export const getUser = {
-  async currentUser(_, { id }, { db, request, response }, info) {
-    const Authorization = request.get("Authorization");
-    if (!Authorization) throw Error('Not Authorized.');
+  async currentUser(_, args, { db, request }, info) {
+    const AuthenticatedUser = request.user;
+    if (!AuthenticatedUser) throw Error('Not Authorized.');
 
-    const token = Authorization.replace('Bearer', '');
-    const { userId } = jwt.verify(token, process.env.AUTH_SECRET!);
-    // console.log('request', request.headers, request.userId, request);
-    if (id !== userId) throw Error('Invalid user.');
-    response.cookie('userId', userId, {
-      httpOnly: true,
-      maxAge: null,
-    })
-
-    return await db.query.user({ where: { id } }, info);
+    return await db.query.user({ where: { id: AuthenticatedUser.id} }, info);
   },
 }
 const User = {
@@ -39,6 +30,7 @@ const User = {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
       });
+
       return {
         token,
         user
@@ -60,15 +52,15 @@ const User = {
       guest
     }
   },
-  async signin(_, { email, password }, ctx) {
-    const user = await ctx.db.query.user({ where: { email } });
+  async signin(_, { email, password }, { response, db }) {
+    const user = await db.query.user({ where: { email } });
     if (!user) throw new Error('User don\'t exist.');
 
     const valid = await compare(password, user.password);
     if (!valid) throw new Error('Incorrect password');
 
     const token = jwt.sign({ userId: user.id }, process.env.AUTH_SECRET);
-    ctx.response.cookie('token', token, {
+    response.cookie('token', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr token
     });

@@ -2,8 +2,8 @@ import { GraphQLServer } from 'graphql-yoga';
 import resolvers from './resolvers';
 import  { Prisma } from 'prisma-binding';
 import * as jwt from 'jsonwebtoken';
-// import * as cookieParser from 'cookie-parser';
-const cookieParser = require('cookie-parser');
+import * as cookieParser from 'cookie-parser';
+// const cookieParser = require('cookie-parser');
 
 declare global {
   namespace Express {
@@ -34,10 +34,9 @@ server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const { token } = req.cookies;
-  console.log(token);
   if (!token) return next();
   if (token) {
-  const { userId } = jwt.verify(token, process.env.AUTH_SECRET);
+    const { userId } = jwt.verify(token, process.env.AUTH_SECRET);
     // put the userId onto the req for future access
     req.userId = userId;
   }
@@ -54,13 +53,13 @@ server.express.use(async (req, res, next) => {
   next();
 });
 
-
 server.get("/posts", (req, res) => {
    res.json({}).status(200)
 });
 
 server.express.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
+  // res.header('Access-Control-Allow-Origin', process.env.CLIENT_ENDPOINT);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
@@ -69,8 +68,8 @@ server.express.use((req, res, next) => {
 const options = {
   port: `${process.env.APP_PORT}`,
   cors: {
-    credentials: true,
     origin: [process.env.CLIENT_ENDPOINT], // Client Endpoint
+    credentials: true,
   }
 }
 
