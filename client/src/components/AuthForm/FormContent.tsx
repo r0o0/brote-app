@@ -3,12 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { jsx } from '@emotion/core';
 // COMPONENTS
 import TextField from '@material-ui/core/TextField';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import AlertBar from '../AlertBar';
 // CSS
-import { FormStyles, fieldset } from './AuthFormStyles';
+import { 
+  FormStyles, 
+  fieldset, 
+  // TextFieldStyles,
+  // textFieldTheme
+} from './AuthFormStyles';
 // UTILS
 import { createUsername } from '../../utils/createUsername';
+import { withStyles } from '@material-ui/core/styles';
 
 interface Props {
   type: string | null;
@@ -116,7 +123,6 @@ const FormContent = (props: Props) => {
         <TextField
           id="input-email"
           label="Email"
-          className={classes.textfield}
           type="text"
           autoComplete="off"
           margin="dense"
@@ -125,8 +131,22 @@ const FormContent = (props: Props) => {
           // value={triggerLogin ? 'Guest' : eValue}
           onChange={handleEValue}
           fullWidth
+          // input css override
+          InputProps={{
+            classes: {
+              root: classes.inputRoot,
+              notchedOutline: classes.notchedOutline,
+              focused: classes.focused,
+            }
+          }}
+          // input label css override
           InputLabelProps={{
             shrink: true,
+            classes: {
+              root: classes.labelRoot,
+              focused: classes.labelFocused,
+              error: classes.labelError,
+            },
           }}
           error={typeOfError === 'email' || typeOfError === 'both' ? true : false}
         />
@@ -141,8 +161,21 @@ const FormContent = (props: Props) => {
           onChange={handlePwdValue}
           variant="outlined"
           fullWidth
+          InputProps={{
+            classes: {
+              root: classes.inputRoot,
+              notchedOutline: classes.notchedOutline,
+              focused: classes.focused,
+            }
+          }}
+          // input label css override
           InputLabelProps={{
             shrink: true,
+            classes: {
+              root: classes.labelRoot,
+              focused: classes.labelFocused,
+              error: classes.labelError,
+            },
           }}
           error={typeOfError === 'password' || typeOfError === 'both' ? true : false}
         />
@@ -160,4 +193,5 @@ const FormContent = (props: Props) => {
   );
 };
 
+// export default withStyles(TextFieldStyles)(FormContent);
 export default FormContent;
