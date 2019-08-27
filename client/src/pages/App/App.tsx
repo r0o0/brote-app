@@ -33,7 +33,7 @@ function App(props: Props) {
 
   useEffect(() => {
     if (error) setIsUserLoggedIn(false);
-    if (!loading && data) {
+    if (data && data.currentUser) {
       const { email, name, role } = data.currentUser;
       const username = name ? name : createUsername(email);
       // if no user cookie found set cookie
