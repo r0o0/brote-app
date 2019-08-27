@@ -8,9 +8,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import AuthForm from '../../components/AuthForm';
 // CSS
-import { LoginStyles } from './AuthStyles';
+import { DialogStyles } from './AuthStyles';
+// UTILS
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface Props {
   auth: type.Auth;
@@ -19,10 +24,14 @@ interface Props {
 }
 
 function Auth(props: Props) {
-  const classes = LoginStyles();
   const { auth, closeModal, modal } = props;
   const [triggerModal, setTriggerModal] = useState(false);
   const [formType, setFormType] = useState<string | null>(null);
+
+  // @material
+  const classes = DialogStyles();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleClose = () => {
     setTriggerModal(false);
@@ -49,6 +58,7 @@ function Auth(props: Props) {
 
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={triggerModal}
       onClose={handleClose}
       aria-labelledby={`form-${formType}`}
@@ -65,7 +75,7 @@ function Auth(props: Props) {
         }
       </DialogTitle>
       <DialogContent
-        className={classes.loginBox}
+        className={classes.contentWrapper}
       >
         <DialogContentText>
           { formType === 'signin' ?
@@ -76,6 +86,9 @@ function Auth(props: Props) {
         <AuthForm type={formType} />
       </DialogContent>
       <DialogActions className={classes.buttonWrapper}>
+        <IconButton onClick={handleClose}>
+          <Icon>close</Icon>
+        </IconButton>
       </DialogActions>
     </Dialog>
   )

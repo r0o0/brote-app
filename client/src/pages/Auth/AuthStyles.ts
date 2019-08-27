@@ -1,35 +1,55 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const LoginStyles = makeStyles((theme: Theme) => ({
+export const DialogStyles = makeStyles((theme: Theme) => ({
   root: {
+    position: 'relative',
     '& input.MuiInputBase-input': {
       height: '32px',
     },
     '& div.MuiDialog-paper': {
-      padding: '32px 40px',
+      padding: '48px 56px',
+      [theme.breakpoints.down('sm')]: {
+        padding: '64px 40px',
+      },
+      [theme.breakpoints.down('xs')]: {
+        padding: '64px 16px',
+      }
     }
   },
-  loginBox: {
+  contentWrapper: {
     width: '100%',
     padding: '24px 0 16px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '32px 0',
+    }
   },
   title: {
     padding: '0',
-    fontSize: '24px',
+    fontSize: '26px',
     fontWeight: 500,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '32px',
+      lineHeight: '1.25em',
+    }
   },
   textfield: {
     marginBottom: '16px',
   },
+  fullScreen: {
+    [theme.breakpoints.down('sm')]: {
+
+    }
+  },
   buttonWrapper: {
+    position: 'absolute',
+    top: '16px',
+    right: '16px',
+    width: 'fit-content',
+    height: 'fit-content',
     padding: '0',
     [theme.breakpoints.down('sm')]: {
-      flexWrap: 'wrap',
-      '& button.MuiButtonBase-root': {
-        width: '100%',
-        margin: '0',
-        marginBottom: '10px',
-      }
+      top: '16px',
+      right: '16px',
     }
   },
   buttonGen: {
