@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { jsx, css } from '@emotion/core';
 // COMPONENTS
 import UserNav from './UserNav';
-// UTILS
-import { getCookie } from '../../utils/cookie';
 
 const UserButton = css`
   width: inherit;
@@ -18,12 +16,14 @@ const UserButton = css`
   label: user--profile;
 `;
 
-function UserProfile() {
+interface Props {
+  user?: string;
+}
+
+function UserProfile(props: Props) {
+  const { user } = props;
   let initial;
-  const user = getCookie('user');
-  if (user) {
-    initial = user.charAt(0);
-  }
+  if (user) initial = user.charAt(0);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -42,7 +42,7 @@ function UserProfile() {
       >
         {initial}
       </button>
-      <UserNav id="user-nav" anchorEl={anchorEl} onClose={handleClose} user={user} />
+      <UserNav id="user-nav" anchorEl={anchorEl} onClose={handleClose} user={user ? user : ''} />
     </React.Fragment>
   )
 }

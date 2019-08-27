@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
 import * as type from '../../types';
@@ -10,7 +9,8 @@ import * as type from '../../types';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 // COMPONENTS
-import { Default, LoggedIn } from './HeaderList';
+import MainHeader from './MainHeader';
+import WriteHeader from './WriteHeader';
 // UTILS
 import { editorValidator } from '../../utils/editor';
 import { getTodayDate } from '../../utils/date';
@@ -40,6 +40,7 @@ interface Props {
 }
 
 function Header(props: Props) {
+  console.log(props);
   const {
     resetEditor,
     openModal,
@@ -47,6 +48,7 @@ function Header(props: Props) {
     editor,
     router,
     isUserLoggedIn,
+    auth,
   } = props;
 
   const locationPath = router.location.pathname;
@@ -114,23 +116,11 @@ function Header(props: Props) {
   }, [localTitle, localContent, readyToPublish]);
 
   return (
-    <header
-      css={locationPath === '/new-story' ? [css.header, css.headerBig] : css.header}
-    >
-      <h1 css={css.h1}>
-        <Link to="/">BROTE</Link>
-      </h1>
-      { isUserLoggedIn ?
-        <LoggedIn
-          locationPath={locationPath}
-          saved={saved}
-          readyToPublish={readyToPublish}
-          onClick={!readyToPublish ? handleSave : handlePublish} /> :
-          <Default openModal={openModal}
-        />
-      }
+    <header>
+      {locationPath === '/' && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
+      {locationPath === '/new-story' && <WriteHeader locationPath={locationPath} />}
     </header>
-  )
+  );
 }
 
 const mapStateToProps = (store: any) => ({
