@@ -24,6 +24,10 @@ function Auth(props: Props) {
   const [triggerModal, setTriggerModal] = useState(false);
   const [formType, setFormType] = useState<string | null>(null);
 
+  const handleClose = () => {
+    setTriggerModal(false);
+  }
+
   // close modal if user is signed in
   useEffect(() => {
     if (auth.login) closeModal();
@@ -46,6 +50,7 @@ function Auth(props: Props) {
   return (
     <Dialog
       open={triggerModal}
+      onClose={handleClose}
       aria-labelledby={`form-${formType}`}
       className={classes.root}
     >
