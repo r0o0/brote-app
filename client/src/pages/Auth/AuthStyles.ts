@@ -32,14 +32,6 @@ export const DialogStyles = makeStyles((theme: Theme) => ({
       lineHeight: '1.25em',
     }
   },
-  textfield: {
-    marginBottom: '16px',
-  },
-  fullScreen: {
-    [theme.breakpoints.down('sm')]: {
-
-    }
-  },
   buttonWrapper: {
     position: 'absolute',
     top: '16px',
@@ -52,20 +44,4 @@ export const DialogStyles = makeStyles((theme: Theme) => ({
       right: '16px',
     }
   },
-  buttonGen: {
-    color: 'var(--light-60)',
-    borderColor: 'var(--light-60)',
-    '&:hover': {
-      backgroundColor: 'var(--light-60)',
-      color: '#fff',
-    },
-  },
-  buttonGuest: {
-    color: 'var(--primary)',
-    borderColor: 'var(--primary)',
-    '&:hover': {
-      backgroundColor: 'var(--primary)',
-      color: '#fff',
-    },
-  }
 }));

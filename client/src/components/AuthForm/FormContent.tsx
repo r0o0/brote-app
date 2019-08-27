@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+/** @jsx jsx **/
+import { jsx } from '@emotion/core';
 // COMPONENTS
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AlertBar from '../AlertBar';
+// CSS
+import { FormStyles, fieldset } from './AuthFormStyles';
 // UTILS
 import { createUsername } from '../../utils/createUsername';
 
@@ -38,6 +42,8 @@ const FormContent = (props: Props) => {
     loginSuccess,
     typeOfError,
   } = props;
+
+  const classes = FormStyles();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -104,13 +110,13 @@ const FormContent = (props: Props) => {
 
       setSubmit(true);
     }}>
-      <fieldset disabled={loading} aria-busy={loading}>
+      <fieldset css={fieldset} disabled={loading} aria-busy={loading}>
         { errorState ? <AlertBar open={errorState} message={errorMsg as string} variant="error" /> : null }
         <AlertBar open={signedIn} message="Login Success" variant="success" />
         <TextField
           id="input-email"
           label="Email"
-          // className={classes.textfield}
+          className={classes.textfield}
           type="text"
           autoComplete="off"
           margin="dense"
@@ -127,7 +133,7 @@ const FormContent = (props: Props) => {
         <TextField
           id="input-pwd"
           label="Password"
-          // className={classes.textfield}
+          className={classes.textfield}
           type="password"
           autoComplete="current-password"
           margin="dense"
@@ -143,7 +149,7 @@ const FormContent = (props: Props) => {
           <Button
             type="submit"
             variant="outlined"
-            // className={classes.buttonGen}
+            className={classes.buttonGen}
             // onClick={handleLogin}
           >
             { type === 'signin' ? 'Sign In' : 'Join Brote'}
