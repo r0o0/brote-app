@@ -8,8 +8,9 @@ import {
 const initialState = {
   login: false,
   info: {
-    user: null,
-    // password: null,
+    username: null,
+    email: null,
+    role: null,
   },
   isError: false,
   error_message: null,
@@ -17,26 +18,22 @@ const initialState = {
 
 function auth(state = initialState, action) {
   switch (action.type) {
-    // case AUTH_LOGIN:
-    //   console.log(action.type, action.payload);
-    //   return {
-    //     ...state,
-    //     isError: false,
-    //     info: {
-    //       user: action.payload.id,
-    //     }
-    //   }
+    case AUTH_LOGIN:
+      return {
+        ...state,
+        login: true
+      }
     case AUTH_LOGIN_SUCCESS:
       console.log(action.type, action.payload);
+      const { username, email, role } = action.payload;
       return {
         ...state,
         login: true,
         info: {
-          user: action.payload.email
-          // password: action.payload,
-        },
-        // isError: false,
-        // error_message: null,
+          username,
+          email,
+          role
+        }
       }
     // case AUTH_LOGIN_FAILURE:
     //   return {

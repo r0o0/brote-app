@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 // COMPONENTS
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import AlertBar from '../../components/AlertBar';
+import AlertBar from '../AlertBar';
+// UTILS
+import { createUsername } from '../../utils/createUsername';
 
 interface Props {
   type: string | null;
-  request: any;
+  request: any; // graphql request signin or signup
   loading: boolean;
+  data: any;
   error: any;
   errorState: boolean;
   errorMsg: string | null;
@@ -15,23 +18,24 @@ interface Props {
   clearError: () => void;
   signedIn: boolean;
   setSignedIn: (arg: boolean) => void;
-  checkForLogin: ({ email: string }: any) => void;
+  loginSuccess: ({}: { email: string, username: string, role: string }) => void;
   typeOfError: string | undefined;
 }
 
-const AuthForm = (props: Props) => {
+const FormContent = (props: Props) => {
   const {
     type,
-    request,
+    request, // graphql request signin or signup
     loading,
     error,
+    data,
     errorState,
     errorMsg,
     setErrorMsg,
     clearError,
     signedIn,
     setSignedIn,
-    checkForLogin,
+    loginSuccess,
     typeOfError,
   } = props;
 
@@ -40,7 +44,6 @@ const AuthForm = (props: Props) => {
   const [submit, setSubmit] = useState(false);
 
   const validate = () => {
-    console.log('validate', !email, !password)
     if (!email && !password) {
       setErrorMsg('Please enter your email and password');
       return false;
@@ -74,11 +77,15 @@ const AuthForm = (props: Props) => {
     // on each form submit event
     // note: form is validated on form submit
     if (submit) {
+      const { user } = data.signin;
+      const { email, name, role } = user;
       // if there is no graphql server error
       // user is signedIn
-      if (!error) {
+      if (!error && user) {
         setSignedIn(true);
-        checkForLogin({ email });
+        const username = name ? name : createUsername(email);
+        document.cookie = `user=${username}`;
+        loginSuccess({ email, username, role });
       }
     }
     return () => setSubmit(false);
@@ -147,4 +154,4 @@ const AuthForm = (props: Props) => {
   );
 };
 
-export default AuthForm;
+export default FormContent;

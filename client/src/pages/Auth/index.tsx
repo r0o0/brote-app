@@ -8,18 +8,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Auth from '../../components/Auth';
+import AuthForm from '../../components/AuthForm';
 // CSS
 import { LoginStyles } from './AuthStyles';
 
 interface Props {
-  checkForLogin: ({ key: string }: any) => void;
   auth: type.Auth;
   closeModal: () => void;
   modal: type.Modal;
 }
 
-function Login(props: Props) {
+function Auth(props: Props) {
   const classes = LoginStyles();
   const { auth, closeModal, modal } = props;
   const [triggerModal, setTriggerModal] = useState(false);
@@ -69,7 +68,7 @@ function Login(props: Props) {
             'Join as a user or sign up as a guest if you are just passing  by.'
           }
         </DialogContentText>
-        <Auth type={formType} />
+        <AuthForm type={formType} />
       </DialogContent>
       <DialogActions className={classes.buttonWrapper}>
       </DialogActions>
@@ -82,4 +81,4 @@ const mapStateToProps = (store: any) => ({
   modal: store.modal,
 });
 
-export default connect(mapStateToProps, actions)(Login);
+export default connect(mapStateToProps, actions)(Auth);
