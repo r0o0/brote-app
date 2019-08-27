@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, } from 'react-router-dom';
-import { History } from 'history'
 import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
+import { History } from 'history'
 import * as type from '../../types';
-// COMPONENT
+import { GET_CURRENT_USER } from './Query';
+import { useQuery } from '@apollo/react-hooks';
+// COMPONENTS
 import Header from '../../components/Header';
 import Main from '../Main';
 import Write from '../Write';
@@ -13,25 +16,32 @@ import Post from '../Post';
 import Auth from '../Auth';
 import User from '../User';
 // UTILS
+import { createUsername } from '../../utils/createUsername';
 import { getCookie } from '../../utils/cookie';
 
 interface Props {
   history: History;
   auth: type.Auth;
+  loginSuccess: ({}: { email: string, username: string, role: string }) => void;
+  checkForLogin: () => void;
 }
 
 function App(props: Props) {
-  const { history, auth } = props;
+  const { history, loginSuccess } = props;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const { loading, data, error } = useQuery(GET_CURRENT_USER);
 
   useEffect(() => {
-    const cookieState = getCookie('logged_in');
-    if (cookieState === 'yes') {
+    if (error) setIsUserLoggedIn(false);
+    if (!loading && data) {
+      const { email, name, role } = data.currentUser;
+      const username = name ? name : createUsername(email);
+      // if no user cookie found set cookie
+      if (!getCookie('user')) document.cookie = `user=${username}`;
       setIsUserLoggedIn(true);
-    } else {
-      setIsUserLoggedIn(false);
+      loginSuccess({ email, username, role });
     }
-  }, [auth.login]);
+  }, [loading, error, data]);
 
   return (
     <BrowserRouter>
@@ -50,6 +60,6 @@ function App(props: Props) {
   );
 }
 
-const mapStateToProps = ({ auth }: any) => ({ auth });
+const mapStateToProps = ({ auth }: type.AuthState) => ({ auth });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, actions)(App);

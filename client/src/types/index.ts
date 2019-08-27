@@ -1,3 +1,5 @@
+import { routerMiddleware } from "connected-react-router";
+
 export interface Post {
   id: string,
   author: string,
@@ -35,11 +37,16 @@ export interface Router {
 export interface Auth {
   login: boolean;
   info: {
-    user: string | null,
-    password: string | null,
+    username: string | null,
+    email: string | null,
+    role: string | null,
   };
   isError: boolean;
   error_message: string | null;
+}
+
+export interface AuthState {
+  auth: Auth;
 }
 
 export interface Modal {
