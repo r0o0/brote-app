@@ -31,6 +31,10 @@ export interface Router {
   }
 }
 
+export interface RouterState {
+  router: Router;
+}
+
 export interface Auth {
   login: boolean;
   info: {

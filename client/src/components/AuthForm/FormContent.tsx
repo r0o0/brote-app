@@ -3,19 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { jsx } from '@emotion/core';
 // COMPONENTS
 import TextField from '@material-ui/core/TextField';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import AlertBar from '../AlertBar';
 // CSS
-import { 
-  FormStyles, 
-  fieldset, 
+import {
+  FormStyles,
+  fieldset,
   // TextFieldStyles,
   // textFieldTheme
 } from './AuthFormStyles';
 // UTILS
 import { createUsername } from '../../utils/createUsername';
-import { withStyles } from '@material-ui/core/styles';
 
 interface Props {
   type: string | null;

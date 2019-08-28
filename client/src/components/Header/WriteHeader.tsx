@@ -1,28 +1,133 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
+import * as type from '../../types';
+// GraphQL
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 // COMPONENTS
 import Button from '../Button';
 import WithUser from './withUser';
 // CSS
 import * as css from './HeaderStyles';
 import * as cssB from '../Button/ButtonStyles';
+// UTILS
+import { editorValidator } from '../../utils/editor';
+import { getTodayDate } from '../../utils/date';
+
+const CREATE_DRAFT = gql`
+  mutation CreateDraft($draft: PostContent!) {
+    createDraft( draft: $draft ) {
+      id
+      title
+      author
+      content
+      savedOn
+    }
+  }
+`;
 
 interface Props {
-  onClick?: () => void;
+  resetEditor: () => void;
+  openModal: ({}: { type: string }) => void;
+  publishEditor: ({}: { key: string }) => void;
+  editor: type.Editor;
   locationPath: string;
-  saved?: boolean | null;
-  readyToPublish?: boolean;
 }
 
 const WriteHeader = (props: Props) => {
-  const { onClick, saved, locationPath, readyToPublish } = props;
+  const {
+    editor,
+    // publishEditor,
+    resetEditor,
+    openModal,
+    locationPath,
+   } = props;
+
+  const [readyToPublish, setReadyToPublish] = useState(false);
+  const localTitle = localStorage.title;
+  const localContent = localStorage.content;
+  const { saved } = editor;
+
+  const [createDraft, { data }] = useMutation(CREATE_DRAFT);
+
+  const { title, content, author, savedOn } = editor.data;
+
+  const postData = {
+    title: title == null ? localTitle : title,
+    content: content == null ? localContent : content,
+    author,
+  }
+
+  const handleSave = () => {
+    const date = { savedOn };
+    const toSave = { ...postData, ...date };
+
+    createDraft({ variables: { draft: toSave } });
+  };
+
+  const handlePublish = () => {
+    const publishedOn = getTodayDate();
+    const date = { publishedOn };
+    console.log('published on: ', publishedOn);
+    const toPublish = { ...postData, ...date };
+
+    // Todo: need to send to graphql server
+    // publishEditor(toPublish);
+
+    // reset
+    resetEditor();
+    localStorage.clear();
+
+    openModal({ type: 'editor-preview' });
+  };
+
+    const checkPublishState = (title: string, content: string) => {
+    const isValid = editorValidator(title, content);
+    if (isValid) {
+      setReadyToPublish(true);
+    } else {
+      setReadyToPublish(false);
+    }
+  };
+
+  const goodToPublish = () => {
+    const { valid } = editor;
+    if (valid === null) {
+      checkPublishState(localTitle, localContent);
+    } else {
+      checkPublishState(localTitle, localContent);
+    }
+  };
+
+  // check if editor content is ready to publish
+  useEffect(() => {
+    if (locationPath === '/new-story') {
+      goodToPublish();
+    }
+  }, [localTitle, localContent, readyToPublish]);
+
   return (
     <React.Fragment>
       <div>
-        {saved !== null ? <span css={css.editorStatus}>{!saved ? 'Writing...' : 'Saved'}</span> : null}
-        <Button css={{ marginRight: '10px' }} cssemotion={readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]} onClick={onClick} value="Save Draft" />
-        <Button cssemotion={!readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]} onClick={onClick} value="Publish" />
+        { saved !== null &&
+          <span css={css.editorStatus}>
+            {!saved ? 'Writing...' : 'Saved'}
+          </span>
+        }
+        <Button
+          css={{ marginRight: '10px' }}
+          cssemotion={readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]}
+          onClick={handleSave}
+          value="Save Draft"
+        />
+        <Button
+          cssemotion={!readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]}
+          onClick={handlePublish}
+          value="Publish"
+        />
       </div>
       <div css={{
         marginLeft: '16px',
@@ -33,4 +138,10 @@ const WriteHeader = (props: Props) => {
   );
 };
 
-export default WriteHeader;
+const mapStateToProps = (store: any) => ({
+  editor: store.editor,
+  router: store.router,
+  auth: store.auth,
+});
+
+export default connect(mapStateToProps, actions)(WriteHeader);
