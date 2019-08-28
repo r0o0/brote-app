@@ -27,9 +27,14 @@ interface Props {
 }
 
 function App(props: Props) {
-  const { history, loginSuccess } = props;
+  const { history, loginSuccess, auth } = props;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const { loading, data, error } = useQuery(GET_CURRENT_USER);
+
+  useEffect(() => {
+    if(!auth.login) setIsUserLoggedIn(false);
+    if(auth.login) setIsUserLoggedIn(true);
+  }, [auth.login]);
 
   useEffect(() => {
     if (error) setIsUserLoggedIn(false);
