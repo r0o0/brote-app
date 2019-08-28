@@ -123,11 +123,11 @@ function Header(props: Props) {
   
 
   return (
-    <header>
+    <header css={css.header}>
       <h1 css={css.h1}>
         <Link to="/">BROTE</Link>
       </h1>
-      <div>
+      <div css={css.headerRight}>
         {(inGeneral && !exclude) && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
         {locationPath === '/new-story' && <WriteHeader locationPath={locationPath} />}
       </div>

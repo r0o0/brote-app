@@ -30,6 +30,7 @@ export const headerBig = css`
 
 export const headerRight = css`
   display: flex;
+  align-items: center;
   label: header__right;
 `;
 

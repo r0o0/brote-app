@@ -18,9 +18,12 @@ const MainHeader = (props: Props) => {
   const { openModal, isUserLoggedIn } = props;
   console.log('header', isUserLoggedIn);
   return (
-    <div css={css.header}>
-      {isUserLoggedIn || getCookie('user') ? <WithUser /> : <WithoutUser openModal={openModal} />}
-    </div>
+    <React.Fragment>
+      { isUserLoggedIn || getCookie('user') ?
+        <WithUser /> :
+        <WithoutUser openModal={openModal} />
+      }
+    </React.Fragment>
   );
 };
 
