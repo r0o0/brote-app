@@ -5,6 +5,7 @@ import { jsx } from '@emotion/core';
 import * as actions from '../../redux/actions';
 import { connect } from 'react-redux';
 import * as type from '../../types';
+import { Link } from 'react-router-dom';
 // GraphQL
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -53,6 +54,10 @@ function Header(props: Props) {
 
   const locationPath = router.location.pathname;
   const [createDraft, { data }] = useMutation(CREATE_DRAFT);
+
+  // path condition
+  const inGeneral = locationPath.indexOf('/') !== -1;
+  const exclude = locationPath === '/new-story';
 
   const handleSave = () => {
     const { title, content, author, savedOn } = editor.data;
@@ -115,10 +120,17 @@ function Header(props: Props) {
     }
   }, [localTitle, localContent, readyToPublish]);
 
+  
+
   return (
     <header>
-      {locationPath === '/' && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
-      {locationPath === '/new-story' && <WriteHeader locationPath={locationPath} />}
+      <h1 css={css.h1}>
+        <Link to="/">BROTE</Link>
+      </h1>
+      <div>
+        {(inGeneral && !exclude) && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
+        {locationPath === '/new-story' && <WriteHeader locationPath={locationPath} />}
+      </div>
     </header>
   );
 }

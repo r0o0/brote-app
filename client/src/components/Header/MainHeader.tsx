@@ -1,7 +1,6 @@
 import React from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Link } from 'react-router-dom';
 // COMPONENTS
 import WithoutUser from './withoutUser';
 import WithUser from './withUser';
@@ -20,9 +19,6 @@ const MainHeader = (props: Props) => {
   console.log('header', isUserLoggedIn);
   return (
     <div css={css.header}>
-      <h1 css={css.h1}>
-        <Link to="/">BROTE</Link>
-      </h1>
       {isUserLoggedIn || getCookie('user') ? <WithUser /> : <WithoutUser openModal={openModal} />}
     </div>
   );
