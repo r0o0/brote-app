@@ -88,7 +88,7 @@ const FormContent = (props: Props) => {
     // on each form submit event
     // note: form is validated on form submit
     if (submit) {
-      const { user } = data.signin;
+      const { user } = data[type as string];
       const { email, name, role } = user;
       // if there is no graphql server error
       // user is signedIn
