@@ -1,4 +1,3 @@
-import { routerMiddleware } from "connected-react-router";
 
 export interface Post {
   id: string,
@@ -9,9 +8,7 @@ export interface Post {
   savedOn?: string,
 }
 
-export interface Posts {
-  [id: string] : Post
-}
+export type Posts = [Post];
 
 export interface Editor {
   data: Post;
