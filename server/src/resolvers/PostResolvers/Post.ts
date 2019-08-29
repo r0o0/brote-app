@@ -1,21 +1,38 @@
 const Post = {
   // mutation
-  createDraft(_, { draft }, { db }, info) {
-    console.log(info);
+  createDraft(_, { draft }, { db, request }, info) {
+    const user = request.user;
+    if (!user) throw new Error('Not Signed In!');
+    console.log('check ', request.user.email);
+    const author = request.user.email;
     return db.mutation.createPost({
       data: {
         title: draft.title,
         content: draft.content,
-        author: draft.author,
+        author: {
+          connect: {
+            email: author
+          }
+        },
         savedOn: draft.savedOn
       },
       info
     });
   },
-  publish(_, { id }, { db }) {
+  publish(_, { id }, { db, request }) {
+    const user = request.user;
+    if (!user) throw new Error('Not Signed In!');
+    const author = request.user.email;
     return db.mutation.updatePost({
       data: {
-        isPublished: true
+        isPublished: true,
+        author: {
+          upsert: {
+            where: {
+              email: author
+            }
+          }
+        }
       },
       where: {
         id
