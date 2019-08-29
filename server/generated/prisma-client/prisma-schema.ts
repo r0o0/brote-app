@@ -229,7 +229,7 @@ type PageInfo {
 type Post {
   id: ID!
   title: String!
-  author: String!
+  author: User!
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
@@ -245,7 +245,21 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   title: String!
-  author: String!
+  author: UserCreateOneWithoutPostsInput!
+  content: String!
+  savedOn: DateTime
+  publishedOn: DateTime
+  isPublished: Boolean
+}
+
+input PostCreateManyWithoutAuthorInput {
+  create: [PostCreateWithoutAuthorInput!]
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostCreateWithoutAuthorInput {
+  id: ID
+  title: String!
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
@@ -262,8 +276,6 @@ enum PostOrderByInput {
   id_DESC
   title_ASC
   title_DESC
-  author_ASC
-  author_DESC
   content_ASC
   content_DESC
   savedOn_ASC
@@ -277,11 +289,76 @@ enum PostOrderByInput {
 type PostPreviousValues {
   id: ID!
   title: String!
-  author: String!
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
   isPublished: Boolean
+}
+
+input PostScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  savedOn: DateTime
+  savedOn_not: DateTime
+  savedOn_in: [DateTime!]
+  savedOn_not_in: [DateTime!]
+  savedOn_lt: DateTime
+  savedOn_lte: DateTime
+  savedOn_gt: DateTime
+  savedOn_gte: DateTime
+  publishedOn: DateTime
+  publishedOn_not: DateTime
+  publishedOn_in: [DateTime!]
+  publishedOn_not_in: [DateTime!]
+  publishedOn_lt: DateTime
+  publishedOn_lte: DateTime
+  publishedOn_gt: DateTime
+  publishedOn_gte: DateTime
+  isPublished: Boolean
+  isPublished_not: Boolean
+  AND: [PostScalarWhereInput!]
+  OR: [PostScalarWhereInput!]
+  NOT: [PostScalarWhereInput!]
 }
 
 type PostSubscriptionPayload {
@@ -302,7 +379,15 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   title: String
-  author: String
+  author: UserUpdateOneRequiredWithoutPostsInput
+  content: String
+  savedOn: DateTime
+  publishedOn: DateTime
+  isPublished: Boolean
+}
+
+input PostUpdateManyDataInput {
+  title: String
   content: String
   savedOn: DateTime
   publishedOn: DateTime
@@ -311,11 +396,46 @@ input PostUpdateInput {
 
 input PostUpdateManyMutationInput {
   title: String
-  author: String
   content: String
   savedOn: DateTime
   publishedOn: DateTime
   isPublished: Boolean
+}
+
+input PostUpdateManyWithoutAuthorInput {
+  create: [PostCreateWithoutAuthorInput!]
+  delete: [PostWhereUniqueInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [PostScalarWhereInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+}
+
+input PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput!
+  data: PostUpdateManyDataInput!
+}
+
+input PostUpdateWithoutAuthorDataInput {
+  title: String
+  content: String
+  savedOn: DateTime
+  publishedOn: DateTime
+  isPublished: Boolean
+}
+
+input PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  data: PostUpdateWithoutAuthorDataInput!
+}
+
+input PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  update: PostUpdateWithoutAuthorDataInput!
+  create: PostCreateWithoutAuthorInput!
 }
 
 input PostWhereInput {
@@ -347,20 +467,7 @@ input PostWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  author: String
-  author_not: String
-  author_in: [String!]
-  author_not_in: [String!]
-  author_lt: String
-  author_lte: String
-  author_gt: String
-  author_gte: String
-  author_contains: String
-  author_not_contains: String
-  author_starts_with: String
-  author_not_starts_with: String
-  author_ends_with: String
-  author_not_ends_with: String
+  author: UserWhereInput
   content: String
   content_not: String
   content_in: [String!]
@@ -427,6 +534,7 @@ type User {
   joinedOn: DateTime
   lastLogin: DateTime
   role: String
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
 type UserConnection {
@@ -436,6 +544,22 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
+  name: String
+  email: String!
+  password: String!
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
+  posts: PostCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutPostsInput {
+  create: UserCreateWithoutPostsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPostsInput {
   id: ID
   name: String
   email: String!
@@ -500,6 +624,7 @@ input UserUpdateInput {
   joinedOn: DateTime
   lastLogin: DateTime
   role: String
+  posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
@@ -509,6 +634,27 @@ input UserUpdateManyMutationInput {
   joinedOn: DateTime
   lastLogin: DateTime
   role: String
+}
+
+input UserUpdateOneRequiredWithoutPostsInput {
+  create: UserCreateWithoutPostsInput
+  update: UserUpdateWithoutPostsDataInput
+  upsert: UserUpsertWithoutPostsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutPostsDataInput {
+  name: String
+  email: String
+  password: String
+  joinedOn: DateTime
+  lastLogin: DateTime
+  role: String
+}
+
+input UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput!
+  create: UserCreateWithoutPostsInput!
 }
 
 input UserWhereInput {
@@ -598,6 +744,7 @@ input UserWhereInput {
   role_not_starts_with: String
   role_ends_with: String
   role_not_ends_with: String
+  posts_some: PostWhereInput
   AND: [UserWhereInput!]
 }
 

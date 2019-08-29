@@ -6,6 +6,7 @@ type User {
   joinedOn: DateTime
   lastLogin: DateTime
   role: String @default(value: "user")
+  posts: [Post!]! @relation(link: INLINE)
 }
 
 type Guest {
@@ -20,7 +21,7 @@ type Guest {
 type Post {
   id: ID! @id
   title: String!
-  author: String!
+  author: User!
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
