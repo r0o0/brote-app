@@ -1,6 +1,9 @@
 const Posts = {
   // query
   posts(_, args, { db }) {
+    return db.query.posts();
+  },
+  publishedPosts(_, args, { db, request }) {
     return db.query.posts({
       where: {
         isPublished: true
