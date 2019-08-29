@@ -19,6 +19,7 @@ interface Props {
 function UserNav(props: Props) {
   const classes = UserNavStyles();
   const { id, anchorEl, onClose, user } = props;
+  console.log('nav', user);
   return (
     <div>
       <Popover
@@ -44,7 +45,7 @@ function UserNav(props: Props) {
             height: '40px',
             marginRight: '16px',
           }}>
-            <UserProfile />
+            <UserProfile user={user ? user : ''} />
           </div>
         </div>
         <ul css={css.menuList}>

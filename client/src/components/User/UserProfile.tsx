@@ -17,7 +17,7 @@ const UserButton = css`
 `;
 
 interface Props {
-  user?: string;
+  user: string;
 }
 
 function UserProfile(props: Props) {

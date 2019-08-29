@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // COMPONENTS
 import UserProfile from '../../components/User/UserProfile';
 import Activity from './Activity';
+import Stories from './Stories';
 import Button from '../../components/Button';
 import TabMenu from '../../components/TabMenu/TabMenu';
 import TabPanel from '../../components/TabMenu/TabPanel';
@@ -55,15 +56,12 @@ function User(props: Props) {
             fontSize: '36px',
           }}
         >
-          <UserProfile />
+          <UserProfile user={user} />
         </div>
       </div>
       <div css={css.UserContentWrapper}>
         <TabMenu labels={['Activity', 'Stories', 'Stats']} value={value} onChange={handleChange} />
         <TabPanel component={Activity} index={0} value={value} />
-        {/* <TabPanel component="Stories" index={1} value={value} />
-        <TabPanel component="Claps" index={2} value={value} />
-        <TabPanel component="Stats" index={3} value={value} /> */}
       </div>
     </div>
   )
