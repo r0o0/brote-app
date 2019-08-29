@@ -11,11 +11,13 @@ import List from '../../components/List';
 
 export const GET_POSTS = gql`
   {
-    posts {
-      id,
-      title,
-      author,
-      content,
+    publishedPosts {
+      id
+      title
+      author {
+        email
+      }
+      content
     }
   }
 `
@@ -31,7 +33,7 @@ function Posts() {
 
   // Query
   const { loading, data, error } = useQuery(GET_POSTS);
-
+  console.log('posts page', data);
   useEffect(() => {
     if (!loading) {
       if (error) setPosts(null);
