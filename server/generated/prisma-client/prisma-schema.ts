@@ -24,9 +24,10 @@ type Guest {
   id: ID!
   name: String!
   password: String!
-  joinedOn: String
-  isExpired: Boolean
+  joinedOn: DateTime
+  lastLogin: DateTime
   role: String
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
 type GuestConnection {
@@ -39,9 +40,8 @@ input GuestCreateInput {
   id: ID
   name: String!
   password: String!
-  joinedOn: String
-  isExpired: Boolean
   role: String
+  posts: PostCreateManyInput
 }
 
 type GuestEdge {
@@ -58,8 +58,8 @@ enum GuestOrderByInput {
   password_DESC
   joinedOn_ASC
   joinedOn_DESC
-  isExpired_ASC
-  isExpired_DESC
+  lastLogin_ASC
+  lastLogin_DESC
   role_ASC
   role_DESC
 }
@@ -68,8 +68,8 @@ type GuestPreviousValues {
   id: ID!
   name: String!
   password: String!
-  joinedOn: String
-  isExpired: Boolean
+  joinedOn: DateTime
+  lastLogin: DateTime
   role: String
 }
 
@@ -92,16 +92,13 @@ input GuestSubscriptionWhereInput {
 input GuestUpdateInput {
   name: String
   password: String
-  joinedOn: String
-  isExpired: Boolean
   role: String
+  posts: PostUpdateManyInput
 }
 
 input GuestUpdateManyMutationInput {
   name: String
   password: String
-  joinedOn: String
-  isExpired: Boolean
   role: String
 }
 
@@ -148,22 +145,22 @@ input GuestWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
-  joinedOn: String
-  joinedOn_not: String
-  joinedOn_in: [String!]
-  joinedOn_not_in: [String!]
-  joinedOn_lt: String
-  joinedOn_lte: String
-  joinedOn_gt: String
-  joinedOn_gte: String
-  joinedOn_contains: String
-  joinedOn_not_contains: String
-  joinedOn_starts_with: String
-  joinedOn_not_starts_with: String
-  joinedOn_ends_with: String
-  joinedOn_not_ends_with: String
-  isExpired: Boolean
-  isExpired_not: Boolean
+  joinedOn: DateTime
+  joinedOn_not: DateTime
+  joinedOn_in: [DateTime!]
+  joinedOn_not_in: [DateTime!]
+  joinedOn_lt: DateTime
+  joinedOn_lte: DateTime
+  joinedOn_gt: DateTime
+  joinedOn_gte: DateTime
+  lastLogin: DateTime
+  lastLogin_not: DateTime
+  lastLogin_in: [DateTime!]
+  lastLogin_not_in: [DateTime!]
+  lastLogin_lt: DateTime
+  lastLogin_lte: DateTime
+  lastLogin_gt: DateTime
+  lastLogin_gte: DateTime
   role: String
   role_not: String
   role_in: [String!]
@@ -178,6 +175,7 @@ input GuestWhereInput {
   role_not_starts_with: String
   role_ends_with: String
   role_not_ends_with: String
+  posts_some: PostWhereInput
   AND: [GuestWhereInput!]
 }
 
@@ -229,7 +227,7 @@ type PageInfo {
 type Post {
   id: ID!
   title: String!
-  author: User!
+  author: User
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
@@ -245,11 +243,16 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   title: String!
-  author: UserCreateOneWithoutPostsInput!
+  author: UserCreateOneWithoutPostsInput
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
   isPublished: Boolean
+}
+
+input PostCreateManyInput {
+  create: [PostCreateInput!]
+  connect: [PostWhereUniqueInput!]
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -377,9 +380,18 @@ input PostSubscriptionWhereInput {
   AND: [PostSubscriptionWhereInput!]
 }
 
+input PostUpdateDataInput {
+  title: String
+  author: UserUpdateOneWithoutPostsInput
+  content: String
+  savedOn: DateTime
+  publishedOn: DateTime
+  isPublished: Boolean
+}
+
 input PostUpdateInput {
   title: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: UserUpdateOneWithoutPostsInput
   content: String
   savedOn: DateTime
   publishedOn: DateTime
@@ -392,6 +404,18 @@ input PostUpdateManyDataInput {
   savedOn: DateTime
   publishedOn: DateTime
   isPublished: Boolean
+}
+
+input PostUpdateManyInput {
+  create: [PostCreateInput!]
+  update: [PostUpdateWithWhereUniqueNestedInput!]
+  upsert: [PostUpsertWithWhereUniqueNestedInput!]
+  delete: [PostWhereUniqueInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  deleteMany: [PostScalarWhereInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
 }
 
 input PostUpdateManyMutationInput {
@@ -427,9 +451,20 @@ input PostUpdateWithoutAuthorDataInput {
   isPublished: Boolean
 }
 
+input PostUpdateWithWhereUniqueNestedInput {
+  where: PostWhereUniqueInput!
+  data: PostUpdateDataInput!
+}
+
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
   where: PostWhereUniqueInput!
   data: PostUpdateWithoutAuthorDataInput!
+}
+
+input PostUpsertWithWhereUniqueNestedInput {
+  where: PostWhereUniqueInput!
+  update: PostUpdateDataInput!
+  create: PostCreateInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -548,8 +583,6 @@ input UserCreateInput {
   name: String
   email: String!
   password: String!
-  joinedOn: DateTime
-  lastLogin: DateTime
   role: String
   posts: PostCreateManyWithoutAuthorInput
 }
@@ -564,8 +597,6 @@ input UserCreateWithoutPostsInput {
   name: String
   email: String!
   password: String!
-  joinedOn: DateTime
-  lastLogin: DateTime
   role: String
 }
 
@@ -621,8 +652,6 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  joinedOn: DateTime
-  lastLogin: DateTime
   role: String
   posts: PostUpdateManyWithoutAuthorInput
 }
@@ -631,15 +660,15 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
-  joinedOn: DateTime
-  lastLogin: DateTime
   role: String
 }
 
-input UserUpdateOneRequiredWithoutPostsInput {
+input UserUpdateOneWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
@@ -647,8 +676,6 @@ input UserUpdateWithoutPostsDataInput {
   name: String
   email: String
   password: String
-  joinedOn: DateTime
-  lastLogin: DateTime
   role: String
 }
 

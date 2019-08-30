@@ -179,20 +179,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type GuestOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "password_ASC"
-  | "password_DESC"
-  | "joinedOn_ASC"
-  | "joinedOn_DESC"
-  | "isExpired_ASC"
-  | "isExpired_DESC"
-  | "role_ASC"
-  | "role_DESC";
-
 export type PostOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -206,6 +192,20 @@ export type PostOrderByInput =
   | "publishedOn_DESC"
   | "isPublished_ASC"
   | "isPublished_DESC";
+
+export type GuestOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "joinedOn_ASC"
+  | "joinedOn_DESC"
+  | "lastLogin_ASC"
+  | "lastLogin_DESC"
+  | "role_ASC"
+  | "role_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -228,86 +228,6 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export type GuestWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   name?: Maybe<String>;
-}>;
-
-export interface GuestWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
-  joinedOn?: Maybe<String>;
-  joinedOn_not?: Maybe<String>;
-  joinedOn_in?: Maybe<String[] | String>;
-  joinedOn_not_in?: Maybe<String[] | String>;
-  joinedOn_lt?: Maybe<String>;
-  joinedOn_lte?: Maybe<String>;
-  joinedOn_gt?: Maybe<String>;
-  joinedOn_gte?: Maybe<String>;
-  joinedOn_contains?: Maybe<String>;
-  joinedOn_not_contains?: Maybe<String>;
-  joinedOn_starts_with?: Maybe<String>;
-  joinedOn_not_starts_with?: Maybe<String>;
-  joinedOn_ends_with?: Maybe<String>;
-  joinedOn_not_ends_with?: Maybe<String>;
-  isExpired?: Maybe<Boolean>;
-  isExpired_not?: Maybe<Boolean>;
-  role?: Maybe<String>;
-  role_not?: Maybe<String>;
-  role_in?: Maybe<String[] | String>;
-  role_not_in?: Maybe<String[] | String>;
-  role_lt?: Maybe<String>;
-  role_lte?: Maybe<String>;
-  role_gt?: Maybe<String>;
-  role_gte?: Maybe<String>;
-  role_contains?: Maybe<String>;
-  role_not_contains?: Maybe<String>;
-  role_starts_with?: Maybe<String>;
-  role_not_starts_with?: Maybe<String>;
-  role_ends_with?: Maybe<String>;
-  role_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GuestWhereInput[] | GuestWhereInput>;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
 }>;
 
 export interface PostWhereInput {
@@ -466,6 +386,87 @@ export interface UserWhereInput {
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface GuestWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  joinedOn?: Maybe<DateTimeInput>;
+  joinedOn_not?: Maybe<DateTimeInput>;
+  joinedOn_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  joinedOn_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  joinedOn_lt?: Maybe<DateTimeInput>;
+  joinedOn_lte?: Maybe<DateTimeInput>;
+  joinedOn_gt?: Maybe<DateTimeInput>;
+  joinedOn_gte?: Maybe<DateTimeInput>;
+  lastLogin?: Maybe<DateTimeInput>;
+  lastLogin_not?: Maybe<DateTimeInput>;
+  lastLogin_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  lastLogin_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  lastLogin_lt?: Maybe<DateTimeInput>;
+  lastLogin_lte?: Maybe<DateTimeInput>;
+  lastLogin_gt?: Maybe<DateTimeInput>;
+  lastLogin_gte?: Maybe<DateTimeInput>;
+  role?: Maybe<String>;
+  role_not?: Maybe<String>;
+  role_in?: Maybe<String[] | String>;
+  role_not_in?: Maybe<String[] | String>;
+  role_lt?: Maybe<String>;
+  role_lte?: Maybe<String>;
+  role_gt?: Maybe<String>;
+  role_gte?: Maybe<String>;
+  role_contains?: Maybe<String>;
+  role_not_contains?: Maybe<String>;
+  role_starts_with?: Maybe<String>;
+  role_not_starts_with?: Maybe<String>;
+  role_ends_with?: Maybe<String>;
+  role_not_ends_with?: Maybe<String>;
+  posts_some?: Maybe<PostWhereInput>;
+  AND?: Maybe<GuestWhereInput[] | GuestWhereInput>;
+}
+
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
@@ -475,31 +476,19 @@ export interface GuestCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   password: String;
-  joinedOn?: Maybe<String>;
-  isExpired?: Maybe<Boolean>;
   role?: Maybe<String>;
+  posts?: Maybe<PostCreateManyInput>;
 }
 
-export interface GuestUpdateInput {
-  name?: Maybe<String>;
-  password?: Maybe<String>;
-  joinedOn?: Maybe<String>;
-  isExpired?: Maybe<Boolean>;
-  role?: Maybe<String>;
-}
-
-export interface GuestUpdateManyMutationInput {
-  name?: Maybe<String>;
-  password?: Maybe<String>;
-  joinedOn?: Maybe<String>;
-  isExpired?: Maybe<Boolean>;
-  role?: Maybe<String>;
+export interface PostCreateManyInput {
+  create?: Maybe<PostCreateInput[] | PostCreateInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
 }
 
 export interface PostCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
-  author: UserCreateOneWithoutPostsInput;
+  author?: Maybe<UserCreateOneWithoutPostsInput>;
   content: String;
   savedOn?: Maybe<DateTimeInput>;
   publishedOn?: Maybe<DateTimeInput>;
@@ -516,24 +505,56 @@ export interface UserCreateWithoutPostsInput {
   name?: Maybe<String>;
   email: String;
   password: String;
-  joinedOn?: Maybe<DateTimeInput>;
-  lastLogin?: Maybe<DateTimeInput>;
   role?: Maybe<String>;
 }
 
-export interface PostUpdateInput {
+export interface GuestUpdateInput {
+  name?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyInput>;
+}
+
+export interface PostUpdateManyInput {
+  create?: Maybe<PostCreateInput[] | PostCreateInput>;
+  update?: Maybe<
+    | PostUpdateWithWhereUniqueNestedInput[]
+    | PostUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | PostUpsertWithWhereUniqueNestedInput[]
+    | PostUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  set?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  disconnect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  deleteMany?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
+  updateMany?: Maybe<
+    PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PostUpdateWithWhereUniqueNestedInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateDataInput;
+}
+
+export interface PostUpdateDataInput {
   title?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
+  author?: Maybe<UserUpdateOneWithoutPostsInput>;
   content?: Maybe<String>;
   savedOn?: Maybe<DateTimeInput>;
   publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
-export interface UserUpdateOneRequiredWithoutPostsInput {
+export interface UserUpdateOneWithoutPostsInput {
   create?: Maybe<UserCreateWithoutPostsInput>;
   update?: Maybe<UserUpdateWithoutPostsDataInput>;
   upsert?: Maybe<UserUpsertWithoutPostsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
@@ -541,8 +562,6 @@ export interface UserUpdateWithoutPostsDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
-  joinedOn?: Maybe<DateTimeInput>;
-  lastLogin?: Maybe<DateTimeInput>;
   role?: Maybe<String>;
 }
 
@@ -551,86 +570,10 @@ export interface UserUpsertWithoutPostsInput {
   create: UserCreateWithoutPostsInput;
 }
 
-export interface PostUpdateManyMutationInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
-  isPublished?: Maybe<Boolean>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  email: String;
-  password: String;
-  joinedOn?: Maybe<DateTimeInput>;
-  lastLogin?: Maybe<DateTimeInput>;
-  role?: Maybe<String>;
-  posts?: Maybe<PostCreateManyWithoutAuthorInput>;
-}
-
-export interface PostCreateManyWithoutAuthorInput {
-  create?: Maybe<PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput>;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-}
-
-export interface PostCreateWithoutAuthorInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  content: String;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
-  isPublished?: Maybe<Boolean>;
-}
-
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  joinedOn?: Maybe<DateTimeInput>;
-  lastLogin?: Maybe<DateTimeInput>;
-  role?: Maybe<String>;
-  posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
-}
-
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: Maybe<PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput>;
-  delete?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  set?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  disconnect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  update?: Maybe<
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput
-  >;
-  upsert?: Maybe<
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput
-  >;
-  deleteMany?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
-  updateMany?: Maybe<
-    PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+export interface PostUpsertWithWhereUniqueNestedInput {
   where: PostWhereUniqueInput;
-  data: PostUpdateWithoutAuthorDataInput;
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
-  isPublished?: Maybe<Boolean>;
-}
-
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutAuthorDataInput;
-  create: PostCreateWithoutAuthorInput;
+  update: PostUpdateDataInput;
+  create: PostCreateInput;
 }
 
 export interface PostScalarWhereInput {
@@ -712,12 +655,103 @@ export interface PostUpdateManyDataInput {
   isPublished?: Maybe<Boolean>;
 }
 
+export interface GuestUpdateManyMutationInput {
+  name?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<String>;
+}
+
+export interface PostUpdateInput {
+  title?: Maybe<String>;
+  author?: Maybe<UserUpdateOneWithoutPostsInput>;
+  content?: Maybe<String>;
+  savedOn?: Maybe<DateTimeInput>;
+  publishedOn?: Maybe<DateTimeInput>;
+  isPublished?: Maybe<Boolean>;
+}
+
+export interface PostUpdateManyMutationInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  savedOn?: Maybe<DateTimeInput>;
+  publishedOn?: Maybe<DateTimeInput>;
+  isPublished?: Maybe<Boolean>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  email: String;
+  password: String;
+  role?: Maybe<String>;
+  posts?: Maybe<PostCreateManyWithoutAuthorInput>;
+}
+
+export interface PostCreateManyWithoutAuthorInput {
+  create?: Maybe<PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+}
+
+export interface PostCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  content: String;
+  savedOn?: Maybe<DateTimeInput>;
+  publishedOn?: Maybe<DateTimeInput>;
+  isPublished?: Maybe<Boolean>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
+}
+
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: Maybe<PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput>;
+  delete?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  set?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  disconnect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  update?: Maybe<
+    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PostUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PostUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
+  updateMany?: Maybe<
+    PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutAuthorDataInput;
+}
+
+export interface PostUpdateWithoutAuthorDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  savedOn?: Maybe<DateTimeInput>;
+  publishedOn?: Maybe<DateTimeInput>;
+  isPublished?: Maybe<Boolean>;
+}
+
+export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutAuthorDataInput;
+  create: PostCreateWithoutAuthorInput;
+}
+
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
-  joinedOn?: Maybe<DateTimeInput>;
-  lastLogin?: Maybe<DateTimeInput>;
   role?: Maybe<String>;
 }
 
@@ -756,8 +790,8 @@ export interface Guest {
   id: ID_Output;
   name: String;
   password: String;
-  joinedOn?: String;
-  isExpired?: Boolean;
+  joinedOn?: DateTimeOutput;
+  lastLogin?: DateTimeOutput;
   role?: String;
 }
 
@@ -765,9 +799,18 @@ export interface GuestPromise extends Promise<Guest>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   password: () => Promise<String>;
-  joinedOn: () => Promise<String>;
-  isExpired: () => Promise<Boolean>;
+  joinedOn: () => Promise<DateTimeOutput>;
+  lastLogin: () => Promise<DateTimeOutput>;
   role: () => Promise<String>;
+  posts: <T = FragmentableArray<Post>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GuestSubscription
@@ -776,9 +819,18 @@ export interface GuestSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
-  joinedOn: () => Promise<AsyncIterator<String>>;
-  isExpired: () => Promise<AsyncIterator<Boolean>>;
+  joinedOn: () => Promise<AsyncIterator<DateTimeOutput>>;
+  lastLogin: () => Promise<AsyncIterator<DateTimeOutput>>;
   role: () => Promise<AsyncIterator<String>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GuestNullablePromise
@@ -787,86 +839,18 @@ export interface GuestNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   password: () => Promise<String>;
-  joinedOn: () => Promise<String>;
-  isExpired: () => Promise<Boolean>;
+  joinedOn: () => Promise<DateTimeOutput>;
+  lastLogin: () => Promise<DateTimeOutput>;
   role: () => Promise<String>;
-}
-
-export interface GuestConnection {
-  pageInfo: PageInfo;
-  edges: GuestEdge[];
-}
-
-export interface GuestConnectionPromise
-  extends Promise<GuestConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GuestEdge>>() => T;
-  aggregate: <T = AggregateGuestPromise>() => T;
-}
-
-export interface GuestConnectionSubscription
-  extends Promise<AsyncIterator<GuestConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GuestEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGuestSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GuestEdge {
-  node: Guest;
-  cursor: String;
-}
-
-export interface GuestEdgePromise extends Promise<GuestEdge>, Fragmentable {
-  node: <T = GuestPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface GuestEdgeSubscription
-  extends Promise<AsyncIterator<GuestEdge>>,
-    Fragmentable {
-  node: <T = GuestSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateGuest {
-  count: Int;
-}
-
-export interface AggregateGuestPromise
-  extends Promise<AggregateGuest>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateGuestSubscription
-  extends Promise<AsyncIterator<AggregateGuest>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  posts: <T = FragmentableArray<Post>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface Post {
@@ -981,6 +965,83 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+}
+
+export interface GuestConnection {
+  pageInfo: PageInfo;
+  edges: GuestEdge[];
+}
+
+export interface GuestConnectionPromise
+  extends Promise<GuestConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<GuestEdge>>() => T;
+  aggregate: <T = AggregateGuestPromise>() => T;
+}
+
+export interface GuestConnectionSubscription
+  extends Promise<AsyncIterator<GuestConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GuestEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGuestSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GuestEdge {
+  node: Guest;
+  cursor: String;
+}
+
+export interface GuestEdgePromise extends Promise<GuestEdge>, Fragmentable {
+  node: <T = GuestPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface GuestEdgeSubscription
+  extends Promise<AsyncIterator<GuestEdge>>,
+    Fragmentable {
+  node: <T = GuestSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateGuest {
+  count: Int;
+}
+
+export interface AggregateGuestPromise
+  extends Promise<AggregateGuest>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateGuestSubscription
+  extends Promise<AsyncIterator<AggregateGuest>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PostConnection {
@@ -1136,8 +1197,8 @@ export interface GuestPreviousValues {
   id: ID_Output;
   name: String;
   password: String;
-  joinedOn?: String;
-  isExpired?: Boolean;
+  joinedOn?: DateTimeOutput;
+  lastLogin?: DateTimeOutput;
   role?: String;
 }
 
@@ -1147,8 +1208,8 @@ export interface GuestPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   password: () => Promise<String>;
-  joinedOn: () => Promise<String>;
-  isExpired: () => Promise<Boolean>;
+  joinedOn: () => Promise<DateTimeOutput>;
+  lastLogin: () => Promise<DateTimeOutput>;
   role: () => Promise<String>;
 }
 
@@ -1158,8 +1219,8 @@ export interface GuestPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
-  joinedOn: () => Promise<AsyncIterator<String>>;
-  isExpired: () => Promise<AsyncIterator<Boolean>>;
+  joinedOn: () => Promise<AsyncIterator<DateTimeOutput>>;
+  lastLogin: () => Promise<AsyncIterator<DateTimeOutput>>;
   role: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1290,16 +1351,6 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -1308,6 +1359,16 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 export type Long = string;
 

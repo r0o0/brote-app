@@ -3,25 +3,26 @@ type User {
   name: String
   email: String! @unique
   password: String!
-  joinedOn: DateTime
-  lastLogin: DateTime
+  joinedOn: DateTime @createdAt
+  lastLogin: DateTime @updatedAt
   role: String @default(value: "user")
-  posts: [Post!]! @relation(link: INLINE)
+  posts: [Post!]! @relation(delete: CASCADE, link: INLINE)
 }
 
 type Guest {
   id: ID! @id
   name: String! @unique
   password: String!
-  joinedOn: String
-  isExpired: Boolean @default(value: false)
+  joinedOn: DateTime @createdAt
+  lastLogin: DateTime @updatedAt
   role: String @default(value: "guest")
+  posts: [Post!]! @relation(delete: CASCADE, link: INLINE)
 }
 
 type Post {
   id: ID! @id
   title: String!
-  author: User!
+  author: User
   content: String!
   savedOn: DateTime
   publishedOn: DateTime
