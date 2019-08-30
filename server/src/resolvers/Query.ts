@@ -1,10 +1,15 @@
 import Posts from './PostResolvers/Posts';
 import Users from './UserResolvers/Users';
-import { getUser } from './UserResolvers/User';
+import Guests from './UserResolvers/Guests';
+import { currentUser } from './UserResolvers/User';
+import { currentGuest } from './UserResolvers/Guest';
+
 const Query = {
   ...Posts,
   ...Users,
-  ...getUser,
+  ...currentUser,
+  ...Guests,
+  ...currentGuest,
 };
 
 export default Query;

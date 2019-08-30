@@ -6,6 +6,7 @@ type Query {
   publishedPosts: [Post!]!
   guests: [Guest!]!
   currentUser: User
+  currentGuest: Guest
 }
 
 type Mutation {
@@ -16,7 +17,7 @@ type Mutation {
   signup(email: String!, password: String!): AuthPayload!
   signupAsGuest(name: String!, password: String!): GuestAuthPayload!
   signin(email: String!, password: String!): AuthPayload!
-  loginAsGuest(name: String!, password: String!): GuestAuthPayload!
+  signinAsGuest(name: String!, password: String!): GuestAuthPayload!
 }
 
 type AuthPayload {

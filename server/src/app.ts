@@ -3,7 +3,6 @@ import resolvers from './resolvers';
 import  { Prisma } from 'prisma-binding';
 import * as jwt from 'jsonwebtoken';
 import * as cookieParser from 'cookie-parser';
-// const cookieParser = require('cookie-parser');
 
 declare global {
   namespace Express {

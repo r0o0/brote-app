@@ -3,13 +3,13 @@ const Posts = {
   posts(_, args, { db }) {
     return db.query.posts();
   },
-  publishedPosts(_, args, { db, request }) {
+  publishedPosts(_, args, { db }) {
     return db.query.posts({
       where: {
         isPublished: true
       }
     });
-  }
+  },
 };
 
 export default Posts;
