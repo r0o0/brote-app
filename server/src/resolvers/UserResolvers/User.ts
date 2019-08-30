@@ -13,7 +13,7 @@ export const currentUser = {
   async currentUser(_, args, { db, request }, info) {
     const AuthenticatedUser = isAuthenticated(request);
 
-    return await db.query.user({ where: { id: AuthenticatedUser.id} }, info);
+    return await db.query.user({ where: { id: AuthenticatedUser.id } }, info);
   },
 }
 

@@ -11,6 +11,7 @@ export const checkForGuest = (db, name) => {
 export const isAuthenticated = (request) => {
   const AuthenticatedUser = request.user;
   if (!AuthenticatedUser) throw Error('Not Authorized.');
+
   return AuthenticatedUser;
 };
 

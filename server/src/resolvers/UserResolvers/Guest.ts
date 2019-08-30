@@ -8,10 +8,10 @@ import {
 } from './userUtils';
 
 export const currentGuest = {
-  async currentUser(_, args, { db, request }, info) {
-    const AuthenticatedUser = isAuthenticated(request);
+  async currentGuest(_, args, { db, request }, info) {
+    const AuthenticatedGuest = isAuthenticated(request);
 
-    return await db.query.guest({ where: { id: AuthenticatedUser.id} }, info);
+    return await db.query.guest({ where: { id: AuthenticatedGuest.id } }, info);
   },
 }
 
