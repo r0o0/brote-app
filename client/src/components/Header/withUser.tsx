@@ -8,14 +8,14 @@ import UserProfile from '../User/UserProfile';
 
 interface Props {
   auth: type.Auth;
+  userInCookie?: string;
 }
 
 function WithUser(props: Props) {
-  const { auth } = props;
+  const { auth, userInCookie } = props;
   const [user, setUser] = useState<string | null>(null);
   useEffect(() => {
     const { username } = auth.info;
-    console.log('username', username);
     if (!auth.login) setUser(null);
     if (auth.login && username) setUser(username);
   }, [auth.login]);
@@ -25,7 +25,10 @@ function WithUser(props: Props) {
       width: '40px',
       height: '40px'
     }}>
-      { user && <UserProfile user={user} />}
+      { user ?
+        <UserProfile user={user} /> :
+        <UserProfile user={userInCookie ? userInCookie : ''} />
+      }
     </div>
   );
 }

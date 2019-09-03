@@ -27,13 +27,18 @@ function Header(props: Props) {
   } = props;
 
   const locationPath = router.location.pathname;
-
+  console.log('header index', isUserLoggedIn);
   // path condition
   const inGeneral = locationPath.indexOf('/') !== -1;
   const exclude = locationPath === '/new-story';
 
   return (
-    <header css={css.header}>
+    <header
+      css={locationPath !== '/new-story' ?
+        css.header :
+        [css.header, css.headerBig]
+      }
+    >
       <h1 css={css.h1}>
         <Link to="/">BROTE</Link>
       </h1>

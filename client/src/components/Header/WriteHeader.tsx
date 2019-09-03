@@ -22,7 +22,6 @@ const CREATE_DRAFT = gql`
     createDraft( draft: $draft ) {
       id
       title
-      author
       content
       savedOn
     }
@@ -33,8 +32,10 @@ interface Props {
   resetEditor: () => void;
   openModal: ({}: { type: string }) => void;
   publishEditor: ({}: { key: string }) => void;
+  saveDraft: ({}: { id: any }) => void;
   editor: type.Editor;
   locationPath: string;
+  auth: type.Auth;
 }
 
 const WriteHeader = (props: Props) => {
@@ -44,6 +45,8 @@ const WriteHeader = (props: Props) => {
     resetEditor,
     openModal,
     locationPath,
+    auth,
+    saveDraft
    } = props;
 
   const [readyToPublish, setReadyToPublish] = useState(false);
@@ -51,21 +54,21 @@ const WriteHeader = (props: Props) => {
   const localContent = localStorage.content;
   const { saved } = editor;
 
-  const [createDraft, { data }] = useMutation(CREATE_DRAFT);
+  const [createDraft] = useMutation(CREATE_DRAFT);
 
-  const { title, content, author, savedOn } = editor.data;
+  const { title, content, savedOn } = editor.data;
 
   const postData = {
     title: title == null ? localTitle : title,
     content: content == null ? localContent : content,
-    author,
   }
 
-  const handleSave = () => {
+  const handleSave = async() => {
     const date = { savedOn };
     const toSave = { ...postData, ...date };
-
-    createDraft({ variables: { draft: toSave } });
+    await createDraft({
+      variables: { draft: toSave }
+    });
   };
 
   const handlePublish = () => {

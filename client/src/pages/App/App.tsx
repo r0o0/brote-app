@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { History } from 'history'
 import * as type from '../../types';
-import { GET_CURRENT_USER } from './Query';
+import { GET_CURRENT_USER, GET_MY_DRAFTS } from './Query';
 import { useQuery } from '@apollo/react-hooks';
 // COMPONENTS
 import Header from '../../components/Header';
@@ -16,7 +16,6 @@ import Post from '../Post';
 import Auth from '../Auth';
 import User from '../User';
 // UTILS
-import { createUsername } from '../../utils/createUsername';
 import { getCookie } from '../../utils/cookie';
 
 interface Props {
@@ -38,9 +37,10 @@ function App(props: Props) {
 
   useEffect(() => {
     if (error) setIsUserLoggedIn(false);
+    if (getCookie('user')) setIsUserLoggedIn(true);
     if (data && data.currentUser) {
       const { email, name, role } = data.currentUser;
-      const username = name ? name : createUsername(email);
+      const username = name;
       // if no user cookie found set cookie
       if (!getCookie('user')) document.cookie = `user=${username}`;
       setIsUserLoggedIn(true);
