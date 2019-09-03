@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './pages/App/App';
+import gql from 'graphql-tag';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
@@ -17,9 +18,11 @@ const httpLink = createHttpLink({
   credentials: 'include'
 })
 
+const cache = new InMemoryCache();
+
 export const client = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache(),
+  cache,
 })
 
 const render = () => {
@@ -33,6 +36,19 @@ const render = () => {
     document.getElementById('root')
   );
 }
+
+client.defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
+  },
+};
+
+console.log('cache', client.cache);
 
 render();
 store.subscribe(render);
