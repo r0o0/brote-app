@@ -15,6 +15,7 @@ import Posts from '../Posts';
 import Post from '../Post';
 import Auth from '../Auth';
 import User from '../User';
+import Stories from '../User/Stories';
 // UTILS
 import { getCookie } from '../../utils/cookie';
 

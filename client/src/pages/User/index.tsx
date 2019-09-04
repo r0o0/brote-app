@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Link } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 // COMPONENTS
 import UserProfile from '../../components/User/UserProfile';
 import Activity from './Activity';
 import Stories from './Stories';
 import Button from '../../components/Button';
-import TabMenu from '../../components/TabMenu/TabMenu';
-import TabPanel from '../../components/TabMenu/TabPanel';
 // CSS
 import * as css from './UserPageStyles';
 import * as cssB from '../../components/Button/ButtonStyles';
@@ -19,14 +17,10 @@ interface Props {
 
 function User(props: Props) {
   const { location } = props;
-  const user = location.state.user;
-  console.log(location);
+  let user;
+  if (!location.state) user = location.pathname.replace('/@', '');
+  if (location.state) user = location.state.user;
   const thisRoute = location.pathname;
-  const [value, setValue] = useState(0);
-
-  const handleChange = (e: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
 
   return (
     <div className="container" css={css.UserContainer}>
@@ -60,8 +54,9 @@ function User(props: Props) {
         </div>
       </div>
       <div css={css.UserContentWrapper}>
-        <TabMenu labels={['Activity', 'Stories', 'Stats']} value={value} onChange={handleChange} />
-        <TabPanel component={Activity} index={0} value={value} />
+        <Switch>
+          <Route path="/@:user/stories" component={Stories} />
+        </Switch>
       </div>
     </div>
   )
