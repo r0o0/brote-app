@@ -55,7 +55,7 @@ function List(props: Props) {
       padding-top: 32px;
     `}>
       { drafts && drafts.map((post: type.Post) => {
-        const { id, title, content, publishedOn, savedOn, author } = post;
+        const { id, title, content, savedOn, author } = post;
         const path = convertToPath(title);
           console.log('posts', post);
           return (
@@ -75,7 +75,7 @@ function List(props: Props) {
                       title,
                       content,
                       author: author.name,
-                      publishedOn
+                      savedOn,
                     }
                   }}>
                     <Button

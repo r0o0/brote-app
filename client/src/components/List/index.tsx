@@ -12,18 +12,19 @@ import convertToPath from '../../utils/convertToPath';
 interface Props {
   posts: type.Posts | null;
   preview?: boolean;
+  // author?: string | null;
 }
 
 function List(props: Props) {
   const { preview, posts } = props;
-
+  console.log('posts', posts);
   return (
     <React.Fragment>
-      <p>list</p>
+      {/* <p>list</p> */}
       { posts && posts.map((post: type.Post) => {
-          const { id, title, content, author, publishedOn, savedOn } = post;
+          const { id, title, content, publishedOn, savedOn, author } = post;
           const path = convertToPath(title);
-
+          console.log('posts', post);
           return (
             <Link
               to={{
@@ -32,13 +33,13 @@ function List(props: Props) {
                   id,
                   title,
                   content,
-                  author,
+                  author: author.name,
                   publishedOn,
                 }
               }}
               key={id}
             >
-              <Article title={title} content={content} author={author} savedOn={savedOn} preview={preview} />
+              <Article title={title} content={content} author={author.name} savedOn={savedOn} preview={preview} />
             </Link>
           )
         })
