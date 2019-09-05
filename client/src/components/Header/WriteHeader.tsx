@@ -32,10 +32,9 @@ interface Props {
   resetEditor: () => void;
   openModal: ({}: { type: string }) => void;
   publishEditor: ({}: { key: string }) => void;
-  saveDraft: ({}: { id: any }) => void;
   editor: type.Editor;
-  locationPath: string;
   auth: type.Auth;
+  locationPath: string;
 }
 
 const WriteHeader = (props: Props) => {
@@ -44,9 +43,8 @@ const WriteHeader = (props: Props) => {
     // publishEditor,
     resetEditor,
     openModal,
-    locationPath,
     auth,
-    saveDraft
+    locationPath,
    } = props;
 
   const [readyToPublish, setReadyToPublish] = useState(false);
