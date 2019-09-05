@@ -1,11 +1,12 @@
 
 export interface Post {
-  id: string,
-  author: string,
-  title: string,
-  content: string,
-  publishedOn: string,
-  savedOn?: string,
+  id: string;
+  author: { name: string };
+  title: string;
+  content: string;
+  publishedOn: string;
+  savedOn?: string;
+  isPublished: boolean;
 }
 
 export type Posts = [Post];

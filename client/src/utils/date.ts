@@ -16,3 +16,27 @@ export const formatDate = (toFormat: string) => {
   }
   return formatted;
 };
+
+export const checkDiff = (toCheck: string) => {
+  const atTheMoment = moment();
+  const timeDiff = atTheMoment.diff(toCheck, 'days');
+  return timeDiff;
+}
+
+// don't pass in published arg if data is published post
+export const displayDate = (toFormat: string, published?: boolean) => {
+  let formatted;
+  const toLocalTime = moment.utc(toFormat).local().format('lll');
+  const diff = checkDiff(toLocalTime);
+  if (typeof published !== 'boolean' && published === undefined) return formatDate(toLocalTime);
+  if (!published) {
+    formatted = moment(toLocalTime).fromNow();
+  } else {
+    if (diff < 1) {
+      formatted = moment(toLocalTime).fromNow();
+    } else {
+      formatted = formatDate(toLocalTime);
+    }
+  }
+  return formatted;
+};
