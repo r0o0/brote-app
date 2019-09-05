@@ -2,8 +2,9 @@ import { css } from '@emotion/core';
 import { makeStyles, Theme, withStyles, createMuiTheme } from '@material-ui/core/styles';
 
 export const FormStyles = makeStyles((theme: Theme) => ({
-  textfield: {
-    marginBottom: '16px',
+  // textfield root
+  root: {
+    margin: 0,
   },
 
   // label
@@ -24,7 +25,10 @@ export const FormStyles = makeStyles((theme: Theme) => ({
 
   // input
   inputRoot: {
-    marginBottom: '14px',
+    marginBottom: '16px',
+  },
+  inputRootNone: {
+    marginBottom: '0',
   },
   notchedOutline: {},
   focused: {

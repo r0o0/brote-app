@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx **/
-import { jsx } from '@emotion/core';
+import { jsx, css } from '@emotion/core';
 // COMPONENTS
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -9,8 +9,6 @@ import AlertBar from '../AlertBar';
 import {
   FormStyles,
   fieldset,
-  // TextFieldStyles,
-  // textFieldTheme
 } from './AuthFormStyles';
 // UTILS
 import { createUsername } from '../../utils/createUsername';
@@ -52,7 +50,10 @@ const FormContent = (props: Props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmail, setIsEmail] = useState<boolean | null>(null);
   const [submit, setSubmit] = useState(false);
+
+  const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const validate = () => {
     if (!email && !password) {
@@ -83,6 +84,15 @@ const FormContent = (props: Props) => {
     if (!error) clearError();
     setPassword(password);
   }
+
+  // check if email value is actually an email using EMAIL_REQEX
+  useEffect(() => {
+    if (email.length > 0) {
+      const isEmail = EMAIL_REGEX.test(email);
+      if (!isEmail) setIsEmail(false);
+      if (isEmail) setIsEmail(true);
+    }
+  }, [email]);
 
   useEffect(() => {
     // on each form submit event
@@ -118,40 +128,54 @@ const FormContent = (props: Props) => {
       <fieldset css={fieldset} disabled={loading} aria-busy={loading}>
         { errorState ? <AlertBar open={errorState} message={errorMsg as string} variant="error" /> : null }
         <AlertBar open={signedIn} message="Login Success" variant="success" />
-        <TextField
-          id="input-email"
-          label="Email"
-          type="text"
-          autoComplete="off"
-          margin="dense"
-          variant="outlined"
-          // defaultValue="Guest"
-          // value={triggerLogin ? 'Guest' : eValue}
-          onChange={handleEValue}
-          fullWidth
-          // input css override
-          InputProps={{
-            classes: {
-              root: classes.inputRoot,
-              notchedOutline: classes.notchedOutline,
-              focused: classes.focused,
-            }
-          }}
-          // input label css override
-          InputLabelProps={{
-            shrink: true,
-            classes: {
-              root: classes.labelRoot,
-              focused: classes.labelFocused,
-              error: classes.labelError,
-            },
-          }}
-          error={typeOfError === 'email' || typeOfError === 'both' ? true : false}
-        />
+        <div css={css``}>
+          <TextField
+            id="input-email"
+            label="Email"
+            type="text"
+            autoComplete="off"
+            margin="dense"
+            variant="outlined"
+            className={classes.root}
+            // defaultValue="Guest"
+            // value={triggerLogin ? 'Guest' : eValue}
+            onChange={handleEValue}
+            fullWidth
+            // input css override
+            InputProps={{
+              classes: {
+                root: !isEmail && isEmail !== null ? classes.inputRootNone : classes.inputRoot,
+                notchedOutline: classes.notchedOutline,
+                focused: classes.focused,
+              }
+            }}
+            // input label css override
+            InputLabelProps={{
+              shrink: true,
+              classes: {
+                root: classes.labelRoot,
+                focused: classes.labelFocused,
+                error: classes.labelError,
+              },
+            }}
+            error={typeOfError === 'email' || typeOfError === 'both' ? true : false}
+          />
+          { !isEmail && isEmail !== null &&
+            <span css={css`
+              display: block;
+              margin-top: 5px;
+              margin-bottom: 16px;
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--error);
+              label: error-notValid;
+            `}>Not a valid email address</span>
+          }
+
+        </div>
         <TextField
           id="input-pwd"
           label="Password"
-          className={classes.textfield}
           type="password"
           autoComplete="current-password"
           margin="dense"
