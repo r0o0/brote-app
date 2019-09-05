@@ -7,8 +7,13 @@ export const GET_CURRENT_USER = gql`
       name
       email
       joinedOn
+      lastLogin
       role
+      posts {
+        id
+        title
+        content
+      }
     }
   }
 `;
-

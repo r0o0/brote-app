@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { History } from 'history'
 import * as type from '../../types';
-import { GET_CURRENT_USER, GET_MY_DRAFTS } from './Query';
+import { GET_CURRENT_USER } from './Query';
 import { useQuery } from '@apollo/react-hooks';
 // COMPONENTS
 import Header from '../../components/Header';

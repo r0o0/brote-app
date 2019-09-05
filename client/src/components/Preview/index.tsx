@@ -53,7 +53,7 @@ const styles = {
 
 function Preview(props: Props) {
   const { editor, modal, classes, closeModal } = props;
-  const { title, content, author, publishedOn } = editor.data;
+  const { title, content, publishedOn } = editor.data;
   const { appbar, toolbar, toolbarHeader } = classes;
 
   return (
@@ -73,7 +73,7 @@ function Preview(props: Props) {
           </Toolbar>
         </AppBar>
         <div className="container">
-          <Article title={title} content={content} author={author} publishedOn={publishedOn} />
+          <Article title={title} content={content} author={'test'} publishedOn={publishedOn} />
         </div>
       </Dialog>
   );
