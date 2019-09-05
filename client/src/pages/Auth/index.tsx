@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
@@ -11,8 +13,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import AuthForm from '../../components/AuthForm';
+import Button from '../../components/Button';
 // CSS
 import { DialogStyles } from './AuthStyles';
+import * as cssButton from '../../components/Button/ButtonStyles';
 // UTILS
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -36,6 +40,11 @@ function Auth(props: Props) {
   const handleClose = () => {
     setTriggerModal(false);
   }
+
+  const changeFormType = () => {
+    if (formType === 'signin') setFormType('signup');
+    if (formType === 'signup') setFormType('signin');
+  };
 
   // close modal if user is signed in
   useEffect(() => {
@@ -84,6 +93,25 @@ function Auth(props: Props) {
           }
         </DialogContentText>
         <AuthForm type={formType} />
+        <span css={css`
+          display: block;
+          margin-top: 14px;
+        `}>
+          {formType == 'signup' ? 'Already a user?' : 'Not yet a user?'}
+          <Button
+            css={css`
+              ${cssButton.btnBaseStyle}
+              margin-left: 8px;
+              color: var(--primary-text);
+              cursor: pointer;
+              &:focus {
+                outline: none;
+              }
+            `}
+            value={formType == 'signup' ? 'Sign In' : 'Sign Up'}
+            onClick={changeFormType}
+          />
+        </span>
       </DialogContent>
       <DialogActions className={classes.buttonWrapper}>
         <IconButton onClick={handleClose}>

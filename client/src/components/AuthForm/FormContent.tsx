@@ -201,15 +201,15 @@ const FormContent = (props: Props) => {
           }}
           error={typeOfError === 'password' || typeOfError === 'both' ? true : false}
         />
-          <Button
-            type="submit"
-            variant="outlined"
-            className={classes.buttonGen}
-            // onClick={handleLogin}
-          >
-            { type === 'signin' ? 'Sign In' : 'Join Brote'}
-          </Button>
-          {/* <Button variant="outlined" className={classes.buttonGuest} onClick={handleGuestLogin}>Login as Guest</Button> */}
+        <Button
+          type="submit"
+          variant="outlined"
+          className={classes.buttonGen}
+          // onClick={handleLogin}
+        >
+          { type === 'signin' ? 'Sign In' : 'Join Brote'}
+        </Button>
+        {/* <Button variant="outlined" className={classes.buttonGuest} onClick={handleGuestLogin}>Login as Guest</Button> */}
       </fieldset>
     </form>
   );

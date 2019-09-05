@@ -1,9 +1,10 @@
 import { css } from '@emotion/core';
 
-const btnBaseStyle = css`
+export const btnBaseStyle = css`
   width: fit-content;
   font-size: 14px;
   font-weight: 500;
+  color: var(--text);
   label: btn-baseStyle;
 `;
 

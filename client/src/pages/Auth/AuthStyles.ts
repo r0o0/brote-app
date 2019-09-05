@@ -7,6 +7,7 @@ export const DialogStyles = makeStyles((theme: Theme) => ({
       height: '32px',
     },
     '& div.MuiDialog-paper': {
+      minWidth: '680px',
       padding: '48px 56px',
       [theme.breakpoints.down('sm')]: {
         padding: '64px 40px',
