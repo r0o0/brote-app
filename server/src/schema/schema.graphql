@@ -1,12 +1,13 @@
 # import * from '../generated/prisma.graphql'
 
 type Query {
-  posts: [Post!]!
+  posts: PostsCounts!
   users: [User!]!
   publishedPosts: [Post!]!
   guests: [Guest!]!
   currentUser: User
   currentGuest: Guest
+  myDrafts(author: String!): Post
 }
 
 type Mutation {
@@ -18,6 +19,13 @@ type Mutation {
   signupAsGuest(name: String!, password: String!): GuestAuthPayload!
   signin(email: String!, password: String!): AuthPayload!
   signinAsGuest(name: String!, password: String!): GuestAuthPayload!
+}
+
+type PostsCounts {
+  total: Int!
+  drafts: Int!
+  published: Int!
+  data: [Post!]!
 }
 
 type AuthPayload {
