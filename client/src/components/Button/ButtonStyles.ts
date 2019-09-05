@@ -43,3 +43,15 @@ export const btnSignIn = css`
   font-weight: 600;
   label: btn--login;
 `;
+
+export const btnDelete = css`
+  ${btnBaseStyle};
+  border-color: var(--error);
+  color: var(--error);
+  label: btn--delete;
+`;
+
+export const btnDisabledState = css`
+  opacity: 0.3;
+  label: btn-disabled;
+`;
