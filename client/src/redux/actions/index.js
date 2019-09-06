@@ -18,6 +18,7 @@ import {
   // AUTH
   AUTH_LOGIN,
   AUTH_LOGIN_SUCCESS,
+  AUTH_SIGNOUT,
 } from '../constants';
 
 // Editor
@@ -42,6 +43,7 @@ const closeModal = () => ({ type: CLOSE_MODAL });
 // AUTH
 const checkForLogin = payload => ({ type: AUTH_LOGIN, payload });
 const loginSuccess = payload => ({ type: AUTH_LOGIN_SUCCESS, payload });
+const signoutSuccess = () => ({ type: AUTH_SIGNOUT });
 
 export {
   setContent,
@@ -59,4 +61,5 @@ export {
   closeModal,
   checkForLogin,
   loginSuccess,
+  signoutSuccess,
 };

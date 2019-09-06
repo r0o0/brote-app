@@ -1,6 +1,7 @@
 // CONSTANTS
 import {
   AUTH_LOGIN,
+  AUTH_SIGNOUT,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
 } from '../constants';
@@ -34,6 +35,10 @@ function auth(state = initialState, action) {
           email,
           role
         }
+      }
+    case AUTH_SIGNOUT:
+      return {
+        login: false
       }
     // case AUTH_LOGIN_FAILURE:
     //   return {

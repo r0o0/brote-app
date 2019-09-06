@@ -15,13 +15,11 @@ const REQUEST_POSTS_SUCCESS = '@@ajax/POSTS_SUCCESS';
 const OPEN_MODAL = '@@modal/OPEN';
 const CLOSE_MODAL = '@@modal/CLOSE';
 
-
 // AUTH
 const AUTH_LOGIN = '@@auth/LOGIN';
+const AUTH_SIGNOUT = '@@auth/SIGNOUT';
 const AUTH_LOGIN_SUCCESS = '@@auth/LOGINS_SUCCESS';
 const AUTH_LOGIN_FAILURE = '@@auth/LOGIN_FAILURE';
-
-
 
 export {
   // TextEditor
@@ -42,6 +40,7 @@ export {
   CLOSE_MODAL,
   // AUTH
   AUTH_LOGIN,
+  AUTH_SIGNOUT,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
 };
