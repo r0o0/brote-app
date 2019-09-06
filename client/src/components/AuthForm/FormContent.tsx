@@ -125,7 +125,7 @@ const FormContent = (props: Props) => {
           // user is signedIn
           setSignedIn(true);
           const username = name ? name : createUsername(email);
-          document.cookie = `user=${username}`;
+          document.cookie = `user=${username};path=/;`;
           loginSuccess({ email, username, role });
         }
       } else {
@@ -135,7 +135,7 @@ const FormContent = (props: Props) => {
           setSignedIn(true);
           const email = '';
           const username = name;
-          document.cookie = `user=${username}`;
+          document.cookie = `user=${username};path=/;`;
           loginSuccess({ email, username, role });
         }
       }
@@ -250,5 +250,4 @@ const FormContent = (props: Props) => {
   );
 };
 
-// export default withStyles(TextFieldStyles)(FormContent);
 export default FormContent;
