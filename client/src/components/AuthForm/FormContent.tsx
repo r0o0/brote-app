@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 /** @jsx jsx **/
 import { jsx, css } from '@emotion/core';
 // COMPONENTS
@@ -12,9 +12,11 @@ import {
 } from './AuthFormStyles';
 // UTILS
 import { createUsername } from '../../utils/createUsername';
+import uniqueId from '../../utils/uniqueId';
 
 interface Props {
   type: string | null;
+  guest: boolean;
   request: any; // graphql request signin or signup
   loading: boolean;
   data: any;
@@ -32,6 +34,7 @@ interface Props {
 const FormContent = (props: Props) => {
   const {
     type,
+    guest,
     request, // graphql request signin or signup
     loading,
     error,
@@ -50,19 +53,25 @@ const FormContent = (props: Props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [guestId, setGuestId] = useState('');
   const [isEmail, setIsEmail] = useState<boolean | null>(null);
   const [submit, setSubmit] = useState(false);
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  const inputToFocus = useRef<HTMLInputElement>(null);
+
   const validate = () => {
-    if (!email && !password) {
-      setErrorMsg('Please enter your email and password');
-      return false;
-    }
-    if (!email) {
-      setErrorMsg('Please enter your email');
-      return false;
+    if (!guest) {
+      if (!email && !password) {
+        setErrorMsg('Please enter your email and password');
+        return false;
+      }
+      if (!email) {
+        setErrorMsg('Please enter your email');
+        return false;
+      }
+    } else {
     }
     if (!password) {
       setErrorMsg('Please enter your password');
@@ -85,6 +94,16 @@ const FormContent = (props: Props) => {
     setPassword(password);
   }
 
+  useEffect(() => {
+    if (guest) {
+      const guestId = uniqueId("Guest");
+      setGuestId(guestId);
+      if (inputToFocus && inputToFocus.current) {
+        inputToFocus.current.focus();
+      }
+    }
+  }, [guest]);
+
   // check if email value is actually an email using EMAIL_REQEX
   useEffect(() => {
     if (email.length > 0) {
@@ -98,15 +117,27 @@ const FormContent = (props: Props) => {
     // on each form submit event
     // note: form is validated on form submit
     if (submit) {
-      const { user } = data[type as string];
-      const { email, name, role } = user;
-      // if there is no graphql server error
-      // user is signedIn
-      if (!error && user) {
-        setSignedIn(true);
-        const username = name ? name : createUsername(email);
-        document.cookie = `user=${username}`;
-        loginSuccess({ email, username, role });
+      if (!guest) {
+        const { user } = data[type as string];
+        const { email, name, role } = user;
+        if (!error && user) {
+          //if there is no graphql server error
+          // user is signedIn
+          setSignedIn(true);
+          const username = name ? name : createUsername(email);
+          document.cookie = `user=${username}`;
+          loginSuccess({ email, username, role });
+        }
+      } else {
+        const { guest } = data[`${type}AsGuest`];
+        const { name, role } = guest;
+        if(!error && guest) {
+          setSignedIn(true);
+          const email = '';
+          const username = name;
+          document.cookie = `user=${username}`;
+          loginSuccess({ email, username, role });
+        }
       }
     }
     return () => setSubmit(false);
@@ -121,7 +152,11 @@ const FormContent = (props: Props) => {
       if (!isValid) return;
 
       // if all fields are filled request login to graphql server
-      await request({ variables: { email, password } });
+      if (!guest) {
+        await request({ variables: { email, password } });
+      } else {
+        await request({ variables: { name: guestId, password }});
+      }
 
       setSubmit(true);
     }}>
@@ -131,14 +166,14 @@ const FormContent = (props: Props) => {
         <div css={css``}>
           <TextField
             id="input-email"
-            label="Email"
+            label={!guest ? "Email" : "Name"}
             type="text"
             autoComplete="off"
             margin="dense"
             variant="outlined"
             className={classes.root}
-            // defaultValue="Guest"
-            // value={triggerLogin ? 'Guest' : eValue}
+            value={!guest ? email : guestId}
+            disabled={guest ? true : false}
             onChange={handleEValue}
             fullWidth
             // input css override
@@ -178,6 +213,7 @@ const FormContent = (props: Props) => {
           label="Password"
           type="password"
           autoComplete="current-password"
+          inputRef={inputToFocus}
           margin="dense"
           // value={triggerLogin ? pwdGuest : pwdValue}
           onChange={handlePwdValue}
@@ -209,7 +245,6 @@ const FormContent = (props: Props) => {
         >
           { type === 'signin' ? 'Sign In' : 'Join Brote'}
         </Button>
-        {/* <Button variant="outlined" className={classes.buttonGuest} onClick={handleGuestLogin}>Login as Guest</Button> */}
       </fieldset>
     </form>
   );

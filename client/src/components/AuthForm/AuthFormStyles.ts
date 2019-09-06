@@ -52,6 +52,7 @@ export const FormStyles = makeStyles((theme: Theme) => ({
     }
   },
   buttonGen: {
+    width: '100%',
     color: 'var(--light-60)',
     borderColor: 'var(--light-60)',
     '&:hover': {

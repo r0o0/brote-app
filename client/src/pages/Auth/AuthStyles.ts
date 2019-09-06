@@ -10,6 +10,7 @@ export const DialogStyles = makeStyles((theme: Theme) => ({
       minWidth: '680px',
       padding: '48px 56px',
       [theme.breakpoints.down('sm')]: {
+        minWidth: '0',
         padding: '64px 40px',
       },
       [theme.breakpoints.down('xs')]: {

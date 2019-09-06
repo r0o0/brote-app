@@ -1,43 +1,23 @@
 import React, { useState, useEffect } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
+// GraphQL
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { REQUEST_SIGNIN, REQUEST_SIGNUP, REQUEST_GUEST_SIGNIN, REQUEST_GUEST_SIGNUP } from './Mutation';
 // COMPONENTS
+import Button from '@material-ui/core/Button';
 import FormContent from './FormContent';
 // CSS
+import {
+  FormStyles,
+  fieldset,
+} from './AuthFormStyles';
 // import { LoginStyles } from './LoginStyles';
 
-// sign in mutation
-const REQUEST_SIGNIN = gql`
-  mutation REQUEST_LOGIN($email: String!, $password: String!) {
-    signin(email: $email, password: $password) {
-      user {
-        id
-        name
-        email
-        joinedOn
-        role
-      }
-    }
-  }
-`
 
-// sign up mutation
-const REQUEST_SIGNUP = gql`
-  mutation REQUEST_SIGNUP($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
-      user {
-        id
-        name
-        email
-        joinedOn
-        role
-      }
-    }
-  }
-`
 
 interface Props {
   loginSuccess: ({}: { email: string, username: string, role: string }) => void;
@@ -49,11 +29,19 @@ interface Props {
 
 const AuthForm = (props: Props) => {
   const { loginSuccess, type } = props;
+
+  const classes = FormStyles();
+
   const [errorState, setErrorState] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isGuest, setIsGuest] = useState(false);
 
-  const [request, { loading, data, error }] = useMutation(type === 'signin' ? REQUEST_SIGNIN : REQUEST_SIGNUP);
+  const [request, { loading, data, error }] = useMutation(
+    !isGuest ?
+      type === 'signin' ? REQUEST_SIGNIN : REQUEST_SIGNUP :
+      type === 'signin' ? REQUEST_GUEST_SIGNIN : REQUEST_GUEST_SIGNUP
+    );
 
   const whichError = (msg: string | null) => {
     if (signedIn) return 'none';
@@ -69,6 +57,10 @@ const AuthForm = (props: Props) => {
   const clearError = () => {
     setErrorMsg(null);
     setErrorState(false);
+  }
+
+  const guestWantsToJoin = () => {
+    if (!isGuest) setIsGuest(true);
   }
 
   useEffect(() => {
@@ -91,21 +83,52 @@ const AuthForm = (props: Props) => {
   }, [errorMsg, error, signedIn]);
 
   return (
-    <FormContent
-      type={type}
-      request={request}
-      loading={loading}
-      error={error}
-      data={data}
-      errorState={errorState}
-      errorMsg={errorMsg}
-      setErrorMsg={setErrorMsg}
-      clearError={clearError}
-      signedIn={signedIn}
-      setSignedIn={setSignedIn}
-      loginSuccess={loginSuccess}
-      typeOfError={whichError(errorMsg)}
-    />
+    <React.Fragment>
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.buttonGen}
+        onClick={guestWantsToJoin}
+      >
+        { type === 'signin' ? 'Sign In' : 'Join as a Guest'}
+      </Button>
+      <span css={css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 16px 0;
+        color: var(--light-50);
+        &::before, &::after {
+          content: '';
+          width: 100%;
+          height: 1px;
+          background: var(--light-80);
+        }
+        &::before {
+          margin-right: 12px;
+        }
+        &::after {
+          margin-left: 12px;
+        }
+      `}
+      >or</span>
+      <FormContent
+        type={type}
+        guest={isGuest}
+        request={request}
+        loading={loading}
+        error={error}
+        data={data}
+        errorState={errorState}
+        errorMsg={errorMsg}
+        setErrorMsg={setErrorMsg}
+        clearError={clearError}
+        signedIn={signedIn}
+        setSignedIn={setSignedIn}
+        loginSuccess={loginSuccess}
+        typeOfError={whichError(errorMsg)}
+      />
+    </React.Fragment>
   );
 }
 
