@@ -1,25 +1,61 @@
-import React from 'react';
+import React, { useState }from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
+// GraphQL
+import { withApollo, WithApolloClient } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 // COMPONENTS
 import Popover from '@material-ui/core/Popover';
 import UserProfile from './UserProfile';
+import Button from '../../components/Button';
 // CSS
 import { UserNavStyles } from './UserNavStyles';
 import * as css from './UserNavStyles';
+import * as cssButton from '../../components/Button/ButtonStyles';
+// UTILS
+import { getCookie } from '../../utils/cookie';
+
+const SIGN_OUT = gql`
+  mutation SIGN_OUT {
+    signout {
+      message
+    }
+  }
+`;
 
 interface Props {
   id: string;
   anchorEl: null | HTMLElement;
   onClose: () => void;
   user: string | undefined;
+  client: any;
+  signoutSuccess: () => void;
 }
 
 function UserNav(props: Props) {
   const classes = UserNavStyles();
-  const { id, anchorEl, onClose, user } = props;
-  console.log('nav', user);
+  const { id, anchorEl, onClose, user, client, signoutSuccess } = props;
+  const [redirect, setRedirect] = useState(false);
+  const [signout] = useMutation(SIGN_OUT);
+  console.log(client);
+  
+  const handleSignOut = () => {
+    setRedirect(true);
+    if (getCookie('user')) {
+      // clear user cookie
+      document.cookie = 'user=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    // reset apollo client cache
+    client.cache.reset();
+    // signout in server
+    signout();
+    signoutSuccess();
+  };
+  if (redirect) return <Redirect to="/" />;
   return (
     <div>
       <Popover
@@ -52,18 +88,24 @@ function UserNav(props: Props) {
           <li>New Story</li>
           <li>Stories</li>
           <li><Link to={{
-            pathname: `/@${user}`,
+            pathname: `/@${user}/stories`,
             state: {
               user,
             }
           }}
           >Profile</Link></li>
           <li>Settings</li>
-          <li>Sign Out</li>
+          <li>
+            <Button
+              css={cssButton.btnBaseStyle}
+              value="Sign Out"
+              onClick={handleSignOut}
+            />
+          </li>
         </ul>
       </Popover>
     </div>
   )
 }
 
-export default UserNav;
+export default connect(null, actions)(withApollo<WithApolloClient<Props>>(UserNav));
