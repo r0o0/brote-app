@@ -84,34 +84,38 @@ const AuthForm = (props: Props) => {
 
   return (
     <React.Fragment>
-      <Button
-        type="button"
-        variant="outlined"
-        className={classes.buttonGen}
-        onClick={guestWantsToJoin}
-      >
-        { type === 'signin' ? 'Sign In' : 'Join as a Guest'}
-      </Button>
-      <span css={css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 16px 0;
-        color: var(--light-50);
-        &::before, &::after {
-          content: '';
-          width: 100%;
-          height: 1px;
-          background: var(--light-80);
-        }
-        &::before {
-          margin-right: 12px;
-        }
-        &::after {
-          margin-left: 12px;
-        }
-      `}
-      >or</span>
+      { type === 'signup' ?
+        <React.Fragment>
+          <Button
+            type="button"
+            variant="outlined"
+            className={classes.buttonGen}
+            onClick={guestWantsToJoin}
+          >
+            Join as a Guest
+          </Button>
+          <span css={css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 16px 0;
+            color: var(--light-50);
+            &::before, &::after {
+              content: '';
+              width: 100%;
+              height: 1px;
+              background: var(--light-80);
+            }
+            &::before {
+              margin-right: 12px;
+            }
+            &::after {
+              margin-left: 12px;
+            }
+          `}
+          >or</span>
+        </React.Fragment>
+      : null }
       <FormContent
         type={type}
         guest={isGuest}
