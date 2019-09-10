@@ -1,0 +1,19 @@
+{
+  "name": "brote-server",
+  "version": 2,
+  "builds": [
+    { "src": "/public/src/index.js", "use": "@now/node-server" }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "/public/src/index.js"
+    }
+  ],
+  "build": {
+    "env": {
+      "PRISMA_MANAGEMENT_API_SECRET": "@prisma_management_api_secret",
+      "MONGO_URI": "@mongo_uri"
+    }
+  }
+}

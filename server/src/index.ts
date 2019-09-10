@@ -2,7 +2,11 @@ import { GraphQLServer } from 'graphql-yoga';
 import resolvers from './resolvers';
 import  { Prisma } from 'prisma-binding';
 import * as jwt from 'jsonwebtoken';
-import * as cookieParser from 'cookie-parser';
+import { importSchema } from 'graphql-import';
+const fs = require('fs');
+const cookieParser = require('cookie-parser');
+
+import * as path from "path";
 
 declare global {
   namespace Express {
@@ -13,15 +17,20 @@ declare global {
   }
 }
 
+// create schema prep file for zeit now deploy
+// to fix error: handling the import '../generated/prisma.graphql' as dependency
+const text = importSchema('./src/schema/schema.graphql');
+fs.writeFileSync('./src/schema/schema_prep.graphql', text);
+
 const db = new Prisma({
-  typeDefs: 'src/generated/prisma.graphql',
-  endpoint: process.env.PRISMA_ENDPOINT,
+  typeDefs: path.join(__dirname, '/generated/prisma.graphql'),
+  endpoint: process.env.PRISMA_ENDPOINT || 'http://192.168.99.100:4080',
   secret: process.env.PRISMA_MANAGEMENT_API_SECRET,
   debug: true,
 });
 
 const server = new GraphQLServer({
-  typeDefs: './src/schema/schema.graphql',
+  typeDefs: path.join(__dirname, '/schema/schema_prep.graphql'),
   resolvers,
   resolverValidationOptions: {
     requireResolversForResolveType: false
@@ -66,8 +75,11 @@ server.express.use((req, res, next) => {
 
 const options = {
   port: `${process.env.APP_PORT}`,
+  endpoint: '/',
+  playground: '/',
   cors: {
-    origin: [process.env.CLIENT_ENDPOINT], // Client Endpoint
+    // origin: [process.env.CLIENT_ENDPOINT], // Client Endpoint
+    origin: '*',
     credentials: true,
   }
 }

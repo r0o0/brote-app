@@ -10,6 +10,10 @@ type Query {
   myDrafts(author: String!): Post
 }
 
+type Subscription {
+  signout: SuccessMsg
+}
+
 type Mutation {
   # post
   createDraft(draft: PostContent): Post
@@ -19,6 +23,11 @@ type Mutation {
   signupAsGuest(name: String!, password: String!): GuestAuthPayload!
   signin(email: String!, password: String!): AuthPayload!
   signinAsGuest(name: String!, password: String!): GuestAuthPayload!
+  signout: SuccessMsg
+}
+
+type SuccessMsg {
+  message: String!
 }
 
 type PostsCounts {

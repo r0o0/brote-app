@@ -5,7 +5,7 @@
 /coverage
 
 # production
-/build
+/public
 
 # dotenv environment variables file
 .env

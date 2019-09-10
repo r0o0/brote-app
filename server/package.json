@@ -2,12 +2,15 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpileOnly -r dotenv/config src/app.ts",
+    "start": "ts-node-dev --respawn --transpileOnly -r dotenv/config src/index.ts",
     "test": "jest",
     "playground": "prisma playground",
-    "deploy": "prisma deploy --env-file .env && yarn playground"
+    "prisma": "prisma deploy --env-file .env && yarn playground",
+    "tsc": "rm -rf public && tsc -p .tsconfig.json && copyfiles ./src/generated/*.graphql public/ && copyfiles ./src/schema/*.graphql public/",
+    "build": "yarn tsc",
+    "deploy": "yarn build && now"
   },
   "keywords": [],
   "author": "r0o0",
@@ -15,6 +18,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
+    "copyfiles": "^2.1.1",
     "graphql-yoga": "^1.18.1",
     "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.15",

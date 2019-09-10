@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "declarationDir": "./dist",
-    "target": "es6",
+    "outDir": "./public/",
+    "target": "ES6",
     "module": "commonjs",
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "lib": ["es2016", "esnext.asynciterable"],
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
   },
-  "include": ["*.ts"],
-  "exclude": ["node_modules/"]
+  "include": [
+    "**/*.ts",
+    "node_modules/@types"
+  ],
+  "exclude": ["node_modules"]
  }

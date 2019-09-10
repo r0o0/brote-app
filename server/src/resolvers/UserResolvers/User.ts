@@ -62,6 +62,10 @@ const User = {
       token,
       user
     }
+  },
+  signout(_, args, { db, response }) {
+    response.clearCookie('token');
+    return { message: 'See you next time.' };
   }
 }
 
