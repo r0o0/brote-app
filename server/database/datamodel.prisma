@@ -6,7 +6,7 @@ type User {
   joinedOn: DateTime @createdAt
   lastLogin: DateTime @updatedAt
   role: String @default(value: "user")
-  posts: [Post!]! @relation(delete: CASCADE, link: INLINE)
+  posts: [Post!]!
 }
 
 type Guest {
@@ -16,7 +16,7 @@ type Guest {
   joinedOn: DateTime @createdAt
   lastLogin: DateTime @updatedAt
   role: String @default(value: "guest")
-  posts: [Post!]! @relation(delete: CASCADE, link: INLINE)
+  posts: [Post!]! @relation(onDelete: CASCADE)
 }
 
 type Post {

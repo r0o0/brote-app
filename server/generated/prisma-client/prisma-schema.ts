@@ -87,6 +87,8 @@ input GuestSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: GuestWhereInput
   AND: [GuestSubscriptionWhereInput!]
+  OR: [GuestSubscriptionWhereInput!]
+  NOT: [GuestSubscriptionWhereInput!]
 }
 
 input GuestUpdateInput {
@@ -175,8 +177,12 @@ input GuestWhereInput {
   role_not_starts_with: String
   role_ends_with: String
   role_not_ends_with: String
+  posts_every: PostWhereInput
   posts_some: PostWhereInput
+  posts_none: PostWhereInput
   AND: [GuestWhereInput!]
+  OR: [GuestWhereInput!]
+  NOT: [GuestWhereInput!]
 }
 
 input GuestWhereUniqueInput {
@@ -378,6 +384,8 @@ input PostSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: PostWhereInput
   AND: [PostSubscriptionWhereInput!]
+  OR: [PostSubscriptionWhereInput!]
+  NOT: [PostSubscriptionWhereInput!]
 }
 
 input PostUpdateDataInput {
@@ -536,6 +544,8 @@ input PostWhereInput {
   isPublished: Boolean
   isPublished_not: Boolean
   AND: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  NOT: [PostWhereInput!]
 }
 
 input PostWhereUniqueInput {
@@ -646,6 +656,8 @@ input UserSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: UserWhereInput
   AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
 }
 
 input UserUpdateInput {
@@ -771,8 +783,12 @@ input UserWhereInput {
   role_not_starts_with: String
   role_ends_with: String
   role_not_ends_with: String
+  posts_every: PostWhereInput
   posts_some: PostWhereInput
+  posts_none: PostWhereInput
   AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {

@@ -1,5 +1,5 @@
-# source: http://localhost:4080
-# timestamp: Thu Sep 05 2019 11:26:41 GMT+0900 (Korean Standard Time)
+# source: https://brote-server-7d8b31bfe2.herokuapp.com
+# timestamp: Tue Sep 10 2019 23:13:06 GMT+0900 (Korean Standard Time)
 
 type AggregateGuest {
   count: Int!
@@ -92,6 +92,12 @@ input GuestSubscriptionWhereInput {
   """Logical AND on all given filters."""
   AND: [GuestSubscriptionWhereInput!]
 
+  """Logical OR on all given filters."""
+  OR: [GuestSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GuestSubscriptionWhereInput!]
+
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
@@ -128,6 +134,12 @@ input GuestUpdateManyMutationInput {
 input GuestWhereInput {
   """Logical AND on all given filters."""
   AND: [GuestWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GuestWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GuestWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -332,7 +344,9 @@ input GuestWhereInput {
 
   """All values not ending with the given string."""
   role_not_ends_with: String
+  posts_every: PostWhereInput
   posts_some: PostWhereInput
+  posts_none: PostWhereInput
 }
 
 input GuestWhereUniqueInput {
@@ -666,6 +680,12 @@ input PostSubscriptionWhereInput {
   """Logical AND on all given filters."""
   AND: [PostSubscriptionWhereInput!]
 
+  """Logical OR on all given filters."""
+  OR: [PostSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PostSubscriptionWhereInput!]
+
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
@@ -782,6 +802,12 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 input PostWhereInput {
   """Logical AND on all given filters."""
   AND: [PostWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PostWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PostWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -1071,6 +1097,12 @@ input UserSubscriptionWhereInput {
   """Logical AND on all given filters."""
   AND: [UserSubscriptionWhereInput!]
 
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
@@ -1130,6 +1162,12 @@ input UserUpsertWithoutPostsInput {
 input UserWhereInput {
   """Logical AND on all given filters."""
   AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -1374,7 +1412,9 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   role_not_ends_with: String
+  posts_every: PostWhereInput
   posts_some: PostWhereInput
+  posts_none: PostWhereInput
 }
 
 input UserWhereUniqueInput {

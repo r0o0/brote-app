@@ -293,6 +293,8 @@ export interface PostWhereInput {
   isPublished?: Maybe<Boolean>;
   isPublished_not?: Maybe<Boolean>;
   AND?: Maybe<PostWhereInput[] | PostWhereInput>;
+  OR?: Maybe<PostWhereInput[] | PostWhereInput>;
+  NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -382,8 +384,12 @@ export interface UserWhereInput {
   role_not_starts_with?: Maybe<String>;
   role_ends_with?: Maybe<String>;
   role_not_ends_with?: Maybe<String>;
+  posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
+  posts_none?: Maybe<PostWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
 export interface GuestWhereInput {
@@ -459,8 +465,12 @@ export interface GuestWhereInput {
   role_not_starts_with?: Maybe<String>;
   role_ends_with?: Maybe<String>;
   role_not_ends_with?: Maybe<String>;
+  posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
+  posts_none?: Maybe<PostWhereInput>;
   AND?: Maybe<GuestWhereInput[] | GuestWhereInput>;
+  OR?: Maybe<GuestWhereInput[] | GuestWhereInput>;
+  NOT?: Maybe<GuestWhereInput[] | GuestWhereInput>;
 }
 
 export type PostWhereUniqueInput = AtLeastOne<{
@@ -762,6 +772,8 @@ export interface GuestSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<GuestWhereInput>;
   AND?: Maybe<GuestSubscriptionWhereInput[] | GuestSubscriptionWhereInput>;
+  OR?: Maybe<GuestSubscriptionWhereInput[] | GuestSubscriptionWhereInput>;
+  NOT?: Maybe<GuestSubscriptionWhereInput[] | GuestSubscriptionWhereInput>;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -771,6 +783,8 @@ export interface PostSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<PostWhereInput>;
   AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -780,6 +794,8 @@ export interface UserSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<UserWhereInput>;
   AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
 export interface NodeNode {
@@ -1398,7 +1414,6 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `${process.env["PRISMA_ENDPOINT"]}`,
-  secret: `${process.env["PRISMA_MANAGEMENT_API_SECRET"]}`
+  endpoint: `${process.env["PRISMA_ENDPOINT"]}`
 });
 export const prisma = new Prisma();

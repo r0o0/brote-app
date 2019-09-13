@@ -3,7 +3,7 @@ const Post = {
   createDraft(_, { draft }, { db, request }, info) {
     const user = request.user;
     if (!user) throw new Error('Not Signed In!');
-    // console.log('check ', request.user.email);
+
     const author = request.user.email;
     return db.mutation.createPost({
       data: {
@@ -22,6 +22,7 @@ const Post = {
   publish(_, { id }, { db, request }, info) {
     const user = request.user;
     if (!user) throw new Error('Not Signed In!');
+
     const author = request.user.email;
     return db.mutation.updatePost({
       data: {
@@ -40,6 +41,7 @@ const Post = {
   delete(_, { id }, { db, request }, info) {
     const user = request.user;
     if (!user) throw new Error('Not Signed In!');
+
     const author = request.user.email;
     return db.mutation.deletePost({
       data: {

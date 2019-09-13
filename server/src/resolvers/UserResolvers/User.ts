@@ -1,5 +1,4 @@
 import { hash, compare } from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
 // utils
 import {
   checkForUser,

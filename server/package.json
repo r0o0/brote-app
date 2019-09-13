@@ -7,9 +7,9 @@
     "start": "ts-node-dev --respawn --transpileOnly -r dotenv/config src/index.ts",
     "test": "jest",
     "playground": "prisma playground",
-    "prisma": "prisma deploy --env-file .env && yarn playground",
+    "prisma": "prisma deploy -p prisma.production.yml && yarn playground",
     "tsc": "rm -rf public && tsc -p .tsconfig.json && copyfiles ./src/generated/*.graphql public/ && copyfiles ./src/schema/*.graphql public/",
-    "build": "yarn tsc",
+    "build": "cross-env NODE_ENV=production yarn tsc && prisma deploy --env-file .env.production",
     "deploy": "yarn build && now"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "copyfiles": "^2.1.1",
     "graphql-yoga": "^1.18.1",
     "jsonwebtoken": "^8.5.1",
+    "now": "^16.2.0",
     "prisma-binding": "^2.3.15",
     "prisma-client-lib": "^1.34.5"
   },
@@ -29,6 +30,7 @@
     "@types/jest": "^24.0.17",
     "@types/morgan": "^1.7.36",
     "@types/node": "^12.7.1",
+    "cross-env": "^5.2.1",
     "dotenv": "^8.0.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",

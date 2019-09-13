@@ -92,6 +92,10 @@ interface Node {
 input PostWhereInput {
   """Logical AND on all given filters."""
   AND: [PostWhereInput!]
+  """Logical OR on all given filters."""
+  OR: [PostWhereInput!]
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PostWhereInput!]
   id: ID
   """All values that are not equal to given value."""
   id_not: ID
@@ -227,6 +231,10 @@ enum PostOrderByInput {
 input UserWhereInput {
   """Logical AND on all given filters."""
   AND: [UserWhereInput!]
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
   id: ID
   """All values that are not equal to given value."""
   id_not: ID
@@ -392,5 +400,7 @@ input UserWhereInput {
   role_ends_with: String
   """All values not ending with the given string."""
   role_not_ends_with: String
+  posts_every: PostWhereInput
   posts_some: PostWhereInput
+  posts_none: PostWhereInput
 }

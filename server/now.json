@@ -10,10 +10,9 @@
       "dest": "/public/src/index.js"
     }
   ],
-  "build": {
-    "env": {
-      "PRISMA_MANAGEMENT_API_SECRET": "@prisma_management_api_secret",
-      "MONGO_URI": "@mongo_uri"
-    }
+  "env": {
+    "AUTH_SECRET": "@auth_secret",
+    "CLIENT_ENDPOINT": "@client_endpoint",
+    "PRISMA_ENDPOINT": "@prisma_endpoint"
   }
 }
