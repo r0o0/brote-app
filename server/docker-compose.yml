@@ -7,10 +7,21 @@ services:
       - '4080:4080'
     environment:
       PRISMA_CONFIG: |
-        managementApiSecret: ${PRISMA_MANAGEMENT_API_SECRET}
         port: 4080
         databases:
           default:
-            connector: mongo
-            database: ${MONGO_DB}
-            uri: ${MONGO_URI}
+            connector: postgres
+            host: postgres
+            port: 5432
+            user: prisma
+            password: prisma
+  postgres:
+    image: postgres:10.3
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres: ~
