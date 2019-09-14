@@ -11,6 +11,7 @@ import gql from 'graphql-tag';
 // COMPONENTS
 import Popover from '@material-ui/core/Popover';
 import UserProfile from './UserProfile';
+import UserNavList from './UserNavList';
 import Button from '../../components/Button';
 // CSS
 import { UserNavStyles } from './UserNavStyles';
@@ -18,6 +19,7 @@ import * as css from './UserNavStyles';
 import * as cssButton from '../../components/Button/ButtonStyles';
 // UTILS
 import { getCookie } from '../../utils/cookie';
+// import { navData } from './UserNavList';
 
 const SIGN_OUT = gql`
   mutation SIGN_OUT {
@@ -42,7 +44,7 @@ function UserNav(props: Props) {
   const [redirect, setRedirect] = useState(false);
   const [signout] = useMutation(SIGN_OUT);
   console.log(client);
-  
+
   const handleSignOut = () => {
     setRedirect(true);
     if (getCookie('user')) {
@@ -84,25 +86,16 @@ function UserNav(props: Props) {
             <UserProfile user={user ? user : ''} />
           </div>
         </div>
-        <ul css={css.menuList}>
-          <li>New Story</li>
-          <li>Stories</li>
-          <li><Link to={{
-            pathname: `/@${user}/stories`,
-            state: {
-              user,
-            }
-          }}
-          >Profile</Link></li>
-          <li>Settings</li>
-          <li>
-            <Button
-              css={cssButton.btnBaseStyle}
-              value="Sign Out"
-              onClick={handleSignOut}
-            />
-          </li>
-        </ul>
+        <div css={css.menuListContainer}>
+          <ul css={css.menuList}>
+            <UserNavList user={user ? user : ''} />
+          </ul>
+        </div>
+        <Button
+          css={[cssButton.btnBaseStyle, css.btnSignout]}
+          value="Sign Out"
+          onClick={handleSignOut}
+        />
       </Popover>
     </div>
   )

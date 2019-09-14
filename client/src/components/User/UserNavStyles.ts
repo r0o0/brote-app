@@ -43,20 +43,51 @@ export const User = css`
   label: user-menu--user-info;
 `;
 
-export const menuList = css`
-  margin: 12px 0 20px;
+export const menuListContainer = css`
+  margin: 12px 0;
   padding: 0 24px;
   font-size: 15px;
   color: var(--light-50);
+`;
+
+export const menuList = css`
   list-style: none;
-  li {
-    min-height: 34px;
-    line-height: 34px;
-    cursor: pointer;
-    &:hover {
-      color: var(--text);
-      transition: color 0.34s ease-in;
-    }
-  }
   label: user-menu;
+`;
+
+export const list = css`
+  min-height: 34px;
+  line-height: 34px;
+  cursor: pointer;
+  label: user-menu__list;
+`;
+
+export const menuActive = css`
+  color: var(--text);
+  &:hover {
+    color: #2777f9;
+    transition: color 0.24s cubic-bezier(0.08, 0.57, 0.68, 0.96);
+  }
+  label: user-menu__list--active;
+`;
+
+export const menuDisable = css`
+  cursor: not-allowed;
+  label: user-menu__list--disable;
+`;
+
+export const btnSignout = css`
+  width: 100%;
+  padding: 12px 24px 16px;
+  border-top: 1px solid #eee;
+  text-align: left;
+  color: var(--light-50);
+
+  cursor: pointer;
+
+  &:hover {
+    color: #2777f9;
+    transition: color 0.24s cubic-bezier(0.08, 0.57, 0.68, 0.96);
+  }
+  label: btn-signout;
 `;
