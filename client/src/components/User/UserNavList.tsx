@@ -12,12 +12,12 @@ const navData = [
   },
   {
     name: 'Stories',
-    status: 'disable',
+    status: 'active',
     type: 'link',
   },
   {
     name: 'Profile',
-    status: 'active',
+    status: 'disable',
     type: 'link',
   },
   {
