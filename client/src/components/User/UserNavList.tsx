@@ -50,10 +50,10 @@ function UserNavList(props: Props) {
                   css={[css.list, css.menuActive]}
                   key={`menu-${name}`}
                 ><Link to={{
-                  pathname: `/@${user}/${nameToLowerCase}`,
-                  state: {
-                    user,
-                  }
+                    pathname: nameToLowerCase === 'new story' ? '/new-story' : `/@${user}/${nameToLowerCase}`,
+                    state: {
+                      user,
+                    }
                 }}
                 >{item.name}</Link></li>
               );
