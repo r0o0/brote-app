@@ -11,7 +11,7 @@
 }
 
 html {
-  overflow-y: overlay;
+  overflow-y: scroll;
 }
 
 body, html {
@@ -62,12 +62,13 @@ button {
   height: auto;
 }
 .update-notification {
-  background-color: #ffffff;
-  color: #222222;
   display:block;
   position: absolute;
-  bottom:0;
-  right:0;
+  top:16px;
+  right:16px;
   padding:0.8em 1.2em;
+  background-color: #ffffff;
+  color: #222222;
+  border: 1px solid var(--primary);
   text-decoration: none;
 }
