@@ -17,6 +17,9 @@ import { displayDate } from '../../utils/date';
 import { getCleaned } from '../../utils/sanitizeHTML';
 import { transformToText } from '../../utils/HTMLparser';
 import { postsRequest } from '../../redux/reducers/RequestReducer';
+// CSS
+import * as cssB from '../../components/Button/ButtonStyles';
+import * as cssP from './ListStyles';
 
 interface Props {
   drafts: type.Posts | null;
@@ -61,28 +64,40 @@ function List(props: Props) {
           return (
             <React.Fragment key={id}>
               { !post.isPublished ?
-                <div>
-                  <h2>{title}</h2>
-                  <p dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
-                  <span>Last edited {displayDate(savedOn ? savedOn : '', false)}</span>
-                  <IconButton onClick={(e) => console.log(id, title)}>
-                    <Icon>edit</Icon>
-                  </IconButton>
-                  <Link to={{
-                    pathname: `/p/${path}-b${id}`,
-                    state: {
-                      id,
-                      title,
-                      content,
-                      author: author.name,
-                      savedOn,
-                    }
-                  }}>
-                    <Button
-                      onClick={() => handlePublish(id, title)}
-                      value="Publish"
-                    />
-                  </Link>
+                <div css={cssP.wrapper}>
+                  <div css={cssP.postContent}>
+                    <h2 css={cssP.title}>{title}</h2>
+                    <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
+                    <span css={cssP.date}>Last edited <b>{displayDate(savedOn ? savedOn : '', false)}</b></span>
+                  </div>
+                  <div css={cssP.postActions}>
+                    <IconButton css={cssP.btnEdit} onClick={(e) => console.log(id, title)}>
+                      <Icon>edit</Icon>
+                    </IconButton>
+                    <div css={cssP.btnWrapper}>
+                      <Link to={{
+                        pathname: `/p/${path}-b${id}`,
+                        state: {
+                          id,
+                          title,
+                          content,
+                          author: author.name,
+                          savedOn,
+                        }
+                      }}>
+                        <Button
+                          css={[cssB.btnDefault, cssP.btnPublish]}
+                          onClick={() => handlePublish(id, title)}
+                          value="Publish"
+                        />
+                      </Link>
+                      <Button
+                        css={[cssB.btnDefault, cssP.btnDel]}
+                        onClick={() => console.log('delete')}
+                        value="Delete"
+                      />
+                    </div>
+                  </div>
 
                 </div> :
                 null

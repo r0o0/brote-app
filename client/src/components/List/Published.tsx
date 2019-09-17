@@ -17,7 +17,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 // CSS
-import * as cssButton from '../Button/ButtonStyles';
+import * as cssB from '../Button/ButtonStyles';
+import * as cssP from './ListStyles';
 // UTILS
 import convertToPath from '../../utils/convertToPath';
 import { displayDate } from '../../utils/date';
@@ -104,17 +105,22 @@ function Published() {
           return (
             <React.Fragment key={id}>
               { post.isPublished ?
-                <div>
-                  <h2>{title}</h2>
-                  <p dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
-                  <span>Published on {displayDate(publishedOn ? publishedOn : '', false)}</span>
-                  <IconButton onClick={(e) => console.log(id, title)}>
-                    <Icon>edit</Icon>
-                  </IconButton>
-                  <Button
-                    onClick={() => handleDelete(id, title)}
-                    value="Delete"
-                  />
+                <div css={cssP.wrapper}>
+                  <div css={cssP.postContent}>
+                    <h2 css={cssP.title}>{title}</h2>
+                    <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
+                    <span css={cssP.date}>Published on <b>{displayDate(publishedOn ? publishedOn : '', false)}</b></span>
+                  </div>
+                  <div css={cssP.postActions}>
+                    <IconButton css={cssP.btnEdit} onClick={(e) => console.log(id, title)}>
+                      <Icon>edit</Icon>
+                    </IconButton>
+                    <Button
+                      css={[cssB.btnDefault, cssP.btnDel]}
+                      onClick={() => handleDelete(id, title)}
+                      value="Delete"
+                    />
+                  </div>
                 </div> :
                 null
               }
@@ -152,7 +158,7 @@ function Published() {
         <DialogActions>
           <Button
             value="Delete"
-            css={cancelDelete ? [cssButton.btnDefault, cssButton.btnDisabledState] : [cssButton.btnDefault, cssButton.btnDelete]}
+            css={cancelDelete ? [cssB.btnDefault, cssB.btnDisabledState] : [cssB.btnDefault, cssB.btnDelete]}
             onClick={handleDeleteBtn}
           />
         </DialogActions>

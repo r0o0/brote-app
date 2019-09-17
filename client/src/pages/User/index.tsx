@@ -18,10 +18,9 @@ interface Props {
 function User(props: Props) {
   const { location } = props;
   let user;
-  if (!location.state) user = location.pathname.replace('/@', '');
+  if (!location.state) user = location.pathname.split('/')[0].replace('/@', '');
   if (location.state) user = location.state.user;
-  const thisRoute = location.pathname;
-
+  console.log('user', user, location);
   return (
     <div className="container" css={css.UserContainer}>
       <div css={css.UserHeaderWrapper}>
@@ -40,7 +39,7 @@ function User(props: Props) {
             />
           </div>
           <p className="user-msg">Set profile message</p>
-          <Link to={`${thisRoute}/following`}><span className="user-following">Following 3</span></Link>
+          <Link to=''><span className="user-following">Following 3</span></Link>
         </div>
         <div
           className="user-profile"

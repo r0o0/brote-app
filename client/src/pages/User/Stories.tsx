@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import * as type from '../../types';
@@ -32,7 +34,7 @@ export const GET_MY_POSTS = gql`
 function Stories() {
   const { loading, data, error } = useQuery(GET_MY_POSTS);
   const [posts, setPosts] = useState<type.Posts | null>(null);
-  const [draftsN, setDraftsN] = useState<number | null>(null);
+  const [draftsN, setDraftsN] = useState<number | string>('');
   const [publishedN, setPublishedN] = useState<number | null>(null);
   const [value, setValue] = useState(0);
   const handleChange = (e: React.ChangeEvent<{}>, newValue: number) => {
@@ -41,10 +43,9 @@ function Stories() {
 
   useEffect(() => {
     if(!loading) {
-      const { drafts, published } = data.posts;
       if (error) setPosts(null);
       if (data && data.posts) {
-        // const { data } = data.posts;
+        const { drafts, published } = data.posts;
         setPosts(data.posts.data);
         setDraftsN(drafts);
         setPublishedN(published);
@@ -53,7 +54,8 @@ function Stories() {
   }, [loading, data, error]);
 
   return (
-    <div>
+    <div css={css`
+    `}>
       { loading ?
           <p>Loading...</p> :
           <React.Fragment>

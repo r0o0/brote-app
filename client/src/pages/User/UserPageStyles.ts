@@ -1,7 +1,10 @@
 import { css } from '@emotion/core';
 
 export const UserContainer = css`
-  margin: 24px 0;
+  margin: 24px auto;
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
 `;
 
 export const UserHeaderWrapper = css`
