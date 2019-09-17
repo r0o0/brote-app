@@ -4,12 +4,14 @@ import { jsx } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
+import { Redirect } from 'react-router-dom';
 // GraphQL
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 // COMPONENTS
 import Button from '../Button';
 import WithUser from './withUser';
+import Snackbar from '@material-ui/core/Snackbar';
 // CSS
 import * as css from './HeaderStyles';
 import * as cssB from '../Button/ButtonStyles';
@@ -48,6 +50,9 @@ const WriteHeader = (props: Props) => {
    } = props;
 
   const [readyToPublish, setReadyToPublish] = useState(false);
+  const [triggerAlert, setTriggerAlert] = useState(false);
+  const [triggerSuccess, setTriggerSuccess] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const localTitle = localStorage.title;
   const localContent = localStorage.content;
   const { saved } = editor;
@@ -64,9 +69,22 @@ const WriteHeader = (props: Props) => {
   const handleSave = async() => {
     const date = { savedOn };
     const toSave = { ...postData, ...date };
+
+    if (!readyToPublish) {
+      setTriggerAlert(true);
+      return;
+    }
+
     await createDraft({
       variables: { draft: toSave }
     });
+
+    setTriggerSuccess(true);
+    await setTimeout(() => setRedirect(true), 500);
+
+    // reset
+    resetEditor();
+    localStorage.clear();
   };
 
   const handlePublish = () => {
@@ -110,6 +128,10 @@ const WriteHeader = (props: Props) => {
     }
   }, [localTitle, localContent, readyToPublish]);
 
+  let user;
+  if (auth.info.username) user = auth.info.username;
+  if (redirect) return <Redirect to={`/@${user}/stories`} />
+
   return (
     <React.Fragment>
       <div>
@@ -135,6 +157,34 @@ const WriteHeader = (props: Props) => {
       }}>
         <WithUser />
       </div>
+      <Snackbar
+        css={{
+          '& > div': {
+            background: 'white',
+            color: 'var(--primary)',
+            boxShadow: 'none',
+            border: '1px solid var(--primary)'
+          }
+        }}
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={triggerAlert}
+        autoHideDuration={1000}
+        message="Your story is empty :("
+        onClose={() => setTriggerAlert(false)}
+      />
+      <Snackbar
+        css={{
+          '& > div': {
+            background: 'white',
+            color: 'var(--secondary)',
+            boxShadow: 'none',
+            border: '1px solid var(--secondary)'
+          }
+        }}
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={triggerSuccess}
+        message="Your story is saved :)"
+      />
     </React.Fragment>
   );
 };
