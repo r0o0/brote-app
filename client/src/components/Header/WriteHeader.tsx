@@ -146,11 +146,11 @@ const WriteHeader = (props: Props) => {
           onClick={handleSave}
           value="Save Draft"
         />
-        <Button
+        {/* <Button
           cssemotion={!readyToPublish ? cssB.btnDefault : [cssB.btnDefault, cssB.btnActive]}
           onClick={handlePublish}
           value="Publish"
-        />
+        /> */}
       </div>
       <div css={{
         marginLeft: '16px',
