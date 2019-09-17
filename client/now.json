@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "brote",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "build" }
+    }
+  ]
+}
