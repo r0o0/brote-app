@@ -55,7 +55,6 @@ function Drafts(props: Props) {
   };
 
   const handlePublish = (id: string, title: string) => {
-    console.log('publish', id, title)
     alert(`${title} is published :)`);
     publishPost({ variables: { id } });
   };
@@ -67,19 +66,33 @@ function Drafts(props: Props) {
       { posts && posts.map((post: type.Post) => {
         const { id, title, content, savedOn, author } = post;
         const path = convertToPath(title);
+        const cleanContent = transformToText(content.substr(0, 100));
           return (
             <React.Fragment key={id}>
               { !post.isPublished ?
                 <div css={cssP.wrapper}>
                   <div css={cssP.postContent}>
                     <h2 css={cssP.title}>{title}</h2>
-                    <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
+                    <p css={cssP.text} dangerouslySetInnerHTML={{__html: cleanContent ? cleanContent : ''}} />
                     <span css={cssP.date}>Last edited <b>{displayDate(savedOn ? savedOn : '', false)}</b></span>
                   </div>
                   <div css={cssP.postActions}>
-                    <IconButton css={cssP.btnEdit} onClick={(e) => console.log(id, title)}>
-                      <Icon>edit</Icon>
-                    </IconButton>
+                    <Link to={{
+                        pathname: `/edit-story/${path}-b${id}`,
+                        state: {
+                          id,
+                          title,
+                          content,
+                          author: author.name,
+                          savedOn,
+                        }
+                      }}
+                      css={cssP.btnEdit}
+                    >
+                      <IconButton onClick={(e) => console.log(id, title)}>
+                        <Icon>edit</Icon>
+                      </IconButton>
+                    </Link>
                     <div css={cssP.btnWrapper}>
                       <Link to={{
                         pathname: `/p/${path}-b${id}`,

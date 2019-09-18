@@ -76,12 +76,14 @@ export const postActions = css`
 
 export const btnEdit = css`
   align-self: flex-end;
-  padding-top: 0 !important;
-  & > span {
-    font-size: 18px;
-    & > span {
+  & button {
+    padding-top: 0 !important;
+    & span {
       font-size: 18px;
-      color: var(--light-60);
+      & span {
+        font-size: 18px;
+        color: var(--light-60);
+      }
     }
   }
   &:hover {

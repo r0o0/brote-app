@@ -76,6 +76,7 @@ interface RichEditor {
 type Props = ReturnType<any> &
   ReturnType<any> & {
     setContent: (s: string) => any;
+    editContent?: string;
   };
 
 const DEFAULT_NODE = 'paragraph';
@@ -108,11 +109,11 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   private handleChange = ({ value }: { value: Value }) => {
-    // console.log('%c change', 'background: pink; color: blue;',
-    //   'state', this.state.value, html.serialize(this.state.value), '\n',
-    //   'local', localStorage.content, '\n',
-    //   value, html.serialize(value), '\n',
-    //   );
+    console.log('%c change', 'background: pink; color: blue;',
+      'state', this.state.value, html.serialize(this.state.value), '\n',
+      'local', localStorage.content, '\n',
+      value, html.serialize(value), '\n',
+      );
       // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (this._isKeyEvent || this.state.upload) {
       // localStorage에 저장 된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
@@ -251,15 +252,17 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   componentDidMount() {
-    // this._isKeyEvent = true;
     // update initialValue
     if (localStorage.content === undefined) {
-      initialValue = Plain.serialize(documentValue);
-      this.setState({ value: html.deserialize(initialValue) });
+      if (this.props.editContent) {
+        initialValue = this.props.editContent;
+      } else {
+        initialValue = Plain.serialize(documentValue);
+      }
     } else {
       initialValue = localStorage.content;
-      this.setState({ value: html.deserialize(initialValue) });
     }
+    this.setState({ value: html.deserialize(initialValue) });
 
     // on document load focus on editor
     if (this.editor.el) {
@@ -306,8 +309,8 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const nextImage = nextData[nextData.length - 1];
 
     if (nextImage.id !== prevImage.id) {
-      this.setState({ 
-        image: nextImage.id, 
+      this.setState({
+        image: nextImage.id,
         upload: false
       });
       this.insertImage(nextImage);

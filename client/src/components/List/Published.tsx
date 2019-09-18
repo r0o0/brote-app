@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import * as type from '../../types';
+import { Link } from 'react-router-dom';
 // COMPONENTS
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
@@ -55,9 +56,22 @@ function Published(props: Props) {
                     <span css={cssP.date}>Published on <b>{displayDate(publishedOn ? publishedOn : '', false)}</b></span>
                   </div>
                   <div css={cssP.postActions}>
-                    <IconButton css={cssP.btnEdit} onClick={(e) => console.log(id, title)}>
-                      <Icon>edit</Icon>
-                    </IconButton>
+                    <Link to={{
+                        pathname: `/edit-story/${path}-b${id}`,
+                        state: {
+                          id,
+                          title,
+                          content,
+                          author: author.name,
+                          publishedOn,
+                        }
+                      }}
+                      css={cssP.btnEdit}
+                    >
+                      <IconButton onClick={(e) => console.log(id, title)}>
+                        <Icon>edit</Icon>
+                      </IconButton>
+                    </Link>
                     <div css={cssP.btnWrapper}>
                       <Button
                         css={[cssB.btnDefault, cssP.btnDel]}

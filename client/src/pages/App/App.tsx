@@ -59,6 +59,7 @@ function App(props: Props) {
           <Route path="/posts" component={Posts} />
           <Route path="/p/:id" component={Post} />
           <Route path="/@:user" component={User} />
+          <Route path="/edit-story/:id" component={Write} />
         </Switch>
         <Auth />
       </ConnectedRouter>

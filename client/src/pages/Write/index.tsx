@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import * as actions from '../../redux/actions';
 // COMPONENT
 import RichEditor from '../../components/RichEditor';
@@ -11,16 +12,18 @@ import Preview from '../../components/Preview';
 import '../../globalStyle';
 import * as css from './WriteStyles';
 
-interface Props {
+interface Props extends RouteComponentProps {
   writingContent: ({ title: string} : any) => void;
 }
 
 function Write(props: Props) {
   // PROPS
-  const { writingContent } = props;
+  const { writingContent, location } = props;
 
   // STATE
+  const { state } = location;
   const [inputValue, setInputValue] = useState('');
+  const [editMode, setEditMode] = useState(false);
 
   // METHODS
   const handleTitleChange = (e: any) => {
@@ -37,6 +40,19 @@ function Write(props: Props) {
     }
   }, [inputValue, document.activeElement]);
 
+  useEffect(() => {
+    if (state === undefined) return;
+    if (state) {
+      setEditMode(true);
+      const { title } = state;
+      setInputValue(title);
+    }
+    return () => {
+      setInputValue('');
+      setEditMode(false);
+    }
+  }, [location]);
+
   return (
     <div
       className="container"
@@ -50,7 +66,10 @@ function Write(props: Props) {
         value={inputValue}
         autoComplete="off"
       />
-      <RichEditor />
+      { !editMode ?
+          <RichEditor /> :
+          <RichEditor editContent={state.content} />
+      }
       <Preview />
     </div>
   )
