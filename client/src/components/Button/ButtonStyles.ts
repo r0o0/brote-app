@@ -5,6 +5,7 @@ export const btnBaseStyle = css`
   font-size: 14px;
   font-weight: 500;
   color: var(--text);
+  cursor: pointer;
   label: btn-baseStyle;
 `;
 
@@ -54,5 +55,6 @@ export const btnDelete = css`
 
 export const btnDisabledState = css`
   opacity: 0.3;
+  cursor: not-allowed;
   label: btn-disabled;
 `;

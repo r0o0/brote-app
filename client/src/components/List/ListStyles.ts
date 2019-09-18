@@ -110,6 +110,10 @@ export const btnWrapper = css`
   & > a {
     order: 3;
   }
+  @media (min-width: 720px) {
+    margin-bottom: 8px;
+  }
+  label: post-btn-wrapper;
 `;
 
 export const btnDel = css`
@@ -122,4 +126,60 @@ export const btnPublish = css`
   border-color: var(--primary);
   color: var(--primary);
   label: post-btn-publish;
+`;
+
+
+// ---------------
+// CheckDelete.tsx
+
+export const dialog = css`
+  & .MuiDialog-paper {
+    padding: 20px;
+  }
+  label: dialog;
+`;
+
+export const dialogTitle = css`
+  & > h6 {
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 24px;
+    line-height: 1.15em;
+  }
+  label: dialog-title;
+`;
+
+export const dialogContent = css`
+  & > * {
+    font-size: 16px;
+    line-height: 1.15em;
+    color: var(--text);
+  }
+  & strong {
+    color: var(--primary);
+  }
+  & span {
+    margin: 20px 0 5px;
+    display: block;
+  }
+  label: dialog-content;
+`;
+
+export const textfield = css`
+  & > div {
+    padding-bottom: 4px;
+    font-family: IBM Plex Sans, sans-serif;
+    line-height: 1.25em;
+    &::before {
+      border-color: var(--light-60);
+    }
+    &::after {
+      border-color: var(--primary);
+    }
+  }
+  label: dialog-textfield;
+`;
+
+export const dialogFooter = css`
+  padding: 8px 24px !important;
+  label: dialog-footer;
 `;

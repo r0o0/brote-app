@@ -11,20 +11,21 @@ import gql from 'graphql-tag';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import Button from '../../components/Button';
+import CheckDelete from './CheckDelete';
 // UTILS
 import convertToPath from '../../utils/convertToPath';
 import { displayDate } from '../../utils/date';
 import { getCleaned } from '../../utils/sanitizeHTML';
 import { transformToText } from '../../utils/HTMLparser';
-import { postsRequest } from '../../redux/reducers/RequestReducer';
 // CSS
 import * as cssB from '../../components/Button/ButtonStyles';
 import * as cssP from './ListStyles';
 
 interface Props {
-  drafts: type.Posts | null;
-  preview?: boolean;
-  // author?: string | null;
+  posts: type.Posts | null;
+  handleDelete: (toDelete: {id: string, title: string} | null) => void;
+  openModal: ({}: {status: boolean, type: string}) => void;
+  closeModal: () => void;
 }
 
 const PUBLISH_POST = gql`
@@ -37,30 +38,35 @@ const PUBLISH_POST = gql`
   }
 `;
 
-function List(props: Props) {
-  const { preview, drafts } = props;
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isPublished, setIsPublished] = useState<boolean | null>(null);
-  console.log('posts', drafts);
+function Drafts(props: Props) {
+  const {
+    posts,
+    handleDelete,
+    openModal,
+    closeModal,
+  } = props;
 
+  const [toDelete, setToDelete] = useState<{id: string, title: string} | null>(null);
   const [publishPost] = useMutation(PUBLISH_POST);
-  // useEffect(() => {
-  //   if (drafts) setIsPublished(drafts.isPublished);
-  // }, [drafts]);
-  const handleClose = () => setAnchorEl(null);
+
+  const handleDeleteBtn = (id: string, title: string) => {
+    setToDelete({ id, title });
+    openModal({ status: true, type: 'check-delete'});
+  };
+
   const handlePublish = (id: string, title: string) => {
     console.log('publish', id, title)
     alert(`${title} is published :)`);
     publishPost({ variables: { id } });
   };
+
   return (
     <div css={css`
       padding-top: 32px;
     `}>
-      { drafts && drafts.map((post: type.Post) => {
+      { posts && posts.map((post: type.Post) => {
         const { id, title, content, savedOn, author } = post;
         const path = convertToPath(title);
-          console.log('posts', post);
           return (
             <React.Fragment key={id}>
               { !post.isPublished ?
@@ -93,7 +99,7 @@ function List(props: Props) {
                       </Link>
                       <Button
                         css={[cssB.btnDefault, cssP.btnDel]}
-                        onClick={() => console.log('delete')}
+                        onClick={() => handleDeleteBtn(id, title)}
                         value="Delete"
                       />
                     </div>
@@ -106,8 +112,13 @@ function List(props: Props) {
           );
         })
       }
+      <CheckDelete
+        handleDelete={handleDelete}
+        toDelete={toDelete}
+        closeModal={closeModal}
+      />
     </div>
   );
 }
 
-export default List;
+export default Drafts;

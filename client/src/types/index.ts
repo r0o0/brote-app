@@ -55,3 +55,7 @@ export interface Modal {
   status: boolean;
   type: string | null;
 }
+
+export interface ModalState {
+  modal: Modal;
+}
