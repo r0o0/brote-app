@@ -18,7 +18,7 @@ interface Props {
 function User(props: Props) {
   const { location } = props;
   let user;
-  if (!location.state) user = location.pathname.split('/')[0].replace('/@', '');
+  if (!location.state) user = location.pathname.split('/')[1].replace('@', '');
   if (location.state) user = location.state.user;
   console.log('user', user, location);
   return (
