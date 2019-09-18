@@ -176,7 +176,22 @@ const FormContent = (props: Props) => {
             disabled={guest ? true : false}
             onChange={handleEValue}
             fullWidth
-
+            InputProps={{
+              classes: {
+                root: classes.inputRoot,
+                notchedOutline: classes.notchedOutline,
+                focused: classes.focused,
+              }
+            }}
+            // input label css override
+            InputLabelProps={{
+              shrink: true,
+              classes: {
+                root: classes.labelRoot,
+                focused: classes.labelFocused,
+                error: classes.labelError,
+              },
+            }}
             error={typeOfError === 'email' || typeOfError === 'both' ? true : false}
           />
           { !isEmail && isEmail !== null &&
