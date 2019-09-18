@@ -73,7 +73,11 @@ function Published(props: Props) {
           );
         })
       }
-      <CheckDelete handleDelete={handleDelete} toDelete={toDelete} closeModal={closeModal} />
+      <CheckDelete
+        handleDelete={handleDelete}
+        toDelete={toDelete}
+        closeModal={closeModal}
+      />
     </div>
   );
 }
