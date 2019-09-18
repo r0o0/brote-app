@@ -55,23 +55,7 @@ function Published(props: Props) {
                     <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
                     <span css={cssP.date}>Published on <b>{displayDate(publishedOn ? publishedOn : '', false)}</b></span>
                   </div>
-                  <div css={cssP.postActions}>
-                    <Link to={{
-                        pathname: `/edit-story/${path}-b${id}`,
-                        state: {
-                          id,
-                          title,
-                          content,
-                          author: author.name,
-                          publishedOn,
-                        }
-                      }}
-                      css={cssP.btnEdit}
-                    >
-                      <IconButton onClick={(e) => console.log(id, title)}>
-                        <Icon>edit</Icon>
-                      </IconButton>
-                    </Link>
+                  <div css={cssP.postActionsS}>
                     <div css={cssP.btnWrapper}>
                       <Button
                         css={[cssB.btnDefault, cssP.btnDel]}

@@ -74,6 +74,17 @@ export const postActions = css`
   label: post-actions;
 `;
 
+export const postActionsS = css`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  @media (min-width: 720px) {
+    flex-flow: column wrap;
+    justify-content: flex-end;
+  }
+  label: post-actions-special;
+`;
+
 export const btnEdit = css`
   align-self: flex-end;
   & button {
@@ -105,6 +116,7 @@ export const btnEdit = css`
 `;
 
 export const btnWrapper = css`
+  align-self: flex-end;
   display: flex;
   & > * {
     margin-left: 10px;
