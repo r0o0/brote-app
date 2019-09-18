@@ -16,7 +16,7 @@ export const FormStyles = makeStyles((theme: Theme) => ({
     background: '#fff',
   },
   labelFocused: {
-    fontWeight: 500,
+     fontWeight: 500,
     color: 'var(--primary) !important'
   },
   labelError: {
