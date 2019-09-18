@@ -22,12 +22,12 @@ function Article(props: Props) {
   const { title, content, author, publishedOn, savedOn, preview } = props;
   let cleanContent: string;
   let date: string;
-  console.log('author', author);
+  console.log('post', props);
   if (preview) {
     const readyToParse = content.substr(0, 300);
     cleanContent = transformToText(readyToParse) as string;
     console.log('eeeee', savedOn);
-    if (savedOn !== undefined) {
+    if (savedOn !== undefined && savedOn !== null) {
       const formatted = formatDate(savedOn);
       date = formatted;
     }
@@ -44,7 +44,7 @@ function Article(props: Props) {
       <div css={css.previewArticle}>
         <h1 css={css.previewTitle}>{title}</h1>
         <div className="preview-info" css={css.info}>
-          <span className="info--author">{author === undefined || author === null ? "Brote Bot" : author}</span>
+          <span className="info--author">{author}</span>
           <span>{date}</span>
         </div>
         <p css={css.previewP} dangerouslySetInnerHTML={{__html: cleanContent}}></p>
