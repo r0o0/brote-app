@@ -57,7 +57,8 @@ function CheckDelete(props: Props) {
 
   // open modal
   useEffect(() => {
-    if (modal.status && modal.type === 'check-delete') setOpen(true);
+    console.log('modal', modal, open);
+    if (modal.status && (modal.type === 'delete-draft' || modal.type === 'delete-published' )) setOpen(true);
   }, [modal.status]);
 
   // reset input value in dialog: delete post
@@ -122,6 +123,6 @@ function CheckDelete(props: Props) {
   );
 };
 
-const mapStateToProps = ({ modal }: type.ModalState) => ({ modal })
+const mapStateToProps = ({ modal }: type.ModalState) => ({ modal });
 
 export default connect(mapStateToProps)(CheckDelete);

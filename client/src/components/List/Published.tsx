@@ -22,6 +22,7 @@ interface Props {
   handleDelete: (toDelete: {id: string, title: string} | null) => void;
   openModal: ({}: {status: boolean, type: string}) => void;
   closeModal: () => void;
+  modal: type.Modal;
 }
 
 function Published(props: Props) {
@@ -30,14 +31,25 @@ function Published(props: Props) {
     handleDelete,
     openModal,
     closeModal,
+    modal,
   } = props;
 
+  const modalType = 'delete-published';
   const [toDelete, setToDelete] = useState<{id: string, title: string} | null>(null);
+  const [triggerDel, setTriggerDel] = useState(false);
 
   const handleDeleteBtn = (id: string, title: string) => {
     setToDelete({ id, title });
-    openModal({ status: true, type: 'check-delete'});
+    openModal({ status: true, type: modalType});
   };
+
+  useEffect(() => {
+    if (modal.type === modalType) {
+      if (!modal.status) setTriggerDel(false);
+      if (modal.status) setTriggerDel(true);
+    }
+    console.log('pudlishod', triggerDel);
+  }, [modal]);
 
   return (
     <div css={css`
@@ -53,7 +65,7 @@ function Published(props: Props) {
                   <div css={cssP.postContent}>
                     <h2 css={cssP.title}>{title}</h2>
                     <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
-                    <span css={cssP.date}>Published on <b>{displayDate(publishedOn ? publishedOn : '', false)}</b></span>
+                    <span css={cssP.date}>Published on <b>{displayDate(publishedOn, false)}</b></span>
                   </div>
                   <div css={cssP.postActionsS}>
                     <div css={cssP.btnWrapper}>
@@ -71,11 +83,13 @@ function Published(props: Props) {
           );
         })
       }
-      <CheckDelete
-        handleDelete={handleDelete}
-        toDelete={toDelete}
-        closeModal={closeModal}
-      />
+      { triggerDel ?
+          <CheckDelete
+            handleDelete={handleDelete}
+            toDelete={toDelete}
+            closeModal={closeModal}
+          /> : null
+      }
     </div>
   );
 }

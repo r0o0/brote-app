@@ -26,6 +26,7 @@ interface Props {
   handleDelete: (toDelete: {id: string, title: string} | null) => void;
   openModal: ({}: {status: boolean, type: string}) => void;
   closeModal: () => void;
+  modal: type.Modal;
 }
 
 const PUBLISH_POST = gql`
@@ -44,20 +45,32 @@ function Drafts(props: Props) {
     handleDelete,
     openModal,
     closeModal,
+    modal,
   } = props;
 
+  const modalType = 'delete-draft';
   const [toDelete, setToDelete] = useState<{id: string, title: string} | null>(null);
+  const [triggerDel, setTriggerDel] = useState(false);
+
   const [publishPost] = useMutation(PUBLISH_POST);
 
   const handleDeleteBtn = (id: string, title: string) => {
     setToDelete({ id, title });
-    openModal({ status: true, type: 'check-delete'});
+    openModal({ status: true, type: modalType});
   };
 
   const handlePublish = (id: string, title: string) => {
     alert(`${title} is published :)`);
     publishPost({ variables: { id } });
   };
+
+  useEffect(() => {
+    if (modal.type === modalType) {
+      if (!modal.status) setTriggerDel(false);
+      if (modal.status) setTriggerDel(true);
+    }
+    console.log('drafts', triggerDel);
+  }, [modal]);
 
   return (
     <div css={css`
@@ -125,11 +138,13 @@ function Drafts(props: Props) {
           );
         })
       }
-      <CheckDelete
-        handleDelete={handleDelete}
-        toDelete={toDelete}
-        closeModal={closeModal}
-      />
+      { triggerDel ?
+          <CheckDelete
+            handleDelete={handleDelete}
+            toDelete={toDelete}
+            closeModal={closeModal}
+          /> : null
+      }
     </div>
   );
 }

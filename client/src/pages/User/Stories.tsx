@@ -44,10 +44,11 @@ const DELETE_POST = gql`
 interface Props {
   openModal: ({}: {status: boolean, type: string}) => void;
   closeModal: () => void;
+  modal: type.Modal;
 }
 
 function Stories(props: Props) {
-  const { openModal, closeModal } = props;
+  const { openModal, closeModal, modal } = props;
   const { loading, data, error } = useQuery(GET_MY_POSTS);
   const [posts, setPosts] = useState<type.Posts | null>(null);
   const [draftsN, setDraftsN] = useState<number | string>('');
@@ -98,6 +99,7 @@ function Stories(props: Props) {
                 handleDelete={handleDelete}
                 openModal={openModal}
                 closeModal={closeModal}
+                modal={modal}
               />
             </div>
             <div
@@ -110,6 +112,7 @@ function Stories(props: Props) {
                 handleDelete={handleDelete}
                 openModal={openModal}
                 closeModal={closeModal}
+                modal={modal}
               />
             </div>
           </React.Fragment>
@@ -118,4 +121,6 @@ function Stories(props: Props) {
   );
 }
 
-export default connect(null, actions)(Stories);
+const mapStateToProps = ({ modal }: type.ModalState) => ({ modal });
+
+export default connect(mapStateToProps, actions)(Stories);
