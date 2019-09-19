@@ -500,8 +500,6 @@ export interface PostCreateInput {
   title: String;
   author?: Maybe<UserCreateOneWithoutPostsInput>;
   content: String;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
@@ -554,8 +552,6 @@ export interface PostUpdateDataInput {
   title?: Maybe<String>;
   author?: Maybe<UserUpdateOneWithoutPostsInput>;
   content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
@@ -660,8 +656,6 @@ export interface PostUpdateManyWithWhereNestedInput {
 export interface PostUpdateManyDataInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
@@ -675,16 +669,12 @@ export interface PostUpdateInput {
   title?: Maybe<String>;
   author?: Maybe<UserUpdateOneWithoutPostsInput>;
   content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
 export interface PostUpdateManyMutationInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
@@ -706,8 +696,6 @@ export interface PostCreateWithoutAuthorInput {
   id?: Maybe<ID_Input>;
   title: String;
   content: String;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 
@@ -747,8 +735,6 @@ export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
 export interface PostUpdateWithoutAuthorDataInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  savedOn?: Maybe<DateTimeInput>;
-  publishedOn?: Maybe<DateTimeInput>;
   isPublished?: Maybe<Boolean>;
 }
 

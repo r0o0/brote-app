@@ -24,7 +24,7 @@ type Post {
   title: String!
   author: User
   content: String!
-  savedOn: DateTime
-  publishedOn: DateTime
+  savedOn: DateTime @updatedAt
+  publishedOn: DateTime @createdAt
   isPublished: Boolean @default(value: false)
 }

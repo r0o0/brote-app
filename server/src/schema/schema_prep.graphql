@@ -47,7 +47,6 @@ type GuestAuthPayload {
 input PostContent {
   title: String!
   content: String!
-  savedOn: DateTime
 }
 
 type User implements Node {
@@ -81,13 +80,13 @@ type Guest implements Node {
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
-scalar DateTime
-
 """An object with an ID"""
 interface Node {
   """The id of the object."""
   id: ID!
 }
+
+scalar DateTime
 
 input PostWhereInput {
   """Logical AND on all given filters."""

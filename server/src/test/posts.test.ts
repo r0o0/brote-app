@@ -1,6 +1,6 @@
 const url = `${process.env.APP_ENDPOINT}`;
 import * as request from 'supertest';
-console.log('url', url);
+// console.log('url', url);
 describe("GET /posts", () => {
  it("SHOULD return 200Ok", done => {
   request(url)

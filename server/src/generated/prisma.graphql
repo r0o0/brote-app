@@ -1,5 +1,5 @@
-# source: https://brote-server-7d8b31bfe2.herokuapp.com
-# timestamp: Tue Sep 10 2019 23:13:06 GMT+0900 (Korean Standard Time)
+# source: http://localhost:4080
+# timestamp: Thu Sep 19 2019 00:43:38 GMT+0900 (Korean Standard Time)
 
 type AggregateGuest {
   count: Int!
@@ -432,8 +432,6 @@ input PostCreateInput {
   id: ID
   title: String!
   content: String!
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
   author: UserCreateOneWithoutPostsInput
 }
@@ -452,8 +450,6 @@ input PostCreateWithoutAuthorInput {
   id: ID
   title: String!
   content: String!
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -709,8 +705,6 @@ input PostSubscriptionWhereInput {
 input PostUpdateDataInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
   author: UserUpdateOneWithoutPostsInput
 }
@@ -718,8 +712,6 @@ input PostUpdateDataInput {
 input PostUpdateInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
   author: UserUpdateOneWithoutPostsInput
 }
@@ -727,8 +719,6 @@ input PostUpdateInput {
 input PostUpdateManyDataInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -747,8 +737,6 @@ input PostUpdateManyInput {
 input PostUpdateManyMutationInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -772,8 +760,6 @@ input PostUpdateManyWithWhereNestedInput {
 input PostUpdateWithoutAuthorDataInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 

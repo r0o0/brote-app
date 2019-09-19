@@ -251,8 +251,6 @@ input PostCreateInput {
   title: String!
   author: UserCreateOneWithoutPostsInput
   content: String!
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -270,8 +268,6 @@ input PostCreateWithoutAuthorInput {
   id: ID
   title: String!
   content: String!
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -392,8 +388,6 @@ input PostUpdateDataInput {
   title: String
   author: UserUpdateOneWithoutPostsInput
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -401,16 +395,12 @@ input PostUpdateInput {
   title: String
   author: UserUpdateOneWithoutPostsInput
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
 input PostUpdateManyDataInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -429,8 +419,6 @@ input PostUpdateManyInput {
 input PostUpdateManyMutationInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
@@ -454,8 +442,6 @@ input PostUpdateManyWithWhereNestedInput {
 input PostUpdateWithoutAuthorDataInput {
   title: String
   content: String
-  savedOn: DateTime
-  publishedOn: DateTime
   isPublished: Boolean
 }
 
