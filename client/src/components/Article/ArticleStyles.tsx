@@ -53,19 +53,19 @@ export const content = css`
   font-size: 16px;
   color: var(--text-body);
   h2 {
-    margin: 15px 0;
+    // margin: 15px 0;
     padding: 1px 0;
     font-size: 24px;
     font-weight: 500;
   }
   h3 {
-    margin-bottom: 15px 0;
+    // margin-bottom: 15px 0;
     padding: 1px 0;
     font-size: 18px;
     font-weight: 500;
   }
   p {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
     padding: 1px 0;
     line-height: 1.7em;
   }
@@ -74,7 +74,7 @@ export const content = css`
   }
   blockquote {
     display: block;
-    margin-bottom: 24px;
+    // margin-bottom: 24px;
     padding-right: 0;
     font-size: 26px;
     line-height: 1.3em;
@@ -83,7 +83,6 @@ export const content = css`
   // code block
   pre {
     width: 100%;
-    margin: 20px 0;
     padding: 16px 24px;
     line-height: 1.45em;
     background: var(--light-90);
@@ -91,6 +90,9 @@ export const content = css`
   }
   code {
     font-size: 15px;
+  }
+  p:empty {
+    margin-bottom: 16px;
   }
   label: Article-content;
 `;

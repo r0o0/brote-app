@@ -13,7 +13,7 @@ function Post(props: Props) {
   const { title, content, author, publishedOn } = state;
 
   return (
-    <div className="container">
+    <div className="container container-sm">
       <Article title={title} content={content} author={author} publishedOn={publishedOn} />
     </div>
   )
