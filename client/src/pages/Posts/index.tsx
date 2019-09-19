@@ -37,9 +37,9 @@ function Posts() {
   useEffect(() => {
     if (!loading) {
       if (error) setPosts(null);
-      if (data && data.posts) {
-        console.log(data.posts);
-        setPosts(data.posts);
+      if (data && data.publishedPosts) {
+        console.log(data.publishedPosts);
+        setPosts(data.publishedPosts);
       }
     }
   }, [loading, data, error]);
