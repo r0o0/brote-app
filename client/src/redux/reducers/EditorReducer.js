@@ -1,3 +1,4 @@
+import console from 'dev-console.macro';
 // CONSTANTS
 import {
   EDITOR_SET,

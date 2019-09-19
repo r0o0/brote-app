@@ -66,6 +66,7 @@
     "@types/slate-plain-serializer": "^0.6.1",
     "@types/slate-react": "^0.22.2",
     "clsx": "^1.0.4",
+    "dev-console.macro": "^0.1.0",
     "dotenv": "^8.0.0",
     "slate-html-serializer": "^0.8.6",
     "typescript": "^3.5.0"

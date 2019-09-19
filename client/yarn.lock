@@ -2459,6 +2459,11 @@ babel-plugin-transform-react-remove-prop-types@0.4.24:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
   integrity sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
 
+babel-plugin-transform-remove-console@^6.9.4:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.4.tgz#b980360c067384e24b357a588d807d3c83527780"
+  integrity sha1-uYA2DAZzhOJLNXpYjYB9PINSd4A=
+
 babel-preset-jest@^24.6.0:
   version "24.6.0"
   resolved "https://registry.yarnpkg.com/babel-preset-jest/-/babel-preset-jest-24.6.0.tgz#66f06136eefce87797539c0d63f1769cc3915984"
@@ -3772,6 +3777,13 @@ detect-port-alt@1.1.6:
   dependencies:
     address "^1.0.1"
     debug "^2.6.0"
+
+dev-console.macro@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/dev-console.macro/-/dev-console.macro-0.1.0.tgz#a17b07a1b68a68cf5d6e598419434f0d493d98c5"
+  integrity sha512-eMvlYyRgX85qW7YG/42mnqIileQf/5eBP1tG724mKu418GaoBTv802FHJAeG3EEDEYeBfGlO2Wtt2Bi1YMBUfA==
+  dependencies:
+    babel-plugin-transform-remove-console "^6.9.4"
 
 diff-sequences@^24.3.0:
   version "24.3.0"

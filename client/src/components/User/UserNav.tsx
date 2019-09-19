@@ -1,3 +1,4 @@
+import console from 'dev-console.macro';
 import React, { useState }from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';

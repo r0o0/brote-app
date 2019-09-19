@@ -1,3 +1,4 @@
+import console from 'dev-console.macro';
 const supportsCrypto = () => {
   if ( window.crypto && crypto.subtle && window.TextEncoder) {
     console.log('supports crypto');

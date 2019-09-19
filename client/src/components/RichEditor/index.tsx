@@ -1,4 +1,5 @@
 // RichEditor.js
+import console from 'dev-console.macro';
 import React, { Component, SyntheticEvent } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';

@@ -1,3 +1,4 @@
+import console from 'dev-console.macro';
 // CONSTANTS
 import {
   REQUEST_SUCCESS,

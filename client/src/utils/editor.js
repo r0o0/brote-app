@@ -1,3 +1,4 @@
+import console from 'dev-console.macro';
 // editor, pages/write utils
 
 export const editorValidator = (title, content) => {
