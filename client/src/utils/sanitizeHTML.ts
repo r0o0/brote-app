@@ -17,7 +17,6 @@ const safeTags = () => {
 
 export const getCleaned = (dirtyHTML: string) => {
   const tags = safeTags();
-  console.log('check tags:', tags);
 
   const cleaned = sanitizeHtml(dirtyHTML, {
     allowedTags: tags,

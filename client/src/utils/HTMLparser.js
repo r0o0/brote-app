@@ -1,3 +1,4 @@
+import { getCleaned } from './sanitizeHTML';
 
 const HTMLparser = (content) => {
   const parser = new DOMParser();
@@ -16,7 +17,8 @@ const HTMLparser = (content) => {
 
 export const transformToText = (content) => {
   let result;
-  const toAssemble = HTMLparser(content);
+  const cleanContent = getCleaned(content);
+  const toAssemble = HTMLparser(cleanContent);
   const assembler = (acc, curr) => acc + ' ' + curr;
   const assembled = toAssemble.reduce(assembler);
   result = assembled;
