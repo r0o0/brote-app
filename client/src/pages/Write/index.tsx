@@ -24,6 +24,7 @@ function Write(props: Props) {
   const { state } = location;
   const [inputValue, setInputValue] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [content, setContent] = useState<string | null>(null);
 
   // METHODS
   const handleTitleChange = (e: any) => {
@@ -43,7 +44,9 @@ function Write(props: Props) {
   useEffect(() => {
     if (state === undefined) return;
     if (state) {
+      console.log('location state', state);
       setEditMode(true);
+      setContent(state.content);
       const { title } = state;
       setInputValue(title);
     }
@@ -66,10 +69,9 @@ function Write(props: Props) {
         value={inputValue}
         autoComplete="off"
       />
-      { !editMode ?
-          <RichEditor /> :
-          <RichEditor editContent={state.content} />
-      }
+      {console.log('ttttt', editMode, content)}
+      { editMode && <RichEditor editContent={content} /> }
+      { !editMode && <RichEditor /> }
       <Preview />
     </div>
   )

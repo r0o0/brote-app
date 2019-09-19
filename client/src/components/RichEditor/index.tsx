@@ -254,16 +254,20 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   componentDidMount() {
     // update initialValue
+    console.log('props edit ', initialValue, this.props.editContent);
     if (localStorage.content === undefined) {
       if (this.props.editContent) {
         initialValue = this.props.editContent;
+        console.log('props ', initialValue);
+        this.setState({ value: html.deserialize(initialValue) });
       } else {
         initialValue = Plain.serialize(documentValue);
+        this.setState({ value: html.deserialize(initialValue) });
       }
     } else {
       initialValue = localStorage.content;
+      this.setState({ value: html.deserialize(initialValue) });
     }
-    this.setState({ value: html.deserialize(initialValue) });
 
     // on document load focus on editor
     if (this.editor.el) {
