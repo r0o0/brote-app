@@ -1,4 +1,5 @@
 // Write.js
+import console from 'dev-console.macro';
 import React, { useEffect, useState, useRef } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -71,10 +72,8 @@ function Write(props: Props) {
         value={inputValue}
         autoComplete="off"
       />
-      {console.log('ttttt', editMode, content)}
       { editMode && <RichEditor editContent={content} /> }
       { !editMode && <RichEditor /> }
-      {/* <RichEditor /> */}
       <Preview />
     </div>
   )

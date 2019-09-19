@@ -254,7 +254,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
   componentDidMount() {
     // update initialValue
-    console.log('props edit ', initialValue, this.props.editContent);
     if (localStorage.content === undefined) {
       if (this.props.editContent) {
         initialValue = this.props.editContent;
