@@ -96,14 +96,14 @@ export const btnEdit = css`
         color: var(--light-60);
       }
     }
-  }
-  &:hover {
-    background: transparent !important;
-    @media (min-width: 720px) {
-      &::after {
-        content: 'Edit';
-        font-size: 14px;
-        padding-left: 6px;
+    &:hover {
+      background: transparent !important;
+      @media (min-width: 720px) {
+        &::after {
+          content: 'Edit';
+          font-size: 14px;
+          padding-left: 6px;
+        }
       }
     }
   }
