@@ -47,8 +47,10 @@ function Write(props: Props) {
       console.log('location state', state);
       setEditMode(true);
       setContent(state.content);
-      const { title } = state;
+      const { title, content } = state;
       setInputValue(title);
+      localStorage.setItem('title', title);
+      localStorage.setItem('content', content);
     }
     return () => {
       setInputValue('');
@@ -72,6 +74,7 @@ function Write(props: Props) {
       {console.log('ttttt', editMode, content)}
       { editMode && <RichEditor editContent={content} /> }
       { !editMode && <RichEditor /> }
+      {/* <RichEditor /> */}
       <Preview />
     </div>
   )
