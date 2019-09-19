@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 export const wrapper = css`
   display: flex;
   flex-flow: column wrap;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--light-80);
   // background: #eee;
