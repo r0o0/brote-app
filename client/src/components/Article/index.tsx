@@ -7,7 +7,8 @@ import * as css from './ArticleStyles';
 // UTILS
 import { getCleaned } from '../../utils/sanitizeHTML';
 import { transformToText } from '../../utils/HTMLparser';
-import { formatDate } from '../../utils/date';
+import { displayDate } from '../../utils/date';
+import UserProfile from '../User/UserProfile';
 
 interface Props {
   title: string;
@@ -28,13 +29,13 @@ function Article(props: Props) {
     cleanContent = transformToText(readyToParse) as string;
     console.log('eeeee', savedOn);
     if (savedOn !== undefined && savedOn !== null) {
-      const formatted = formatDate(savedOn);
+      const formatted = displayDate(savedOn);
       date = formatted;
     }
   } else {
     cleanContent = getCleaned(content);
     if (publishedOn !== undefined) {
-      const formatted = formatDate(publishedOn);
+      const formatted = displayDate(publishedOn);
       date = formatted;
     }
   }
@@ -58,8 +59,17 @@ function Article(props: Props) {
           <div css={css.header}>
             <h1 css={css.title}>{title}</h1>
             <div css={css.info}>
-              <a className="info--author" href="">{author === undefined || author === null ? "Brote Bot" : author}</a>
-              <span>{date}</span>
+              <div css={{
+                width: '40px',
+                height: '40px',
+                marginRight: '10px',
+              }}>
+                <UserProfile user={author} />
+              </div>
+              <div className="info-detail">
+                <span className="author">{author === undefined || author === null ? "Brote Bot" : author}</span>
+                <span>{date}</span>
+              </div>
             </div>
           </div>
           <div css={css.content} dangerouslySetInnerHTML={{__html: cleanContent}}></div>

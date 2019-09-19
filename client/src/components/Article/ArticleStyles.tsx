@@ -111,10 +111,20 @@ export const title = css`
 `;
 
 export const info = css`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
   font-size: 14px;
-  .info--author {
-    display: block;
-    font-weight: 500;
+  & .info-detail {
+    display: flex;
+    flex-flow: column wrap;
+    & .author {
+      font-weight: 500;
+    }
+    & :not(.author) {
+      font-size: 12px;
+    }
   }
   label: Article-info;
 `;
