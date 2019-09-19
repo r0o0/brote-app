@@ -12,4 +12,10 @@ injectGlobal`
       padding: 16px 80px 0;
     }
   }
+  .container-sm {
+    margin: 0 auto;
+    @media (min-width: 1024px) {
+      max-width: 1024px;
+    }
+  }
 `
