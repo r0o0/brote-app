@@ -4,7 +4,7 @@ import moment from 'moment';
 export const getTodayDate = () => moment().local().format();
 
 // Date format: same year ? MM DD : MM DD, YYYY
-// MM DD, YYYY 00: 00: 00 PM 
+// MM DD, YYYY 00: 00: 00 PM
 export const formatDate = (toFormat: string) => {
   let formatted;
   const thisYear = moment().year().toString();
@@ -26,7 +26,7 @@ export const checkDiff = (toCheck: string) => {
 // don't pass in published arg if data is published post
 export const displayDate = (toFormat: string, published?: boolean) => {
   let formatted;
-  const toLocalTime = moment.utc(toFormat).local().format('lll');
+  const toLocalTime = moment(toFormat).format('lll');
   const diff = checkDiff(toLocalTime);
   if (typeof published !== 'boolean' && published === undefined) return formatDate(toLocalTime);
   if (!published) {
