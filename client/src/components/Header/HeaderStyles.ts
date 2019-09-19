@@ -49,3 +49,25 @@ export const editorStatus = css`
   color: var(--light-md);
   label: editor-status;
 `;
+
+export const snackbar = css`
+  & > div {
+    & > div {
+      background: #fff;
+      color: var(--secondary);
+      box-shadow: none;
+      border: 1px solid var(--secondary);
+  
+      opacity: 1 !important;
+      transform: none !important;
+      transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+      label: alert;
+    }
+  }
+  & div[data-type="error"] {
+    & > div {
+      color: var(--primary);
+      border-color:  var(--primary);
+    }
+  }
+`;

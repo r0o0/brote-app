@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
+import { jsx, css } from '@emotion/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as type from '../../types';
@@ -13,7 +13,7 @@ import Button from '../Button';
 import WithUser from './withUser';
 import Snackbar from '@material-ui/core/Snackbar';
 // CSS
-import * as css from './HeaderStyles';
+import * as cssH from './HeaderStyles';
 import * as cssB from '../Button/ButtonStyles';
 // UTILS
 import { editorValidator } from '../../utils/editor';
@@ -76,10 +76,10 @@ const WriteHeader = (props: Props) => {
     }
 
     await createDraft({
-      variables: { draft: toSave }
+      variables: { draft: postData }
     });
 
-    setTriggerSuccess(true);
+    await setTriggerSuccess(true);
     await setTimeout(() => setRedirect(true), 500);
 
     // reset
@@ -128,6 +128,13 @@ const WriteHeader = (props: Props) => {
     }
   }, [localTitle, localContent, readyToPublish]);
 
+  useEffect(() => {
+    return () => {
+      setTriggerAlert(false);
+      setTriggerSuccess(false);
+    }
+  }, []);
+
   let user;
   if (auth.info.username) user = auth.info.username;
   if (redirect) return <Redirect to={`/@${user}/stories`} />
@@ -136,7 +143,7 @@ const WriteHeader = (props: Props) => {
     <React.Fragment>
       <div>
         { saved !== null &&
-          <span css={css.editorStatus}>
+          <span css={cssH.editorStatus}>
             {!saved ? 'Writing...' : 'Saved'}
           </span>
         }
@@ -157,34 +164,22 @@ const WriteHeader = (props: Props) => {
       }}>
         <WithUser />
       </div>
-      <Snackbar
-        css={{
-          '& > div': {
-            background: 'white',
-            color: 'var(--primary)',
-            boxShadow: 'none',
-            border: '1px solid var(--primary)'
-          }
-        }}
-        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-        open={triggerAlert}
-        autoHideDuration={1000}
-        message="Your story is empty :("
-        onClose={() => setTriggerAlert(false)}
-      />
-      <Snackbar
-        css={{
-          '& > div': {
-            background: 'white',
-            color: 'var(--secondary)',
-            boxShadow: 'none',
-            border: '1px solid var(--secondary)'
-          }
-        }}
-        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-        open={triggerSuccess}
-        message="Your story is saved :)"
-      />
+      <div css={cssH.snackbar}>
+        <Snackbar
+          data-type="error"
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          open={triggerAlert}
+          autoHideDuration={1000}
+          message="Your story is empty :("
+          onClose={() => setTriggerAlert(false)}
+        />
+        <Snackbar
+          data-type="success"
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          open={triggerSuccess}
+          message="Your story is saved :)"
+        />
+      </div>
     </React.Fragment>
   );
 };
