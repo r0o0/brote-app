@@ -29,6 +29,9 @@ export const title = css`
   @media (min-width: 720px) {
     font-size: 28px;
   }
+  &:hover {
+    text-decoration: underline;
+  }
   label: post-title;
 `;
 

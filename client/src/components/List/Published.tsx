@@ -63,7 +63,20 @@ function Published(props: Props) {
               { post.isPublished ?
                 <div css={cssP.wrapper}>
                   <div css={cssP.postContent}>
-                    <h2 css={cssP.title}>{title}</h2>
+                    <h2 css={cssP.title}>
+                      <Link to={{
+                        pathname:`/p/${path}-b${id}`,
+                        state: {
+                          id,
+                          title,
+                          content,
+                          author: author.name,
+                          publishedOn
+                        }
+                      }}>
+                        {title}
+                      </Link>
+                    </h2>
                     <p css={cssP.text} dangerouslySetInnerHTML={{__html: transformToText(content.substr(0, 100)) as string}} />
                     <span css={cssP.date}>Published on <b>{displayDate(publishedOn, false)}</b></span>
                   </div>
