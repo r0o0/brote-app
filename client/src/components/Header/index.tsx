@@ -31,7 +31,7 @@ function Header(props: Props) {
   console.log('header index', isUserLoggedIn);
   // path condition
   const inGeneral = locationPath.indexOf('/') !== -1;
-  const exclude = locationPath === '/new-story';
+  const exclude = locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1;
 
   return (
     <header
@@ -45,7 +45,7 @@ function Header(props: Props) {
       </h1>
       <div css={css.headerRight}>
         {(inGeneral && !exclude) && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
-        {locationPath === '/new-story' && <WriteHeader locationPath={locationPath} />}
+        {locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1 && <WriteHeader locationPath={locationPath} />}
       </div>
     </header>
   );

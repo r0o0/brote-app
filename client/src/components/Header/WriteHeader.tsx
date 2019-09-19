@@ -124,7 +124,7 @@ const WriteHeader = (props: Props) => {
 
   // check if editor content is ready to publish
   useEffect(() => {
-    if (locationPath === '/new-story') {
+    if (locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1) {
       goodToPublish();
     }
   }, [localTitle, localContent, readyToPublish]);
