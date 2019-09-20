@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 // CONSTANTS
 import {
   REQUEST_SUCCESS,
@@ -14,7 +13,7 @@ const intialState = {
 function postsRequest (state = intialState, action) {
   switch(action.type) {
     case REQUEST_SUCCESS:
-      console.log('SUCCESS', action);
+      // console.log('SUCCESS', action);
       const { status, config, data } = action.res;
       if (status === 200) {
         if (config.method === 'post') {
@@ -27,12 +26,12 @@ function postsRequest (state = intialState, action) {
       }
       break;
     case REQUEST_POSTS:
-      console.log('FETCH', action);
+      // console.log('FETCH', action);
       return {
         ...state,
       };
     case REQUEST_POSTS_SUCCESS:
-      console.log('FETCH POSTS SUCCESS', action);
+      // console.log('FETCH POSTS SUCCESS', action);
       return {
         status: 'fetch posts success',
         data: action.res.data,
@@ -41,17 +40,17 @@ function postsRequest (state = intialState, action) {
       const prevState = state.data;
       const requestURL = action.res.config.url;
       const key = requestURL.split('/').pop().slice(0, -5);
-      console.log('FETCH POST SUCCESS', `\n`,
-        'action', action, '\n',
-        'prevState', prevState,
-      );
-        return {
-          status: 'update success',
-          data: {
-            ...state.data,
-            [key]: action.res.data,
-          }
+      // console.log('FETCH POST SUCCESS', `\n`,
+      //   'action', action, '\n',
+      //   'prevState', prevState,
+      // );
+      return {
+        status: 'update success',
+        data: {
+          ...state.data,
+          [key]: action.res.data,
         }
+      }
     default:
       return state;
   }

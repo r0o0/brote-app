@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -74,7 +73,7 @@ function Stories(props: Props) {
     if(!loading) {
       if (error) setPosts(null);
       if (data && data.posts) {
-        console.log(data);
+        // console.log(data);
         const { drafts, published } = data.posts;
         setPosts(data.posts.data);
         setDraftsN(drafts);

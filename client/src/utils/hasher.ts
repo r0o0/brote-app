@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 const supportsCrypto = () => {
   if ( window.crypto && crypto.subtle && window.TextEncoder) {
     console.log('supports crypto');
@@ -6,7 +5,8 @@ const supportsCrypto = () => {
     console.log('not supported');
   }
 };
-supportsCrypto();
+
+// supportsCrypto();
 
 const algo: string = process.env.REACT_APP_HASH_ALGO as string;
 const salt: string = process.env.REACT_APP_HASH_SALT as string;
@@ -25,4 +25,3 @@ export const encryptHash = (hash: any) => {
   });
   return result.join('');
 };
-

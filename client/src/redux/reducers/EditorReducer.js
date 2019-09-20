@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 // CONSTANTS
 import {
   EDITOR_SET,
@@ -33,7 +32,7 @@ function setEditorContent(state = initialState, action) {
       if (action.type === EDITOR_SET) {
         const { content, title, image } = action.payload;
         const keys = Object.keys(action.payload);
-        console.log('EDITOR SET', action.payload);
+        // console.log('EDITOR SET', action.payload);
         for (const key of keys) {
           let updateData = [];
           if (key === 'content') {

@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -24,11 +23,11 @@ function Article(props: Props) {
   const { title, content, author, publishedOn, savedOn, preview } = props;
   let cleanContent: string;
   let date: string;
-  console.log('post', props);
+  // console.log('post', props);
   if (preview) {
     const readyToParse = content.substr(0, 300);
     cleanContent = transformToText(readyToParse) as string;
-    console.log('eeeee', savedOn);
+    // console.log('eeeee', savedOn);
     if (savedOn !== undefined && savedOn !== null) {
       const formatted = displayDate(savedOn);
       date = formatted;

@@ -1,5 +1,5 @@
 // Write.js
-import console from 'dev-console.macro';
+// 
 import React, { useEffect, useState, useRef } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';

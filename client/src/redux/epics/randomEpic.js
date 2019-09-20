@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import { ofType } from 'redux-observable';
 import { map, delay, switchMap, mergeMap, catchError } from 'rxjs/operators';
 // CONSTANTS
@@ -35,7 +34,7 @@ const saveEditorEpic = action$ =>
   .pipe(
     map(() => getTodayDate()),
     map((date) => {
-      console.log('date in epic', date);
+      // console.log('date in epic', date);
       return { type: EDITOR_SAVED, payload: date };
     })
   );

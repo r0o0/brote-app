@@ -8,7 +8,7 @@ interface Props {
 
 function TabPanel(props: Props) {
   const { index, value, component } = props;
-  console.log(props, {...props});
+  // console.log(props, {...props});
   const TabContent = component;
   return (
     <div

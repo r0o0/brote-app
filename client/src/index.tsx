@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -13,23 +12,21 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { onError } from "apollo-link-error";
 import { shouldInclude } from 'apollo-utilities';
-// const OfflinePlugin = require('offline-plugin');
-console.log(process.env.NODE_ENV)
+import console from 'dev-console.macro';
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
+    graphQLErrors.map(({ message, locations, path }) => {
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
+      )
+    });
 
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 const fancyLog = () => console.log('%c store 🤯👇🏿👇🏿', 'background: white; color: black; font-weight: bold;', '\n', store.getState());
-console.log(
-  process.env.REACT_APP_SERVER_ENDPOINT,
-);
+
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_SERVER_ENDPOINT,
   headers: {
@@ -38,18 +35,19 @@ const httpLink = createHttpLink({
     'Access-Control-Allow-Headers': 'application/json',
     "Access-Control-Allow-Credentials" : true
   },
-  credentials: 'include',
+  credentials: process.env.REACT_APP_CREDENTIALS,
 })
 
 const cache = new InMemoryCache();
 
 export const client = new ApolloClient({
-  link: errorLink.concat(httpLink),
+  // link: errorLink.concat(httpLink),
+  link: httpLink,
   cache,
 })
 
 const render = () => {
-  fancyLog();
+  // fancyLog();
   ReactDOM.render(
     <ApolloProvider client={client}>
       <Provider store={store}>
@@ -71,7 +69,7 @@ client.defaultOptions = {
   },
 };
 
-console.log('cache', client.cache);
+// console.log('cache', client.cache);
 
 render();
 store.subscribe(render);

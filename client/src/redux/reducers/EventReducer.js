@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 // CONSTANTS
 import {
   REQUEST_SUCCESS,
@@ -37,7 +36,7 @@ const intialState = {
 function clickEvents (state = intialState, action) {
   switch(action.type) {
     case REQUEST_SUCCESS:
-      console.log('SUCCESS', action);
+      // console.log('SUCCESS', action);
       const { status, config, data } = action.res;
       if (status === 200) {
         if (config.method === 'post') {

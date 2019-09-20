@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 // CONSTANTS
 import {
   AUTH_LOGIN,
@@ -26,7 +25,7 @@ function auth(state = initialState, action) {
         login: true
       }
     case AUTH_LOGIN_SUCCESS:
-      console.log(action.type, action.payload);
+      // console.log(action.type, action.payload);
       const { username, email, role } = action.payload;
       return {
         ...state,

@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState }from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -44,7 +43,7 @@ function UserNav(props: Props) {
   const { id, anchorEl, onClose, user, client, signoutSuccess } = props;
   const [redirect, setRedirect] = useState(false);
   const [signout] = useMutation(SIGN_OUT);
-  console.log(client);
+  // console.log(client);
 
   const handleSignOut = () => {
     setRedirect(true);

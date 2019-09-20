@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -21,7 +20,7 @@ function User(props: Props) {
   let user;
   if (!location.state) user = location.pathname.split('/')[1].replace('@', '');
   if (location.state) user = location.state.user;
-  console.log('user', user, location);
+  // console.log('user', user, location);
   return (
     <div className="container" css={css.UserContainer}>
       <div css={css.UserHeaderWrapper}>

@@ -1,5 +1,5 @@
 // RichEditor.js
-import console from 'dev-console.macro';
+// 
 import React, { Component, SyntheticEvent } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -110,11 +110,11 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   }
 
   private handleChange = ({ value }: { value: Value }) => {
-    console.log('%c change', 'background: pink; color: blue;',
-      'state', this.state.value, html.serialize(this.state.value), '\n',
-      'local', localStorage.content, '\n',
-      value, html.serialize(value), '\n',
-      );
+    // console.log('%c change', 'background: pink; color: blue;',
+    //   'state', this.state.value, html.serialize(this.state.value), '\n',
+    //   'local', localStorage.content, '\n',
+    //   value, html.serialize(value), '\n',
+    //   );
       // 에디터 value에 변화가 있으면 html 태그 형태로 window.localStorage에 저장
     if (this._isKeyEvent || this.state.upload) {
       // localStorage에 저장 된 값과 state에 있는 값이 다를 경우 localStorage 업뎃
@@ -124,7 +124,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       }
       // redux dispatch
       if (localStorage.getItem('content') !== null) {
-        console.log('writingContent', this._isKeyEvent);
+        // console.log('writingContent', this._isKeyEvent);
         this.props.writingContent({ content: localStorage.content });
       }
     }
@@ -155,7 +155,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       if (startBlock.type === 'image' || endBlock.type === 'image') {
         // delete image on key event: 'backspace'
         if (event.keyCode === 8) {
-          console.log('esc', editor);
+          // console.log('esc', editor);
           editor.delete();
         }
         editor.insertBlock('paragraph');
@@ -163,7 +163,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
 
       // block type CODE
       if (startBlock.type === 'code') {
-        console.log('code block start', event);
+        // console.log('code block start', event);
         if (event.keyCode === 13) {
           editor.insertText('\n');
           return;
@@ -188,7 +188,7 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
   handleClickMark = (event: any, type: string) => {
     event.preventDefault();
     this.editor.toggleMark(type);
-    console.log('click mark:', event, type);
+    // console.log('click mark:', event, type);
     // if (type === 'link') {
     //   const href = window.prompt('Enter a url') as string;
     //   console.log('where', href);
@@ -206,13 +206,13 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
     const { editor } = this;
     const { value } = editor;
     const { document } = value;
-    console.log('click block:', event, type, hasBlock);
+    // console.log('click block:', event, type, hasBlock);
 
     // Handle image file upload
     if (type === 'image') {
       const isActive = hasBlock(type);
       this.setState({ upload : true });
-      console.log('%c click block image', 'background: orange;', type, isActive);
+      // console.log('%c click block image', 'background: orange;', type, isActive);
     }
 
     // Handle everything but list buttons.
@@ -266,7 +266,6 @@ class RichEditor extends Component<Props, RichTextState, RichEditor> {
       initialValue = localStorage.content;
       this.setState({ value: html.deserialize(initialValue) });
     }
-    console.log('props after', initialValue);
     // on document load focus on editor
     if (this.editor.el) {
       this.editor.el.focus();

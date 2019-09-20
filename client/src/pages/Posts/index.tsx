@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -34,12 +33,12 @@ function Posts() {
 
   // Query
   const { loading, data, error } = useQuery(GET_POSTS);
-  console.log('posts page', data);
+  // console.log('posts page', data);
   useEffect(() => {
     if (!loading) {
       if (error) setPosts(null);
       if (data && data.publishedPosts) {
-        console.log(data.publishedPosts);
+        // console.log(data.publishedPosts);
         setPosts(data.publishedPosts);
       }
     }

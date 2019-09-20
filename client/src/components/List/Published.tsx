@@ -1,5 +1,4 @@
 // List.js
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -49,7 +48,7 @@ function Published(props: Props) {
       if (!modal.status) setTriggerDel(false);
       if (modal.status) setTriggerDel(true);
     }
-    console.log('pudlishod', triggerDel);
+    // console.log('pudlishod', triggerDel);
   }, [modal]);
 
   return (

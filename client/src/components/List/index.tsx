@@ -1,5 +1,4 @@
 // List.js
-import console from 'dev-console.macro';
 import React, { useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -18,14 +17,14 @@ interface Props {
 
 function List(props: Props) {
   const { preview, posts } = props;
-  console.log('posts', posts);
+  // console.log('posts', posts);
   return (
     <React.Fragment>
       {/* <p>list</p> */}
       { posts && posts.map((post: type.Post) => {
           const { id, title, content, publishedOn, savedOn, author } = post;
           const path = convertToPath(title);
-          console.log('posts', post);
+          // console.log('posts', post);
           return (
             <Link
               to={{

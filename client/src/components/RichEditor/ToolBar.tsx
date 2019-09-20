@@ -1,4 +1,3 @@
-// import console from 'dev-console.macro';
 import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -119,7 +118,7 @@ function ToolBar(props: Props) {
               data-active={isActive}
               onClick={(event) => onClickBlock(event, type, hasBlock)}
             >
-              <Icon 
+              <Icon
                 className={icons}
               >
                 {icon}

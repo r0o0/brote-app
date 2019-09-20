@@ -1,5 +1,4 @@
 // List.js
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -70,7 +69,7 @@ function Drafts(props: Props) {
       if (!modal.status) setTriggerDel(false);
       if (modal.status) setTriggerDel(true);
     }
-    console.log('drafts', triggerDel);
+    // console.log('drafts', triggerDel);
   }, [modal]);
 
   return (
@@ -103,7 +102,7 @@ function Drafts(props: Props) {
                       }}
                       css={cssP.btnEdit}
                     >
-                      <IconButton onClick={(e) => console.log(id, title)}>
+                      <IconButton>
                         <Icon>edit</Icon>
                       </IconButton>
                     </Link>

@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 // CONSTANTS
 import {
   OPEN_MODAL,
@@ -13,7 +12,7 @@ const intialState = {
 function triggerModal (state = intialState, action) {
   switch(action.type) {
     case OPEN_MODAL:
-      console.log('open modal reducer', action.payload);
+      // console.log('open modal reducer', action.payload);
       return {
         status: true,
         type: action.payload.type,

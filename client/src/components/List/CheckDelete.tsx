@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -58,7 +57,6 @@ function CheckDelete(props: Props) {
 
   // open modal
   useEffect(() => {
-    console.log('modal', modal, open);
     if (modal.status && (modal.type === 'delete-draft' || modal.type === 'delete-published' )) setOpen(true);
   }, [modal.status]);
 

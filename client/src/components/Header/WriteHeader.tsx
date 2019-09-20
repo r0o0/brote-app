@@ -1,4 +1,3 @@
-import console from 'dev-console.macro';
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -89,7 +88,7 @@ const WriteHeader = (props: Props) => {
   const handlePublish = () => {
     const publishedOn = getTodayDate();
     const date = { publishedOn };
-    console.log('published on: ', publishedOn);
+    // console.log('published on: ', publishedOn);
     const toPublish = { ...postData, ...date };
 
     // Todo: need to send to graphql server
@@ -113,7 +112,6 @@ const WriteHeader = (props: Props) => {
 
   const goodToPublish = () => {
     const { valid } = editor;
-    console.log('save', save);
     if (save !== null) {
       const { title, content } = save;
       checkPublishState(title, content);
@@ -122,7 +120,6 @@ const WriteHeader = (props: Props) => {
 
   // check if editor content is ready to publish
   useEffect(() => {
-    console.log('write header', localTitle, localContent);
     if (locationPath.indexOf('-story') !== -1) {
       setSave({ title: localTitle, content: localContent});
     }
