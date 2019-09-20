@@ -51,6 +51,7 @@ const WriteHeader = (props: Props) => {
    } = props;
 
   const [readyToPublish, setReadyToPublish] = useState(false);
+  const [save, setSave] = useState<{title: string, content: string} | null>(null);
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [triggerSuccess, setTriggerSuccess] = useState(false);
   const [redirect, setRedirect] = useState(false);
@@ -68,9 +69,6 @@ const WriteHeader = (props: Props) => {
   }
 
   const handleSave = async() => {
-    const date = { savedOn };
-    const toSave = { ...postData, ...date };
-
     if (!readyToPublish) {
       setTriggerAlert(true);
       return;
@@ -104,7 +102,7 @@ const WriteHeader = (props: Props) => {
     openModal({ type: 'editor-preview' });
   };
 
-    const checkPublishState = (title: string, content: string) => {
+  const checkPublishState = (title: string, content: string) => {
     const isValid = editorValidator(title, content);
     if (isValid) {
       setReadyToPublish(true);
@@ -115,24 +113,30 @@ const WriteHeader = (props: Props) => {
 
   const goodToPublish = () => {
     const { valid } = editor;
-    if (valid === null) {
-      checkPublishState(localTitle, localContent);
-    } else {
-      checkPublishState(localTitle, localContent);
+    console.log('save', save);
+    if (save !== null) {
+      const { title, content } = save;
+      checkPublishState(title, content);
     }
   };
 
   // check if editor content is ready to publish
   useEffect(() => {
-    if (locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1) {
-      goodToPublish();
+    console.log('write header', localTitle, localContent);
+    if (locationPath.indexOf('-story') !== -1) {
+      setSave({ title: localTitle, content: localContent});
     }
-  }, [localTitle, localContent, readyToPublish]);
+  }, [localTitle, localContent]);
+
+  useEffect(() => {
+    if (save !== null) goodToPublish();
+  }, [save]);
 
   useEffect(() => {
     return () => {
       setTriggerAlert(false);
       setTriggerSuccess(false);
+      setSave(null);
     }
   }, []);
 

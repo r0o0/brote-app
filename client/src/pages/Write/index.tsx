@@ -45,16 +45,19 @@ function Write(props: Props) {
   useEffect(() => {
     if (state === undefined) return;
     if (state) {
-      console.log('location state', state);
       setEditMode(true);
-      setContent(state.content);
       const { title, content } = state;
-      setInputValue(title);
-      localStorage.setItem('title', title);
-      localStorage.setItem('content', content);
+      if (title !== undefined && content !== undefined) {
+        localStorage.setItem('title', title);
+        localStorage.setItem('content', content);
+        setInputValue(title);
+        setContent(state.content);
+      }
     }
     return () => {
+      // reset
       setInputValue('');
+      setContent('');
       setEditMode(false);
     }
   }, [location]);
