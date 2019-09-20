@@ -28,10 +28,9 @@ function Header(props: Props) {
   } = props;
 
   const locationPath = router.location.pathname;
-  console.log('header index', isUserLoggedIn);
   // path condition
   const inGeneral = locationPath.indexOf('/') !== -1;
-  const exclude = locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1;
+  const exclude = locationPath.indexOf('-story') !== -1;
 
   return (
     <header
@@ -44,8 +43,8 @@ function Header(props: Props) {
         <Link to="/">BROTE</Link>
       </h1>
       <div css={css.headerRight}>
-        {(inGeneral && !exclude) && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} />}
-        {locationPath === '/new-story' || locationPath.indexOf('edit-story') !== -1 && <WriteHeader locationPath={locationPath} />}
+        { (inGeneral && !exclude) && <MainHeader isUserLoggedIn={isUserLoggedIn} openModal={openModal} /> }
+        { locationPath.indexOf('-story') !== -1 && <WriteHeader locationPath={locationPath} /> }
       </div>
     </header>
   );
