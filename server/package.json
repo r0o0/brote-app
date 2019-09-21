@@ -7,7 +7,7 @@
     "start": "ts-node-dev --respawn --transpileOnly -r dotenv/config src/index.ts",
     "test": "jest",
     "playground": "prisma playground",
-    "prisma": "prisma deploy -p prisma.production.yml && yarn playground",
+    "prisma": "prisma deploy && yarn playground",
     "tsc": "rm -rf public && tsc -p .tsconfig.json && copyfiles ./src/generated/*.graphql public/ && copyfiles ./src/schema/*.graphql public/",
     "build": "cross-env NODE_ENV=production yarn tsc && prisma deploy --env-file .env.production",
     "deploy": "yarn build && now"
