@@ -6,6 +6,7 @@ import * as jwt from 'jsonwebtoken';
 import { importSchema } from 'graphql-import';
 import * as path from "path";
 import * as fs from 'fs';
+require('newrelic');
 
 declare global {
   namespace Express {
