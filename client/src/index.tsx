@@ -35,7 +35,7 @@ const httpLink = createHttpLink({
     'Access-Control-Allow-Headers': 'application/json',
     "Access-Control-Allow-Credentials" : true
   },
-  credentials: process.env.REACT_APP_CREDENTIALS,
+  credentials: 'include',
 })
 
 const cache = new InMemoryCache();
