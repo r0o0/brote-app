@@ -560,7 +560,8 @@ type Subscription {
 type User {
   id: ID!
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   joinedOn: DateTime
   lastLogin: DateTime
@@ -577,7 +578,8 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   role: String
   posts: PostCreateManyWithoutAuthorInput
@@ -591,7 +593,8 @@ input UserCreateOneWithoutPostsInput {
 input UserCreateWithoutPostsInput {
   id: ID
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   role: String
 }
@@ -606,6 +609,8 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  username_ASC
+  username_DESC
   email_ASC
   email_DESC
   password_ASC
@@ -621,7 +626,8 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   joinedOn: DateTime
   lastLogin: DateTime
@@ -648,6 +654,7 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -656,6 +663,7 @@ input UserUpdateInput {
 
 input UserUpdateManyMutationInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -672,6 +680,7 @@ input UserUpdateOneWithoutPostsInput {
 
 input UserUpdateWithoutPostsDataInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -711,6 +720,20 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
   email: String
   email_not: String
   email_in: [String!]
@@ -779,6 +802,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  username: String
   email: String
 }
 `

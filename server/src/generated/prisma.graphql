@@ -1,5 +1,5 @@
 # source: http://localhost:4080
-# timestamp: Thu Sep 19 2019 00:43:38 GMT+0900 (Korean Standard Time)
+# timestamp: Mon Sep 23 2019 16:28:27 GMT+0900 (Korean Standard Time)
 
 type AggregateGuest {
   count: Int!
@@ -996,7 +996,8 @@ type Subscription {
 type User implements Node {
   id: ID!
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   joinedOn: DateTime
   lastLogin: DateTime
@@ -1017,7 +1018,8 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   role: String
   posts: PostCreateManyWithoutAuthorInput
@@ -1031,7 +1033,8 @@ input UserCreateOneWithoutPostsInput {
 input UserCreateWithoutPostsInput {
   id: ID
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   role: String
 }
@@ -1050,6 +1053,8 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  username_ASC
+  username_DESC
   email_ASC
   email_DESC
   password_ASC
@@ -1065,7 +1070,8 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String
-  email: String!
+  username: String
+  email: String
   password: String!
   joinedOn: DateTime
   lastLogin: DateTime
@@ -1111,6 +1117,7 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -1119,6 +1126,7 @@ input UserUpdateInput {
 
 input UserUpdateManyMutationInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -1135,6 +1143,7 @@ input UserUpdateOneWithoutPostsInput {
 
 input UserUpdateWithoutPostsDataInput {
   name: String
+  username: String
   email: String
   password: String
   role: String
@@ -1234,6 +1243,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  username: String
+
+  """All values that are not equal to given value."""
+  username_not: String
+
+  """All values that are contained in given list."""
+  username_in: [String!]
+
+  """All values that are not contained in given list."""
+  username_not_in: [String!]
+
+  """All values less than the given value."""
+  username_lt: String
+
+  """All values less than or equal the given value."""
+  username_lte: String
+
+  """All values greater than the given value."""
+  username_gt: String
+
+  """All values greater than or equal the given value."""
+  username_gte: String
+
+  """All values containing the given string."""
+  username_contains: String
+
+  """All values not containing the given string."""
+  username_not_contains: String
+
+  """All values starting with the given string."""
+  username_starts_with: String
+
+  """All values not starting with the given string."""
+  username_not_starts_with: String
+
+  """All values ending with the given string."""
+  username_ends_with: String
+
+  """All values not ending with the given string."""
+  username_not_ends_with: String
   email: String
 
   """All values that are not equal to given value."""
@@ -1405,5 +1454,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  username: String
   email: String
 }

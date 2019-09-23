@@ -1,22 +1,13 @@
 type User {
   id: ID! @id
   name: String
-  email: String! @unique
+  username: String @unique
+  email: String @unique
   password: String!
   joinedOn: DateTime @createdAt
   lastLogin: DateTime @updatedAt
   role: String @default(value: "user")
   posts: [Post!]!
-}
-
-type Guest {
-  id: ID! @id
-  name: String! @unique
-  password: String!
-  joinedOn: DateTime @createdAt
-  lastLogin: DateTime @updatedAt
-  role: String @default(value: "guest")
-  posts: [Post!]! @relation(onDelete: CASCADE)
 }
 
 type Post {

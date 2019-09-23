@@ -212,6 +212,8 @@ export type UserOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "username_ASC"
+  | "username_DESC"
   | "email_ASC"
   | "email_DESC"
   | "password_ASC"
@@ -326,6 +328,20 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
   email?: Maybe<String>;
   email_not?: Maybe<String>;
   email_in?: Maybe<String[] | String>;
@@ -479,6 +495,7 @@ export type PostWhereUniqueInput = AtLeastOne<{
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  username?: Maybe<String>;
   email?: Maybe<String>;
 }>;
 
@@ -511,7 +528,8 @@ export interface UserCreateOneWithoutPostsInput {
 export interface UserCreateWithoutPostsInput {
   id?: Maybe<ID_Input>;
   name?: Maybe<String>;
-  email: String;
+  username?: Maybe<String>;
+  email?: Maybe<String>;
   password: String;
   role?: Maybe<String>;
 }
@@ -566,6 +584,7 @@ export interface UserUpdateOneWithoutPostsInput {
 
 export interface UserUpdateWithoutPostsDataInput {
   name?: Maybe<String>;
+  username?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<String>;
@@ -681,7 +700,8 @@ export interface PostUpdateManyMutationInput {
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name?: Maybe<String>;
-  email: String;
+  username?: Maybe<String>;
+  email?: Maybe<String>;
   password: String;
   role?: Maybe<String>;
   posts?: Maybe<PostCreateManyWithoutAuthorInput>;
@@ -701,6 +721,7 @@ export interface PostCreateWithoutAuthorInput {
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
+  username?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<String>;
@@ -746,6 +767,7 @@ export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
+  username?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<String>;
@@ -901,7 +923,8 @@ export interface PostNullablePromise
 export interface User {
   id: ID_Output;
   name?: String;
-  email: String;
+  username?: String;
+  email?: String;
   password: String;
   joinedOn?: DateTimeOutput;
   lastLogin?: DateTimeOutput;
@@ -911,6 +934,7 @@ export interface User {
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  username: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
   joinedOn: () => Promise<DateTimeOutput>;
@@ -932,6 +956,7 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   joinedOn: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -953,6 +978,7 @@ export interface UserNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  username: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
   joinedOn: () => Promise<DateTimeOutput>;
@@ -1310,7 +1336,8 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   name?: String;
-  email: String;
+  username?: String;
+  email?: String;
   password: String;
   joinedOn?: DateTimeOutput;
   lastLogin?: DateTimeOutput;
@@ -1322,6 +1349,7 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  username: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
   joinedOn: () => Promise<DateTimeOutput>;
@@ -1334,6 +1362,7 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   joinedOn: () => Promise<AsyncIterator<DateTimeOutput>>;

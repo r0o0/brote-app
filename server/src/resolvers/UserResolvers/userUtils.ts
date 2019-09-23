@@ -4,8 +4,8 @@ export const checkForUser = (db, email) => {
   return db.exists.User({ email });
 }
 
-export const checkForGuest = (db, name) => {
-  return db.exists.Guest({ name });
+export const checkForGuest = (db, username) => {
+  return db.exists.User({ username });
 }
 
 export const isAuthenticated = (request) => {

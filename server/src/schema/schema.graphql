@@ -20,7 +20,7 @@ type Mutation {
   publish(id: ID!): Post
   delete(id: ID!): Post
   signup(email: String!, password: String!): AuthPayload!
-  signupAsGuest(name: String!, password: String!): GuestAuthPayload!
+  signupAsGuest(username: String!, password: String!): GuestAuthPayload!
   signin(email: String!, password: String!): AuthPayload!
   signinAsGuest(name: String!, password: String!): GuestAuthPayload!
   signout: SuccessMsg
@@ -43,7 +43,7 @@ type AuthPayload {
 }
 
 type GuestAuthPayload {
-  guest: Guest!
+  guest: User!
   token: String
 }
 
