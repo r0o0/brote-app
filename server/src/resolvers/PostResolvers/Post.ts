@@ -4,39 +4,78 @@ const Post = {
     const user = request.user;
     if (!user) throw new Error('Not Signed In!');
 
-    const author = request.user.email;
-    return db.mutation.createPost({
-      data: {
-        title: draft.title,
-        content: draft.content,
-        author: {
-          connect: {
-            email: author
-          }
+    const role = user.role;
+    const data  = {
+      title: draft.title,
+      content: draft.content,
+    }
+    if (role !== 'guest') {
+      const author = user.email;
+      return db.mutation.createPost({
+        data: {
+          ...data,
+          author: {
+            connect: {
+              email: author
+            }
+          },
         },
-        // savedOn: draft.savedOn
-      },
-      info
-    });
+        info
+      });
+    } else {
+      const author = user.username;
+      return db.mutation.createPost({
+        data: {
+          ...data,
+          author: {
+            connect: {
+              username: author
+            }
+          },
+        },
+        info
+      });
+    }
   },
   publish(_, { id }, { db, request }, info) {
     const user = request.user;
     if (!user) throw new Error('Not Signed In!');
 
-    const author = request.user.email;
-    return db.mutation.updatePost({
-      data: {
-        isPublished: true,
-        author: {
-          connect: {
-            email: author
+    const role = user.role;
+    const data = {
+      isPublished: true
+    }
+    if (role !== 'guest') {
+      const author = user.email;
+      return db.mutation.updatePost({
+        data: {
+          ...data,
+          author: {
+            connect: {
+              email: author
+            }
           }
+        },
+        where: {
+          id
         }
-      },
-      where: {
-        id
-      }
-    }, info);
+      }, info);
+    } else {
+      const author = user.username;
+      return db.mutation.updatePost({
+        data: {
+          ...data,
+          author: {
+            connect: {
+              username: author
+            }
+          }
+        },
+        where: {
+          id
+        }
+      })
+    }
   },
   delete(_, { id }, { db, request }, info) {
     const user = request.user;
