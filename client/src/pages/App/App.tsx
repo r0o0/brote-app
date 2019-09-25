@@ -39,13 +39,11 @@ function App(props: Props) {
     if(!auth.login) setIsUserLoggedIn(false);
     if(auth.login) {
       setIsUserLoggedIn(true);
-      setTimeout(() => {
-        setRenew(true);
-      }, Number(expireIn) - 60000);
-      setTimeout(() => {
-        signoutSuccess();
-        setRenew(false);
-      }, Number(expireIn));
+      if (getCookie('expireIn')) {
+        setTimeout(() => {
+          setRenew(true);
+        }, Number(expireIn) - 60000);
+      }
     }
   }, [auth.login]);
 
