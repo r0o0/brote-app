@@ -12,6 +12,7 @@ import MainHeader from './MainHeader';
 import WriteHeader from './WriteHeader';
 // CSS
 import * as css from './HeaderStyles';
+import moment from 'moment';
 
 interface Props {
   openModal: () => void;
@@ -20,7 +21,6 @@ interface Props {
 }
 
 function Header(props: Props) {
-
   const {
     openModal,
     router,

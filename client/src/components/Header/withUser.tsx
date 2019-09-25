@@ -15,9 +15,11 @@ function WithUser(props: Props) {
   const { auth, userInCookie } = props;
   const [user, setUser] = useState<string | null>(null);
   useEffect(() => {
-    const { username } = auth.info;
-    if (!auth.login) setUser(null);
-    if (auth.login && username) setUser(username);
+    if (auth.info) {
+      const { username } = auth.info;
+      if (!auth.login) setUser(null);
+      if (auth.login && username) setUser(username);
+    }
   }, [auth.login]);
 
   return (

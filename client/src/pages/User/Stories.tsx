@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
@@ -8,9 +9,11 @@ import * as actions from '../../redux/actions';
 import * as type from '../../types';
 // COMPONENTS
 import TabMenu from '../../components/TabMenu/TabMenu';
+import RedirectTo from '../../pages/App/Redirect';
 // import TabPanel from '../../components/TabMenu/TabPanel';
 import Drafts from '../../components/List/Drafts';
 import Published from '../../components/List/Published';
+import { getCookie } from '../../utils/cookie';
 
 export const GET_MY_POSTS = gql`
   query getMyPosts {
@@ -81,6 +84,8 @@ function Stories(props: Props) {
       }
     }
   }, [loading, data, error]);
+
+  if (!getCookie('user')) return <Redirect to="/" />
 
   return (
     <div css={css`
