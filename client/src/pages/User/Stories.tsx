@@ -9,7 +9,6 @@ import * as actions from '../../redux/actions';
 import * as type from '../../types';
 // COMPONENTS
 import TabMenu from '../../components/TabMenu/TabMenu';
-import RedirectTo from '../../pages/App/Redirect';
 // import TabPanel from '../../components/TabMenu/TabPanel';
 import Drafts from '../../components/List/Drafts';
 import Published from '../../components/List/Published';
