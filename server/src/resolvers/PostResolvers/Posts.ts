@@ -8,37 +8,35 @@ const Posts = {
   async posts(_, args, { db, request }) {
     const user = request.user;
     if(!user) throw Error('Not authenticated');
+    let author;
+    if (user.role !== 'guest') {
+      author = { email: user.email };
+    } else {
+      author = { username: user.username };
+    }
     const totalConnection = await db.query.postsConnection({
       where: {
-        author: {
-          email: user.email
-        }
+        author
       }
     }, `{ aggregate { count } }`);
     const total = totalConnection.aggregate.count;
     const draftConnection = await db.query.postsConnection({
       where: {
-        author: {
-          email: user.email
-        },
+        author,
         isPublished: false,
       }
     }, `{ aggregate { count } }`);
     const drafts = draftConnection.aggregate.count;
     const publishedConnection = await db.query.postsConnection({
       where: {
-        author: {
-          email: user.email
-        },
+        author,
         isPublished: true,
       }
     }, `{ aggregate { count } }`);
     const published = publishedConnection.aggregate.count;
     const data = await db.query.posts({
       where: {
-        author: {
-          email: user.email
-        }
+        author
       }
     });
     return {
@@ -58,7 +56,7 @@ const Posts = {
   myDrafts(_, args, { db, request }) {
     const user = request.user;
     if(!user) throw Error('Not authenticated');
-
+    console.log('user eeee', user);
     let author;
     if(user.email) {
       const isUser = checkForUser(db, user.email);
@@ -66,6 +64,7 @@ const Posts = {
     }
     if (user.name && !user.email) {
       const isGuest = checkForUser(db, user.name);
+      console.log('isGuest', isGuest);
       if (isGuest) author = user.name;
     }
     return db.query.posts({
