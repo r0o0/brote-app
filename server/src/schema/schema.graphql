@@ -3,10 +3,10 @@
 type Query {
   posts: PostsCounts!
   users: [User!]!
+  guests: [User!]!
   publishedPosts: [Post!]!
-  guests: [Guest!]!
   currentUser: User
-  currentGuest: Guest
+  currentGuest: User
   myDrafts(author: String!): Post
 }
 

@@ -155,7 +155,7 @@ const FormContent = (props: Props) => {
       if (!guest) {
         await request({ variables: { email, password } });
       } else {
-        await request({ variables: { name: guestId, password }});
+        await request({ variables: { username: guestId, password }});
       }
 
       setSubmit(true);

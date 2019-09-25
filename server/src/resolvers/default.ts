@@ -7,11 +7,11 @@ export const User = {
   }
 };
 
-export const Guest = {
-  posts(parent) {
-    return prisma.guest({ id: parent.id }).posts();
-  }
-}
+// export const Guest = {
+//   posts(parent) {
+//     return prisma.guest({ id: parent.id }).posts();
+//   }
+// }
 
 // query posts in user
 export const Post = {

@@ -44,11 +44,12 @@ export const REQUEST_SIGNUP = gql`
 `;
 
 export const REQUEST_GUEST_SIGNUP = gql`
-  mutation REQUEST_GUEST_SIGNUP($name: String!, $password: String!) {
-    signupAsGuest(name: $name, password: $password) {
+  mutation REQUEST_GUEST_SIGNUP($username: String!, $password: String!) {
+    signupAsGuest(username: $username, password: $password) {
       guest {
         id
         name
+        username
         joinedOn
         role
       }
