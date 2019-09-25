@@ -16,7 +16,7 @@ export const isAuthenticated = (request) => {
   return AuthenticatedUser;
 };
 
-export const getToken = (userId, maxAge?) => jwt.sign({ userId }, process.env.AUTH_SECRET, { expiresIn: maxAge });
+export const getToken = (userId, maxAge) => jwt.sign({ userId }, process.env.AUTH_SECRET, { expiresIn: maxAge });
 
 export const setCookie = (response, type, toSet, maxAge?, httpOnly?) => {
   response.cookie(type, toSet, {

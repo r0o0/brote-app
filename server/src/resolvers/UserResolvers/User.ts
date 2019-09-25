@@ -32,9 +32,9 @@ const User = {
         }
       });
 
-      const token = getToken(user.id);
-      // 1yr token
       const maxAge = 1000 * 60 * 60 * 24 * 365;
+      const token = getToken(user.id, maxAge);
+      // 1yr token
       setCookie(response, 'token', token, maxAge);
 
       return {
@@ -52,9 +52,9 @@ const User = {
     const valid = await compare(password, user.password);
     if (!valid) throw new Error('Incorrect password');
 
-    const token = getToken(user.id);
     // 1yr token
     const maxAge = 1000 * 60 * 60 * 24 * 365;
+    const token = getToken(user.id, maxAge);
     setCookie(response, 'token', token, maxAge);
 
     return {
