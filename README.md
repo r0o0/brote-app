@@ -7,4 +7,4 @@ Join as a "Guest" a try it out! :)
 
 __[Try it out]__(https://brote.r0o0.now.sh)
 
-![](brote-demo.gif)
+![](https://github.com/r0o0/brote-app/blob/master/brote-demo_1.gif)
