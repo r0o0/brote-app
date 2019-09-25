@@ -39,25 +39,27 @@ function App(props: Props) {
     if(!auth.login) setIsUserLoggedIn(false);
     if(auth.login) {
       setIsUserLoggedIn(true);
-      if (getCookie('user')) {
-        setTimeout(() => {
-          setRenew(true);
-        }, Number(expireIn) - 60000);
-        setTimeout(() => {
-          signoutSuccess();
-          document.cookie = 'user=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        }, Number(expireIn));
-      }
+      setTimeout(() => {
+        setRenew(true);
+      }, Number(expireIn) - 60000);
+      setTimeout(() => {
+        signoutSuccess();
+        setRenew(false);
+      }, Number(expireIn));
     }
   }, [auth.login]);
 
   useEffect(() => {
     if (error) {
-      if (getCookie('user')) document.cookie = 'user=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       setIsUserLoggedIn(false);
     }
-    if (data && data.currentUser == null) document.cookie = 'user=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     if (data && data.currentUser) {
+      if (data.currentUser == null) {
+        setRenew(false);
+        if (getCookie('user')) {
+          document.cookie = 'user=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+      }
       const { email, name, role } = data.currentUser;
       const username = name;
       // if no user cookie found set cookie
