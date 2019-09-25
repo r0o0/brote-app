@@ -28,8 +28,8 @@ function WithUser(props: Props) {
       height: '40px'
     }}>
       { user ?
-        <UserProfile user={user} /> :
-        <UserProfile user={userInCookie ? userInCookie : ''} />
+        <UserProfile user={user} nav={true} /> :
+        <UserProfile user={userInCookie ? userInCookie : ''} nav={true} />
       }
     </div>
   );

@@ -58,7 +58,9 @@ function UserNav(props: Props) {
     signout();
     signoutSuccess();
   };
+
   if (redirect) return <Redirect to="/" />;
+
   return (
     <div>
       <Popover

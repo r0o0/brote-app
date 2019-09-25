@@ -11,17 +11,26 @@ const UserButton = css`
   background: #2777f9;
   font-size: 1em;
   font-weight: 500;
+  line-height: 1;
   color: #fff;
   text-transform: capitalize;
-  label: user--profile;
+  label: user--profile__btn;
+`;
+
+const profile = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  label: not-btn;
 `;
 
 interface Props {
   user: string;
+  nav?: boolean;
 }
 
 function UserProfile(props: Props) {
-  const { user } = props;
+  const { user, nav } = props;
   let initial;
   if (user) initial = user.charAt(0);
 
@@ -35,14 +44,21 @@ function UserProfile(props: Props) {
 
   return (
     <React.Fragment>
-      <button
-        css={UserButton}
-        aria-controls="user-nav"
-        onClick={handleClick}
-      >
-        {initial}
-      </button>
-      <UserNav id="user-nav" anchorEl={anchorEl} onClose={handleClose} user={user ? user : ''} />
+      { !nav ?
+          <div css={[UserButton, profile]}>
+            <span>{initial}</span>
+          </div> :
+          <React.Fragment>
+            <button
+              css={UserButton}
+              aria-controls="user-nav"
+              onClick={handleClick}
+            >
+              {initial}
+            </button>
+            <UserNav id="user-nav" anchorEl={anchorEl} onClose={handleClose} user={user ? user : ''} />
+          </React.Fragment>
+      }
     </React.Fragment>
   )
 }
