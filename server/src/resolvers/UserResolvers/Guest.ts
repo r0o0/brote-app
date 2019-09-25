@@ -11,7 +11,7 @@ export const currentGuest = {
   async currentGuest(_, args, { db, request }, info) {
     const AuthenticatedGuest = isAuthenticated(request);
 
-    return await db.query.guest({ where: { id: AuthenticatedGuest.id } }, info);
+    return await db.query.user({ where: { id: AuthenticatedGuest.id } }, info);
   },
 }
 
@@ -30,10 +30,10 @@ const Guest = {
         role: "guest"
       }
     });
-    const token = getToken(guest.id);
-    // 1hr token
     const maxAge = 1000 * 60 * 60;
-    setCookie(response, 'token', token, maxAge);
+    const token = getToken(guest.id, maxAge);
+    setCookie(response, 'token', token, maxAge, true);
+    setCookie(response, 'expireIn', maxAge, maxAge, false);
     console.log('guest', token);
     return {
       token,

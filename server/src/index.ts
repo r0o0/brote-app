@@ -1,3 +1,4 @@
+require('newrelic');
 const cookieParser = require('cookie-parser');
 import { GraphQLServer } from 'graphql-yoga';
 import resolvers from './resolvers';
@@ -6,7 +7,6 @@ import * as jwt from 'jsonwebtoken';
 import { importSchema } from 'graphql-import';
 import * as path from "path";
 import * as fs from 'fs';
-require('newrelic');
 
 declare global {
   namespace Express {
@@ -43,9 +43,14 @@ server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const { token } = req.cookies;
+  // console.log(req.cookies);
+  // console.log(res);
   if (!token) return next();
   if (token) {
-    const { userId } = jwt.verify(token, process.env.AUTH_SECRET);
+    const { userId } = jwt.verify(token, process.env.AUTH_SECRET, (err, result) => {
+      if (err) res.status(401).send('Token expired');
+      return result;
+    });
     // put the userId onto the req for future access
     req.userId = userId;
   }
@@ -86,6 +91,10 @@ let options = {
     credentials: true,
   }
 }
+var http = require("http");
+setInterval(function() {
+    http.get(process.env.PRISMA_ENDPOINT);
+}, 100000); // every 5 minutes (300000)
 
 console.log(options);
 server.start(options, ({ port }) => console.log(`[SERVER] is up and running on http://localhost:${port}`));
