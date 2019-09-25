@@ -15,7 +15,9 @@ Key tools used in this project:
 | [Slate](https://github.com/ianstormtaylor/slate/) | A customizable rich text editor building framework |
 | [Material-UI](https://material-ui.com/) | Material Design library for React |
 | [Emotion](http://github.com/emotion-js/emotion/) | A CSS-in-JS library to style components in Javascript |
+| [Apollo Client](http://www.apollographql.com/) | Grapql state management library |
 | [Create-React-App](http://browserify.org/) | A React boilerplate |
+| [Now](http://zeit.co/) | Used to deploy graphql server |
 
 ## Installation
 
